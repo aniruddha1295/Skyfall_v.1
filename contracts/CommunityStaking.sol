@@ -2,9 +2,9 @@
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 
 /**
  * @title CommunityStaking
@@ -45,7 +45,7 @@ contract CommunityStaking is ReentrancyGuard, Ownable, Pausable {
     event PoolUpdated(uint256 indexed poolId, uint256 newRewardRate);
     event EmergencyWithdraw(address indexed user, uint256 indexed poolId, uint256 amount);
 
-    constructor() {}
+    constructor() Ownable(msg.sender) {}
 
     modifier updateReward(uint256 poolId, address account) {
         StakingPool storage pool = stakingPools[poolId];

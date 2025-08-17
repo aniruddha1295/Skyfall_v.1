@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 
 /**
  * @title RainfallIndex
@@ -86,7 +86,7 @@ contract RainfallIndex is ReentrancyGuard, Ownable, Pausable {
         _;
     }
     
-    constructor(address _weatherOracle) {
+    constructor(address _weatherOracle) Ownable(msg.sender) {
         weatherOracle = _weatherOracle;
         
         // Initialize with Dallas weather station

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -10,16 +10,16 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  * @dev Wind futures trading contract on Flare Network with FTSO price feeds
  * Supports long/short positions with automatic settlement and FLR/USDT collateral
  */
+// Flare FTSO interfaces
+interface IFtsoV2 {
+    function getFeedById(bytes21 feedId) external view returns (uint256 value, int8 decimals, uint64 timestamp);
+}
+
+interface IContractRegistry {
+    function getFtsoV2() external view returns (IFtsoV2);
+}
+
 contract FlareWindFutures is ReentrancyGuard, Ownable {
-    
-    // Flare FTSO interfaces
-    interface IFtsoV2 {
-        function getFeedById(bytes21 feedId) external view returns (uint256 value, int8 decimals, uint64 timestamp);
-    }
-    
-    interface IContractRegistry {
-        function getFtsoV2() external view returns (IFtsoV2);
-    }
     
     // Contract state
     IContractRegistry public immutable contractRegistry;
@@ -92,7 +92,7 @@ contract FlareWindFutures is ReentrancyGuard, Ownable {
         address _contractRegistry,
         address _flrToken,
         address _usdtToken
-    ) {
+    ) Ownable(msg.sender) {
         contractRegistry = IContractRegistry(_contractRegistry);
         ftsoV2 = contractRegistry.getFtsoV2();
         flrToken = IERC20(_flrToken);

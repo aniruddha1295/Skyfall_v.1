@@ -60,34 +60,46 @@ export class WeatherXMService {
       });
 
       if (!deviceResponse.ok) {
-        console.log('WeatherXM API search failed, using mock data');
-        return this.getMockWeatherData(stationId);
+        throw new Error(`WeatherXM device search failed: ${deviceResponse.statusText}`);
       }
 
       const searchData = await deviceResponse.json();
       
-      // If we found devices, try to get historical data for the first one
-      if (searchData.length > 0) {
-        const device = searchData[0];
-        
-        // Try to get historical weather data using the device ID
-        const historyParams = new URLSearchParams();
-        if (dateRange) {
-          historyParams.append('from', dateRange.start);
-          historyParams.append('to', dateRange.end);
-        } else {
-          // Default to last 30 days
-          const endDate = new Date();
-          const startDate = new Date();
-          startDate.setDate(startDate.getDate() - 30);
-          historyParams.append('from', startDate.toISOString());
-          historyParams.append('to', endDate.toISOString());
-        }
+      if (!searchData || searchData.length === 0) {
+        throw new Error(`No WeatherXM device found for query: ${stationId}`);
+      }
 
-        // Note: Most historical endpoints require authentication, so we'll use our enhanced mock data
-        console.log('WeatherXM device found:', device.id, 'using enhanced mock data with real structure');
+      const device = searchData[0];
+      console.log(`Found WeatherXM device: ${device.id}`);
+
+      // --- FETCH REAL HISTORICAL DATA ---
+      // NOTE: This endpoint requires a valid WEATHERXM_API_KEY with access to historical data.
+      const historyParams = new URLSearchParams();
+      if (dateRange) {
+        historyParams.append('from', dateRange.start);
+        historyParams.append('to', dateRange.end);
+      } else {
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 30);
+        historyParams.append('from', startDate.toISOString());
+        historyParams.append('to', endDate.toISOString());
+      }
+
+      const historyResponse = await fetch(`${this.baseUrl}/devices/${device.id}/history?${historyParams.toString()}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`
+        }
+      });
+
+      if (!historyResponse.ok) {
+        console.error('Failed to fetch historical weather data. Falling back to mock data.');
         return this.getEnhancedMockWeatherData(stationId, device);
       }
+
+      const historyData = await historyResponse.json();
+      return historyData.data as WeatherXMData[];
 
       return this.getMockWeatherData(stationId);
     } catch (error) {

@@ -7,9 +7,8 @@ async function main() {
   console.log("Deploying contracts with account:", deployer.address);
   console.log("Account balance:", ethers.formatEther(await ethers.provider.getBalance(deployer.address)));
 
-  // For Flow EVM testnet deployment, we'll use the deployer as the initial oracle
-  // In production, this would be a dedicated oracle service address
-  const weatherOracle = deployer.address;
+  // Use a dedicated oracle address from environment variables, or default to the deployer for testing
+  const weatherOracle = process.env.WEATHER_ORACLE_ADDRESS || deployer.address;
   
   console.log("📡 Deploying RainfallIndex contract...");
   const RainfallIndexFactory = await ethers.getContractFactory("RainfallIndex");
