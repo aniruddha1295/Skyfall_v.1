@@ -1,0 +1,812 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherFlow - Decentralized Weather Options Trading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        success: '#10b981',
+                        danger: '#ef4444',
+                        warning: '#f59e0b',
+                        info: '#06b6d4',
+                        ai: '#8b5cf6',
+                        dark: '#1a1a1a',
+                        card: '#2d2d2d',
+                        muted: '#64748b'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-dark text-white font-sans">
+    <!-- Header -->
+    <header class="bg-card border-b border-gray-700 px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-primary">WeatherFlow</h1>
+                <span class="text-sm text-muted">Decentralized Weather Options Trading</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2 bg-success/10 px-3 py-1 rounded-full">
+                    <div class="w-2 h-2 bg-success rounded-full"></div>
+                    <span class="text-sm text-success">Flow EVM Connected</span>
+                </div>
+                <button class="bg-primary hover:bg-primary/80 px-4 py-2 rounded-lg font-medium transition-colors">
+                    Connect Wallet
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex h-screen">
+        <!-- Main Dashboard -->
+        <div class="flex-1 overflow-auto">
+            <!-- Tab Navigation -->
+            <nav class="bg-card border-b border-gray-700 px-6">
+                <div class="flex space-x-8">
+                    <button class="py-4 px-2 border-b-2 border-primary text-primary font-medium" data-tab="trading">
+                        Trading
+                    </button>
+                    <button class="py-4 px-2 border-b-2 border-transparent text-muted hover:text-white" data-tab="pools">
+                        Community Pools
+                    </button>
+                    <button class="py-4 px-2 border-b-2 border-transparent text-muted hover:text-white" data-tab="history">
+                        Payout History
+                    </button>
+                    <button class="py-4 px-2 border-b-2 border-transparent text-muted hover:text-white" data-tab="analytics">
+                        Analytics
+                    </button>
+                    <button class="py-4 px-2 border-b-2 border-transparent text-muted hover:text-white flex items-center" data-tab="ai">
+                        <i class="fas fa-robot mr-2 text-ai"></i>
+                        AI Assistant
+                    </button>
+                    <button class="py-4 px-2 border-b-2 border-transparent text-muted hover:text-white" data-tab="help">
+                        Help
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Trading Tab Content -->
+            <div id="trading-tab" class="tab-content">
+                <!-- City Search Section -->
+                <div class="p-6 border-b border-gray-700">
+                    <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Search Cities</label>
+                            <div class="relative">
+                                <input type="text" placeholder="Search for cities (e.g., New York, Toronto, Miami)" 
+                                       class="w-full bg-dark border border-gray-600 rounded-lg px-4 py-2 pr-10 focus:border-primary focus:outline-none">
+                                <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded-full text-sm">New York</button>
+                            <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded-full text-sm">Toronto</button>
+                            <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded-full text-sm">Miami</button>
+                            <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded-full text-sm">Dallas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Indices Section -->
+                <div class="p-6 border-b border-gray-700">
+                    <h3 class="text-lg font-semibold mb-4">Weather Indices - Dallas, TX</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Rainfall Index -->
+                        <div class="bg-card rounded-lg p-4 border border-gray-600">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium">Rainfall Index</h4>
+                                <button class="text-info hover:text-info/80" title="Click for detailed information">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                            <div class="text-2xl font-bold text-primary">24.7mm</div>
+                            <div class="text-sm text-gray-400">24hr cumulative</div>
+                            <div class="text-xs text-success mt-1">+12.5% from yesterday</div>
+                        </div>
+                        
+                        <!-- Temperature Index -->
+                        <div class="bg-card rounded-lg p-4 border border-gray-600">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium">Temperature Index</h4>
+                                <button class="text-info hover:text-info/80" title="Click for detailed information">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                            <div class="text-2xl font-bold text-warning">28.4°C</div>
+                            <div class="text-sm text-gray-400">Average daily</div>
+                            <div class="text-xs text-danger mt-1">-2.1% from yesterday</div>
+                        </div>
+                        
+                        <!-- Wind Index -->
+                        <div class="bg-card rounded-lg p-4 border border-gray-600">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium">Wind Index</h4>
+                                <button class="text-info hover:text-info/80" title="Click for detailed information">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                            <div class="text-2xl font-bold text-info">15.2 km/h</div>
+                            <div class="text-sm text-gray-400">Average speed</div>
+                            <div class="text-xs text-success mt-1">+8.7% from yesterday</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart and Options Section -->
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 p-6">
+                    <!-- Rainfall Chart -->
+                    <div class="bg-card rounded-lg p-6 border border-gray-600">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold">Dallas Rainfall Index - 30 Days</h3>
+                            <div class="flex space-x-2">
+                                <button class="bg-primary/20 text-primary px-3 py-1 rounded text-sm">30D</button>
+                                <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">7D</button>
+                                <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">1D</button>
+                            </div>
+                        </div>
+                        <div class="h-64 bg-dark rounded-lg relative">
+                            <!-- Simplified chart visualization -->
+                            <div class="absolute inset-0 flex items-end justify-between px-4 pb-4">
+                                <div class="w-2 bg-primary/30 h-16 rounded-t"></div>
+                                <div class="w-2 bg-primary/50 h-24 rounded-t"></div>
+                                <div class="w-2 bg-primary/70 h-32 rounded-t"></div>
+                                <div class="w-2 bg-primary h-48 rounded-t"></div>
+                                <div class="w-2 bg-primary/80 h-40 rounded-t"></div>
+                                <div class="w-2 bg-primary/60 h-28 rounded-t"></div>
+                                <div class="w-2 bg-primary/40 h-20 rounded-t"></div>
+                                <div class="w-2 bg-primary/30 h-16 rounded-t"></div>
+                                <div class="w-2 bg-primary/50 h-24 rounded-t"></div>
+                                <div class="w-2 bg-primary/70 h-32 rounded-t"></div>
+                                <div class="w-2 bg-primary h-48 rounded-t"></div>
+                                <div class="w-2 bg-primary/80 h-40 rounded-t"></div>
+                                <div class="w-2 bg-primary/60 h-28 rounded-t"></div>
+                                <div class="w-2 bg-primary/40 h-20 rounded-t"></div>
+                                <div class="w-2 bg-primary/30 h-16 rounded-t"></div>
+                            </div>
+                            <!-- Strike level indicators -->
+                            <div class="absolute top-8 left-0 right-0 border-t border-danger/50 border-dashed"></div>
+                            <div class="absolute top-8 left-4 text-xs text-danger">Strike: 50mm</div>
+                            <div class="absolute top-16 left-0 right-0 border-t border-warning/50 border-dashed"></div>
+                            <div class="absolute top-16 left-4 text-xs text-warning">Strike: 30mm</div>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-2">
+                            Data Source: WeatherXM via Chainlink Oracle | Last Update: 2 mins ago
+                        </div>
+                    </div>
+
+                    <!-- Options Chain -->
+                    <div class="bg-card rounded-lg p-6 border border-gray-600">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold">Options Chain - Dallas Rainfall</h3>
+                            <div class="flex items-center space-x-2 text-sm text-gray-400">
+                                <span>Expires: Jan 31, 2025</span>
+                                <button class="text-info hover:text-info/80" title="Options expiration and settlement info">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Options Chain Header -->
+                        <div class="grid grid-cols-5 gap-2 text-xs font-medium text-gray-400 mb-2">
+                            <div>CALLS</div>
+                            <div>BID</div>
+                            <div class="text-center">STRIKE</div>
+                            <div>ASK</div>
+                            <div>PUTS</div>
+                        </div>
+                        
+                        <!-- Options Chain Data -->
+                        <div class="space-y-1">
+                            <div class="grid grid-cols-5 gap-2 text-sm py-2 hover:bg-gray-700/50 rounded">
+                                <div class="text-success">2.45</div>
+                                <div class="text-gray-300">2.40</div>
+                                <div class="text-center font-medium">20mm</div>
+                                <div class="text-gray-300">2.50</div>
+                                <div class="text-danger">0.85</div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-2 text-sm py-2 hover:bg-gray-700/50 rounded">
+                                <div class="text-success">1.85</div>
+                                <div class="text-gray-300">1.80</div>
+                                <div class="text-center font-medium">25mm</div>
+                                <div class="text-gray-300">1.90</div>
+                                <div class="text-danger">1.25</div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-2 text-sm py-2 hover:bg-gray-700/50 rounded bg-primary/10">
+                                <div class="text-success">1.35</div>
+                                <div class="text-gray-300">1.30</div>
+                                <div class="text-center font-medium">30mm</div>
+                                <div class="text-gray-300">1.40</div>
+                                <div class="text-danger">1.75</div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-2 text-sm py-2 hover:bg-gray-700/50 rounded">
+                                <div class="text-success">0.95</div>
+                                <div class="text-gray-300">0.90</div>
+                                <div class="text-center font-medium">35mm</div>
+                                <div class="text-gray-300">1.00</div>
+                                <div class="text-danger">2.35</div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-2 text-sm py-2 hover:bg-gray-700/50 rounded">
+                                <div class="text-success">0.65</div>
+                                <div class="text-gray-300">0.60</div>
+                                <div class="text-center font-medium">40mm</div>
+                                <div class="text-gray-300">0.70</div>
+                                <div class="text-danger">3.05</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Greeks Display -->
+                        <div class="mt-4 pt-4 border-t border-gray-600">
+                            <div class="text-sm font-medium mb-2">Greeks (30mm Strike)</div>
+                            <div class="grid grid-cols-4 gap-4 text-xs">
+                                <div>
+                                    <div class="text-gray-400">Delta</div>
+                                    <div class="font-medium">0.42</div>
+                                </div>
+                                <div>
+                                    <div class="text-gray-400">Gamma</div>
+                                    <div class="font-medium">0.08</div>
+                                </div>
+                                <div>
+                                    <div class="text-gray-400">Theta</div>
+                                    <div class="font-medium">-0.03</div>
+                                </div>
+                                <div>
+                                    <div class="text-gray-400">Vega</div>
+                                    <div class="font-medium">0.15</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trading Actions -->
+                <div class="p-6 bg-card/50">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <button class="flex-1 bg-success hover:bg-success/80 py-3 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-arrow-up mr-2"></i>
+                            Buy Call Option
+                        </button>
+                        <button class="flex-1 bg-danger hover:bg-danger/80 py-3 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-arrow-down mr-2"></i>
+                            Buy Put Option
+                        </button>
+                        <button class="flex-1 bg-primary hover:bg-primary/80 py-3 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Build Strategy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Pools Tab -->
+            <div id="pools-tab" class="tab-content hidden">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold">Community Pools</h2>
+                        <button class="bg-primary hover:bg-primary/80 px-4 py-2 rounded-lg font-medium">
+                            <i class="fas fa-plus mr-2"></i>
+                            Create Pool
+                        </button>
+                    </div>
+                    
+                    <!-- Pool Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-card rounded-lg p-4 border border-gray-600">
+                            <div class="text-sm text-gray-400">Total Pools</div>
+                            <div class="text-2xl font-bold text-primary">24</div>
+                        </div>
+                        <div class="bg-card rounded-lg p-4 border border-gray-600">
+                            <div class="text-sm text-gray-400">Total TVL</div>
+                            <div class="text-2xl font-bold text-success">$127.5K</div>
+                        </div>
+                        <div class="bg-card rounded-lg p-4 border border-gray-600">
+                            <div class="text-sm text-gray-400">Active Members</div>
+                            <div class="text-2xl font-bold text-info">1,247</div>
+                        </div>
+                        <div class="bg-card rounded-lg p-4 border border-gray-600">
+                            <div class="text-sm text-gray-400">Total Payouts</div>
+                            <div class="text-2xl font-bold text-warning">$89.2K</div>
+                        </div>
+                    </div>
+
+                    <!-- Pool List -->
+                    <div class="space-y-4">
+                        <div class="bg-card rounded-lg p-6 border border-gray-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 class="font-semibold">Dallas Drought Relief Pool</h3>
+                                    <p class="text-sm text-gray-400">Mutual aid for drought conditions below 10mm/month</p>
+                                </div>
+                                <button class="bg-primary hover:bg-primary/80 px-4 py-2 rounded-lg text-sm font-medium">
+                                    Join Pool
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div>
+                                    <div class="text-xs text-gray-400">TVL</div>
+                                    <div class="font-medium">$12,500</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-400">Members</div>
+                                    <div class="font-medium">87</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-400">Next Payout</div>
+                                    <div class="font-medium">Feb 15</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-400">Trigger</div>
+                                    <div class="font-medium">< 10mm</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-card rounded-lg p-6 border border-gray-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 class="font-semibold">Texas Agriculture Protection</h3>
+                                    <p class="text-sm text-gray-400">Supports farmers during extreme weather events</p>
+                                </div>
+                                <button class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-lg text-sm font-medium">
+                                    Joined
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div>
+                                    <div class="text-xs text-gray-400">TVL</div>
+                                    <div class="font-medium">$45,200</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-400">Members</div>
+                                    <div class="font-medium">203</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-400">Next Payout</div>
+                                    <div class="font-medium">Jan 31</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-gray-400">Trigger</div>
+                                    <div class="font-medium">Multiple</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payout History Tab -->
+            <div id="history-tab" class="tab-content hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold mb-6">Payout History</h2>
+                    
+                    <div class="bg-card rounded-lg border border-gray-600">
+                        <div class="p-4 border-b border-gray-600">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Recent Payouts</h3>
+                                    <p class="text-sm text-gray-400">Settlement history and distributions</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-primary/20 text-primary px-3 py-1 rounded text-sm">All</button>
+                                    <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Dallas</button>
+                                    <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Options</button>
+                                    <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">Pools</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-700/50">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Date</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Event</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Pool/Contract</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Recipients</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Amount</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Trigger</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-600">
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm">Jan 15, 2025</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success/20 text-success">
+                                                Option Settlement
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">Dallas Rainfall Call</td>
+                                        <td class="px-4 py-3 text-sm">1 member</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-success">$2,450</td>
+                                        <td class="px-4 py-3 text-sm">Rainfall > 30mm</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm">Jan 12, 2025</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-info/20 text-info">
+                                                Pool Payout
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">Texas Agriculture Protection</td>
+                                        <td class="px-4 py-3 text-sm">203 members</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-success">$18,750</td>
+                                        <td class="px-4 py-3 text-sm">Temp > 35°C</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm">Jan 08, 2025</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning/20 text-warning">
+                                                Partial Settlement
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">Miami Wind Index</td>
+                                        <td class="px-4 py-3 text-sm">3 members</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-success">$1,235</td>
+                                        <td class="px-4 py-3 text-sm">Wind > 25 km/h</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="tab-content hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold mb-6">Analytics Dashboard</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Portfolio Performance -->
+                        <div class="bg-card rounded-lg p-6 border border-gray-600">
+                            <h3 class="font-semibold mb-4">Portfolio Performance</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Total P&L</span>
+                                    <span class="text-success font-medium">+$3,247</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Win Rate</span>
+                                    <span class="text-white font-medium">68.5%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Sharpe Ratio</span>
+                                    <span class="text-white font-medium">1.42</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Max Drawdown</span>
+                                    <span class="text-danger font-medium">-$856</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Insights -->
+                        <div class="bg-card rounded-lg p-6 border border-gray-600">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-brain text-ai mr-2"></i>
+                                <h3 class="font-semibold">AI Insights</h3>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-ai/10 rounded-lg p-3 border border-ai/20">
+                                    <div class="text-sm font-medium text-ai">Weather Pattern Alert</div>
+                                    <div class="text-xs text-gray-300 mt-1">El Niño conditions suggest increased rainfall probability for Dallas region in February</div>
+                                </div>
+                                <div class="bg-warning/10 rounded-lg p-3 border border-warning/20">
+                                    <div class="text-sm font-medium text-warning">Risk Assessment</div>
+                                    <div class="text-xs text-gray-300 mt-1">Current portfolio has 73% exposure to rainfall events - consider diversification</div>
+                                </div>
+                                <div class="bg-success/10 rounded-lg p-3 border border-success/20">
+                                    <div class="text-sm font-medium text-success">Opportunity</div>
+                                    <div class="text-xs text-gray-300 mt-1">Temperature volatility in Miami shows strong historical returns in Q1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Assistant Tab -->
+            <div id="ai-tab" class="tab-content hidden">
+                <div class="p-6">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-robot text-ai mr-3 text-2xl"></i>
+                        <h2 class="text-xl font-semibold">AI Trading Assistant</h2>
+                    </div>
+                    
+                    <div class="bg-card rounded-lg border border-gray-600 h-96 flex flex-col">
+                        <div class="flex-1 p-4 overflow-y-auto">
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 bg-ai rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-robot text-white text-sm"></i>
+                                    </div>
+                                    <div class="bg-ai/10 rounded-lg p-3 border border-ai/20">
+                                        <div class="text-sm">Hello! I'm your AI trading assistant. I can help you analyze weather patterns, suggest trading strategies, and explain complex concepts. What would you like to know?</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3 flex-row-reverse">
+                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-user text-white text-sm"></i>
+                                    </div>
+                                    <div class="bg-primary/10 rounded-lg p-3 border border-primary/20">
+                                        <div class="text-sm">What's the best strategy for Dallas rainfall in winter?</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 bg-ai rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-robot text-white text-sm"></i>
+                                    </div>
+                                    <div class="bg-ai/10 rounded-lg p-3 border border-ai/20">
+                                        <div class="text-sm">
+                                            <div class="font-medium mb-2">Dallas Winter Rainfall Strategy Analysis</div>
+                                            <div class="space-y-2">
+                                                <div>• Historical data shows 65% lower rainfall in winter months</div>
+                                                <div>• <strong>Recommended:</strong> Bull put spread on 15-20mm strikes</div>
+                                                <div>• <strong>Risk/Reward:</strong> 3:1 ratio with 78% historical win rate</div>
+                                                <div>• <strong>Confidence:</strong> High (85%) based on 15-year weather patterns</div>
+                                            </div>
+                                            <div class="mt-3 text-xs text-gray-400">
+                                                <i class="fas fa-info-circle mr-1"></i>
+                                                Analysis based on WeatherXM data 2010-2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-600 p-4">
+                            <div class="flex space-x-2">
+                                <input type="text" placeholder="Ask me about weather patterns, trading strategies, or risk analysis..."
+                                       class="flex-1 bg-dark border border-gray-600 rounded-lg px-4 py-2 focus:border-ai focus:outline-none">
+                                <button class="bg-ai hover:bg-ai/80 px-4 py-2 rounded-lg">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Tab -->
+            <div id="help-tab" class="tab-content hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold mb-6">Help & Documentation</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-card rounded-lg p-6 border border-gray-600">
+                            <h3 class="font-semibold mb-4">Getting Started</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 text-xs">1</div>
+                                    <div>
+                                        <div class="font-medium">Connect Your Wallet</div>
+                                        <div class="text-sm text-gray-400">Connect MetaMask or other EVM wallets to Flow EVM network</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 text-xs">2</div>
+                                    <div>
+                                        <div class="font-medium">Search Cities</div>
+                                        <div class="text-sm text-gray-400">Find weather indices for your preferred cities</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 text-xs">3</div>
+                                    <div>
+                                        <div class="font-medium">Trade Options</div>
+                                        <div class="text-sm text-gray-400">Buy calls/puts or create custom strategies</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-card rounded-lg p-6 border border-gray-600">
+                            <h3 class="font-semibold mb-4">Understanding Greeks</h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="font-medium">Delta</div>
+                                    <div class="text-sm text-gray-400">Measures price sensitivity to rainfall changes</div>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Gamma</div>
+                                    <div class="text-sm text-gray-400">Rate of change of delta</div>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Theta</div>
+                                    <div class="text-sm text-gray-400">Time decay of option value</div>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Vega</div>
+                                    <div class="text-sm text-gray-400">Sensitivity to weather volatility</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-card rounded-lg p-6 border border-gray-600">
+                        <h3 class="font-semibold mb-4">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="font-medium">How are weather options settled?</div>
+                                <div class="text-sm text-gray-400 mt-1">Options are automatically settled based on verified WeatherXM data delivered via Chainlink oracles at expiration.</div>
+                            </div>
+                            <div>
+                                <div class="font-medium">What is a community pool?</div>
+                                <div class="text-sm text-gray-400 mt-1">Community pools are mutual aid mechanisms where members collectively share weather-related risks and rewards.</div>
+                            </div>
+                            <div>
+                                <div class="font-medium">How accurate is the weather data?</div>
+                                <div class="text-sm text-gray-400 mt-1">WeatherXM provides cryptographically verified data from 7,000+ weather stations with 95%+ accuracy scores.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Assistant Sidebar (Alternative placement) -->
+        <div class="w-80 bg-card border-l border-gray-700 hidden xl:block">
+            <div class="p-4 border-b border-gray-600">
+                <div class="flex items-center">
+                    <i class="fas fa-robot text-ai mr-2"></i>
+                    <h3 class="font-semibold">AI Assistant</h3>
+                </div>
+            </div>
+            
+            <div class="h-96 overflow-y-auto p-4">
+                <div class="space-y-4">
+                    <div class="bg-ai/10 rounded-lg p-3 border border-ai/20">
+                        <div class="text-sm">💡 <strong>Market Insight:</strong> Current weather patterns suggest increased volatility in Texas region. Consider protective strategies for existing positions.</div>
+                    </div>
+                    
+                    <div class="bg-success/10 rounded-lg p-3 border border-success/20">
+                        <div class="text-sm">📈 <strong>Trade Alert:</strong> Dallas rainfall call spreads showing 85% probability of profit based on seasonal analysis.</div>
+                    </div>
+                    
+                    <div class="bg-warning/10 rounded-lg p-3 border border-warning/20">
+                        <div class="text-sm">⚠️ <strong>Risk Notice:</strong> High concentration in rainfall derivatives detected. Consider diversification across temperature and wind indices.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t border-gray-600">
+                <button class="w-full bg-ai hover:bg-ai/80 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-comments mr-2"></i>
+                    Start Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals and Overlays -->
+    <!-- Trade Confirmation Modal -->
+    <div id="trade-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-card rounded-lg border border-gray-600 max-w-md w-full">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4">Confirm Trade</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Option Type</span>
+                            <span>Dallas Rainfall Call</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Strike Price</span>
+                            <span>30mm</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Premium</span>
+                            <span>$1.35</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Expiration</span>
+                            <span>Jan 31, 2025</span>
+                        </div>
+                        <div class="flex justify-between font-medium">
+                            <span>Total Cost</span>
+                            <span>$1.35</span>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3 mt-6">
+                        <button class="flex-1 bg-gray-600 hover:bg-gray-500 py-2 rounded-lg">Cancel</button>
+                        <button class="flex-1 bg-primary hover:bg-primary/80 py-2 rounded-lg">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip for Weather Index Info -->
+    <div id="weather-tooltip" class="fixed z-50 bg-card border border-gray-600 rounded-lg p-4 max-w-sm hidden">
+        <div class="text-sm font-medium mb-2">Dallas, TX Rainfall Index</div>
+        <div class="text-xs text-gray-400 space-y-1">
+            <div>• Total rainfall in millimeters measured over 24 hours</div>
+            <div>• Data from WeatherXM stations via Chainlink Oracle</div>
+            <div>• Updated every hour on-demand</div>
+            <div>• Options settle based on final value at expiry</div>
+            <div>• Last update: 2 mins ago, cryptographically verified</div>
+        </div>
+    </div>
+
+    <script>
+        // TODO: Implement wallet connection logic
+        // TODO: Implement real-time data updates
+        // TODO: Add chart library for rainfall visualization
+        // TODO: Connect to Flow EVM smart contracts
+        // TODO: Implement AI assistant chat functionality
+        
+        (function() {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('[data-tab]');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active states
+                    tabs.forEach(t => {
+                        t.classList.remove('border-primary', 'text-primary');
+                        t.classList.add('border-transparent', 'text-muted');
+                    });
+                    
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    
+                    // Add active state to clicked tab
+                    tab.classList.add('border-primary', 'text-primary');
+                    tab.classList.remove('border-transparent', 'text-muted');
+                    
+                    // Show corresponding content
+                    const targetTab = document.getElementById(tab.dataset.tab + '-tab');
+                    if (targetTab) {
+                        targetTab.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            // Mock interactive elements
+            const optionRows = document.querySelectorAll('.grid.grid-cols-5');
+            optionRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    // TODO: Open trade modal with selected option details
+                    console.log('Option selected for trading');
+                });
+            });
+            
+            // Mock tooltip functionality
+            const infoIcons = document.querySelectorAll('.fa-info-circle');
+            infoIcons.forEach(icon => {
+                icon.addEventListener('mouseenter', (e) => {
+                    // TODO: Show relevant tooltip based on context
+                    console.log('Show tooltip for:', e.target.closest('[title]')?.title);
+                });
+            });
+            
+            // Mock wallet connection
+            const connectButton = document.querySelector('button:contains("Connect Wallet")');
+            if (connectButton) {
+                connectButton.addEventListener('click', () => {
+                    // TODO: Implement MetaMask connection to Flow EVM
+                    console.log('Connecting to Flow EVM...');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

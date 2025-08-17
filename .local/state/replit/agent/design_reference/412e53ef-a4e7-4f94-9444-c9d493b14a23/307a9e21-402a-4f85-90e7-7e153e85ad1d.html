@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RainFlow - Decentralized Weather Options Trading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark': '#0D1117',
+                        'card': '#161B22',
+                        'border': '#21262D',
+                        'success': '#1DB954',
+                        'danger': '#FF6B6B',
+                        'primary': '#F0F6FC',
+                        'secondary': '#8B949E',
+                        'muted': '#6E7681',
+                        'accent': '#58A6FF'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            font-variant-numeric: tabular-nums;
+        }
+        .price-up { color: #1DB954; }
+        .price-down { color: #FF6B6B; }
+        .price-neutral { color: #8B949E; }
+        .glow-green { box-shadow: 0 0 10px rgba(29, 185, 84, 0.3); }
+        .glow-red { box-shadow: 0 0 10px rgba(255, 107, 107, 0.3); }
+        .animate-pulse-green { animation: pulse-green 2s infinite; }
+        .animate-pulse-red { animation: pulse-red 2s infinite; }
+        @keyframes pulse-green {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; background-color: rgba(29, 185, 84, 0.1); }
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; background-color: rgba(255, 107, 107, 0.1); }
+        }
+    </style>
+</head>
+<body class="bg-dark text-primary font-inter">
+    <!-- Header -->
+    <header class="bg-card border-b border-border px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-success rounded-full flex items-center justify-center">
+                        <i data-lucide="cloud-rain" class="w-5 h-5 text-dark"></i>
+                    </div>
+                    <h1 class="text-xl font-bold">RainFlow</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="text-primary hover:text-success transition-colors">Trade</a>
+                    <a href="#" class="text-secondary hover:text-primary transition-colors">Portfolio</a>
+                    <a href="#" class="text-secondary hover:text-primary transition-colors">Markets</a>
+                    <a href="#" class="text-secondary hover:text-primary transition-colors">Analytics</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-2 bg-dark px-3 py-2 rounded-lg">
+                    <i data-lucide="wifi" class="w-4 h-4 text-success"></i>
+                    <span class="text-sm">Flow EVM</span>
+                </div>
+                <button class="bg-success hover:bg-opacity-90 text-dark px-4 py-2 rounded-lg font-medium transition-colors">
+                    Connect Wallet
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-card border-r border-border p-6 overflow-y-auto">
+            <div class="space-y-6">
+                <!-- Current Weather Index -->
+                <div class="bg-dark p-4 rounded-lg">
+                    <h3 class="text-sm font-medium text-secondary mb-2">Current Rainfall Index</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl font-bold text-success">42.5</span>
+                        <span class="text-sm text-success">+2.1%</span>
+                    </div>
+                    <div class="text-xs text-muted mt-1">mm/24h | Live from WeatherXM</div>
+                </div>
+
+                <!-- Portfolio Summary -->
+                <div class="bg-dark p-4 rounded-lg">
+                    <h3 class="text-sm font-medium text-secondary mb-2">Portfolio Value</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-sm">Total Value</span>
+                            <span class="font-medium">$12,450.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm">Day P&L</span>
+                            <span class="text-success">+$234.50</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm">Open Positions</span>
+                            <span class="font-medium">8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Metrics -->
+                <div class="bg-dark p-4 rounded-lg">
+                    <h3 class="text-sm font-medium text-secondary mb-2">Portfolio Greeks</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-sm">Delta</span>
+                            <span class="font-medium">0.65</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm">Gamma</span>
+                            <span class="font-medium">0.12</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm">Theta</span>
+                            <span class="text-danger">-0.08</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm">Vega</span>
+                            <span class="font-medium">0.23</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="space-y-2">
+                    <button class="w-full bg-success hover:bg-opacity-90 text-dark py-2 rounded-lg font-medium transition-colors">
+                        Buy Options
+                    </button>
+                    <button class="w-full bg-danger hover:bg-opacity-90 text-white py-2 rounded-lg font-medium transition-colors">
+                        Sell Options
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-6 space-y-6">
+                <!-- Market Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-card p-4 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-secondary">24h Volume</span>
+                            <i data-lucide="trending-up" class="w-4 h-4 text-success"></i>
+                        </div>
+                        <div class="text-xl font-bold mt-1">$1.2M</div>
+                        <div class="text-xs text-success">+15.3%</div>
+                    </div>
+                    <div class="bg-card p-4 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-secondary">Open Interest</span>
+                            <i data-lucide="activity" class="w-4 h-4 text-accent"></i>
+                        </div>
+                        <div class="text-xl font-bold mt-1">$8.7M</div>
+                        <div class="text-xs text-muted">+2.1%</div>
+                    </div>
+                    <div class="bg-card p-4 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-secondary">Volatility</span>
+                            <i data-lucide="zap" class="w-4 h-4 text-danger"></i>
+                        </div>
+                        <div class="text-xl font-bold mt-1">28.5%</div>
+                        <div class="text-xs text-danger">+3.2%</div>
+                    </div>
+                    <div class="bg-card p-4 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-secondary">Active Contracts</span>
+                            <i data-lucide="file-text" class="w-4 h-4 text-secondary"></i>
+                        </div>
+                        <div class="text-xl font-bold mt-1">1,247</div>
+                        <div class="text-xs text-success">+8.9%</div>
+                    </div>
+                </div>
+
+                <!-- Options Chain -->
+                <div class="bg-card rounded-lg overflow-hidden">
+                    <div class="p-4 border-b border-border">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-semibold">Options Chain</h2>
+                            <div class="flex items-center space-x-4">
+                                <select class="bg-dark border border-border rounded px-3 py-1 text-sm">
+                                    <option>Weekly (Jan 17)</option>
+                                    <option>Monthly (Jan 31)</option>
+                                    <option>Quarterly (Mar 21)</option>
+                                </select>
+                                <div class="flex items-center space-x-2">
+                                    <button class="px-3 py-1 bg-success bg-opacity-20 text-success rounded text-sm">Calls</button>
+                                    <button class="px-3 py-1 bg-danger bg-opacity-20 text-danger rounded text-sm">Puts</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-dark">
+                                <tr>
+                                    <th class="text-left p-3 text-secondary">Strike</th>
+                                    <th class="text-left p-3 text-secondary">Type</th>
+                                    <th class="text-left p-3 text-secondary">Bid</th>
+                                    <th class="text-left p-3 text-secondary">Ask</th>
+                                    <th class="text-left p-3 text-secondary">Last</th>
+                                    <th class="text-left p-3 text-secondary">Change</th>
+                                    <th class="text-left p-3 text-secondary">Volume</th>
+                                    <th class="text-left p-3 text-secondary">OI</th>
+                                    <th class="text-left p-3 text-secondary">IV</th>
+                                    <th class="text-left p-3 text-secondary">Delta</th>
+                                    <th class="text-left p-3 text-secondary">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Call Options -->
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">35.0</td>
+                                    <td class="p-3"><span class="bg-success bg-opacity-20 text-success px-2 py-1 rounded text-xs">CALL</span></td>
+                                    <td class="p-3">8.20</td>
+                                    <td class="p-3">8.45</td>
+                                    <td class="p-3 font-medium">8.35</td>
+                                    <td class="p-3 text-success">+0.15</td>
+                                    <td class="p-3">1,234</td>
+                                    <td class="p-3">5,678</td>
+                                    <td class="p-3">32.1%</td>
+                                    <td class="p-3">0.72</td>
+                                    <td class="p-3">
+                                        <button class="bg-success hover:bg-opacity-90 text-dark px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">40.0</td>
+                                    <td class="p-3"><span class="bg-success bg-opacity-20 text-success px-2 py-1 rounded text-xs">CALL</span></td>
+                                    <td class="p-3">4.80</td>
+                                    <td class="p-3">5.05</td>
+                                    <td class="p-3 font-medium">4.95</td>
+                                    <td class="p-3 text-success">+0.25</td>
+                                    <td class="p-3">2,156</td>
+                                    <td class="p-3">8,923</td>
+                                    <td class="p-3">28.7%</td>
+                                    <td class="p-3">0.58</td>
+                                    <td class="p-3">
+                                        <button class="bg-success hover:bg-opacity-90 text-dark px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors bg-success bg-opacity-5">
+                                    <td class="p-3 font-bold">42.5</td>
+                                    <td class="p-3"><span class="bg-success bg-opacity-20 text-success px-2 py-1 rounded text-xs">CALL</span></td>
+                                    <td class="p-3">2.95</td>
+                                    <td class="p-3">3.15</td>
+                                    <td class="p-3 font-medium">3.05</td>
+                                    <td class="p-3 text-success">+0.10</td>
+                                    <td class="p-3">3,789</td>
+                                    <td class="p-3">12,456</td>
+                                    <td class="p-3">31.2%</td>
+                                    <td class="p-3">0.52</td>
+                                    <td class="p-3">
+                                        <button class="bg-success hover:bg-opacity-90 text-dark px-3 py-1 rounded text-xs font-medium glow-green">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">45.0</td>
+                                    <td class="p-3"><span class="bg-success bg-opacity-20 text-success px-2 py-1 rounded text-xs">CALL</span></td>
+                                    <td class="p-3">1.45</td>
+                                    <td class="p-3">1.65</td>
+                                    <td class="p-3 font-medium">1.55</td>
+                                    <td class="p-3 text-danger">-0.05</td>
+                                    <td class="p-3">1,967</td>
+                                    <td class="p-3">7,234</td>
+                                    <td class="p-3">29.8%</td>
+                                    <td class="p-3">0.38</td>
+                                    <td class="p-3">
+                                        <button class="bg-success hover:bg-opacity-90 text-dark px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">50.0</td>
+                                    <td class="p-3"><span class="bg-success bg-opacity-20 text-success px-2 py-1 rounded text-xs">CALL</span></td>
+                                    <td class="p-3">0.65</td>
+                                    <td class="p-3">0.85</td>
+                                    <td class="p-3 font-medium">0.75</td>
+                                    <td class="p-3 text-danger">-0.10</td>
+                                    <td class="p-3">892</td>
+                                    <td class="p-3">3,456</td>
+                                    <td class="p-3">33.4%</td>
+                                    <td class="p-3">0.22</td>
+                                    <td class="p-3">
+                                        <button class="bg-success hover:bg-opacity-90 text-dark px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Put Options -->
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">35.0</td>
+                                    <td class="p-3"><span class="bg-danger bg-opacity-20 text-danger px-2 py-1 rounded text-xs">PUT</span></td>
+                                    <td class="p-3">0.45</td>
+                                    <td class="p-3">0.65</td>
+                                    <td class="p-3 font-medium">0.55</td>
+                                    <td class="p-3 text-danger">-0.05</td>
+                                    <td class="p-3">654</td>
+                                    <td class="p-3">2,134</td>
+                                    <td class="p-3">35.6%</td>
+                                    <td class="p-3">-0.18</td>
+                                    <td class="p-3">
+                                        <button class="bg-danger hover:bg-opacity-90 text-white px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">40.0</td>
+                                    <td class="p-3"><span class="bg-danger bg-opacity-20 text-danger px-2 py-1 rounded text-xs">PUT</span></td>
+                                    <td class="p-3">1.85</td>
+                                    <td class="p-3">2.05</td>
+                                    <td class="p-3 font-medium">1.95</td>
+                                    <td class="p-3 text-success">+0.15</td>
+                                    <td class="p-3">1,456</td>
+                                    <td class="p-3">5,789</td>
+                                    <td class="p-3">30.2%</td>
+                                    <td class="p-3">-0.42</td>
+                                    <td class="p-3">
+                                        <button class="bg-danger hover:bg-opacity-90 text-white px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">45.0</td>
+                                    <td class="p-3"><span class="bg-danger bg-opacity-20 text-danger px-2 py-1 rounded text-xs">PUT</span></td>
+                                    <td class="p-3">4.25</td>
+                                    <td class="p-3">4.45</td>
+                                    <td class="p-3 font-medium">4.35</td>
+                                    <td class="p-3 text-success">+0.20</td>
+                                    <td class="p-3">2,234</td>
+                                    <td class="p-3">8,567</td>
+                                    <td class="p-3">28.9%</td>
+                                    <td class="p-3">-0.62</td>
+                                    <td class="p-3">
+                                        <button class="bg-danger hover:bg-opacity-90 text-white px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-dark hover:bg-opacity-50 transition-colors">
+                                    <td class="p-3 font-medium">50.0</td>
+                                    <td class="p-3"><span class="bg-danger bg-opacity-20 text-danger px-2 py-1 rounded text-xs">PUT</span></td>
+                                    <td class="p-3">8.75</td>
+                                    <td class="p-3">8.95</td>
+                                    <td class="p-3 font-medium">8.85</td>
+                                    <td class="p-3 text-success">+0.35</td>
+                                    <td class="p-3">1,789</td>
+                                    <td class="p-3">6,234</td>
+                                    <td class="p-3">31.7%</td>
+                                    <td class="p-3">-0.78</td>
+                                    <td class="p-3">
+                                        <button class="bg-danger hover:bg-opacity-90 text-white px-3 py-1 rounded text-xs font-medium">
+                                            Buy
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Price Chart -->
+                    <div class="bg-card rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Rainfall Index (24h)</h3>
+                            <div class="flex items-center space-x-2">
+                                <button class="px-3 py-1 bg-success bg-opacity-20 text-success rounded text-sm">1D</button>
+                                <button class="px-3 py-1 text-secondary hover:text-primary rounded text-sm">1W</button>
+                                <button class="px-3 py-1 text-secondary hover:text-primary rounded text-sm">1M</button>
+                            </div>
+                        </div>
+                        <canvas id="priceChart" class="w-full h-64"></canvas>
+                    </div>
+
+                    <!-- Volatility Chart -->
+                    <div class="bg-card rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Implied Volatility</h3>
+                            <div class="text-sm text-secondary">Surface View</div>
+                        </div>
+                        <canvas id="volatilityChart" class="w-full h-64"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-card rounded-lg overflow-hidden">
+                    <div class="p-4 border-b border-border">
+                        <h3 class="text-lg font-semibold">Recent Activity</h3>
+                    </div>
+                    <div class="divide-y divide-border">
+                        <div class="p-4 hover:bg-dark hover:bg-opacity-50 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-2 h-2 bg-success rounded-full"></div>
+                                    <div>
+                                        <div class="font-medium">Bought 5 CALL 42.5 Jan 17</div>
+                                        <div class="text-sm text-secondary">Premium: $3.05 per contract</div>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-muted">2 min ago</div>
+                            </div>
+                        </div>
+                        <div class="p-4 hover:bg-dark hover:bg-opacity-50 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-2 h-2 bg-danger rounded-full"></div>
+                                    <div>
+                                        <div class="font-medium">Sold 3 PUT 40.0 Jan 17</div>
+                                        <div class="text-sm text-secondary">Premium: $1.95 per contract</div>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-muted">5 min ago</div>
+                            </div>
+                        </div>
+                        <div class="p-4 hover:bg-dark hover:bg-opacity-50 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-2 h-2 bg-accent rounded-full"></div>
+                                    <div>
+                                        <div class="font-medium">Option settled: CALL 35.0 Jan 10</div>
+                                        <div class="text-sm text-secondary">Profit: $750.00</div>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-muted">1 hour ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Modal (Hidden by default) -->
+    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-card rounded-lg p-6 w-full max-w-md">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold">Place Order</h3>
+                <button onclick="closeOrderModal()" class="text-secondary hover:text-primary">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Option</label>
+                    <div class="text-sm text-secondary">CALL 42.5 Jan 17, 2025</div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Order Type</label>
+                    <select class="w-full bg-dark border border-border rounded px-3 py-2">
+                        <option>Market</option>
+                        <option>Limit</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Quantity</label>
+                    <input type="number" class="w-full bg-dark border border-border rounded px-3 py-2" value="1">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Price</label>
+                    <input type="number" class="w-full bg-dark border border-border rounded px-3 py-2" value="3.05" step="0.01">
+                </div>
+                <div class="flex space-x-3">
+                    <button onclick="closeOrderModal()" class="flex-1 bg-border hover:bg-opacity-80 text-primary py-2 rounded font-medium transition-colors">
+                        Cancel
+                    </button>
+                    <button class="flex-1 bg-success hover:bg-opacity-90 text-dark py-2 rounded font-medium transition-colors">
+                        Place Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mock data for charts
+        const priceData = {
+            labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
+            datasets: [{
+                label: 'Rainfall Index',
+                data: [38.2, 41.5, 39.8, 42.1, 44.3, 42.5, 42.5],
+                borderColor: '#1DB954',
+                backgroundColor: 'rgba(29, 185, 84, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        };
+
+        const volatilityData = {
+            labels: ['35', '40', '42.5', '45', '50'],
+            datasets: [{
+                label: 'Implied Volatility',
+                data: [35.6, 30.2, 31.2, 29.8, 33.4],
+                borderColor: '#58A6FF',
+                backgroundColor: 'rgba(88, 166, 255, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        };
+
+        // Initialize charts
+        const priceCtx = document.getElementById('priceChart').getContext('2d');
+        const volatilityCtx = document.getElementById('volatilityChart').getContext('2d');
+
+        new Chart(priceCtx, {
+            type: 'line',
+            data: priceData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: '#21262D'
+                        },
+                        ticks: {
+                            color: '#8B949E'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#21262D'
+                        },
+                        ticks: {
+                            color: '#8B949E'
+                        }
+                    }
+                }
+            }
+        });
+
+        new Chart(volatilityCtx, {
+            type: 'line',
+            data: volatilityData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: '#21262D'
+                        },
+                        ticks: {
+                            color: '#8B949E'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#21262D'
+                        },
+                        ticks: {
+                            color: '#8B949E'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Mock real-time updates
+        (() => {
+            const updatePrices = () => {
+                // Simulate price updates with color changes
+                const priceElements = document.querySelectorAll('tbody tr');
+                priceElements.forEach(row => {
+                    const changeCell = row.cells[5];
+                    if (changeCell && Math.random() > 0.7) {
+                        const isPositive = Math.random() > 0.5;
+                        changeCell.className = isPositive ? 'p-3 text-success animate-pulse-green' : 'p-3 text-danger animate-pulse-red';
+                        setTimeout(() => {
+                            changeCell.className = isPositive ? 'p-3 text-success' : 'p-3 text-danger';
+                        }, 2000);
+                    }
+                });
+            };
+
+            setInterval(updatePrices, 3000);
+        })();
+
+        function openOrderModal() {
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+
+        // Add click handlers to buy buttons
+        document.querySelectorAll('button:contains("Buy")').forEach(button => {
+            button.addEventListener('click', openOrderModal);
+        });
+
+        // TODO: Implement Web3 wallet connection
+        // TODO: Implement real-time WeatherXM API integration
+        // TODO: Implement smart contract interaction with Flow EVM
+        // TODO: Implement Black-Scholes pricing model
+        // TODO: Implement Greeks calculations
+        // TODO: Implement order placement and settlement logic
+        // TODO: Implement portfolio management and risk metrics
+        // TODO: Implement real-time data feeds and WebSocket connections
+    </script>
+</body>
+</html>

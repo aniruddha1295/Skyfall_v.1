@@ -1,0 +1,597 @@
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherFlow Options - Professional Weather-Based Options Trading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-900': '#0A0E1A',
+                        'navy-800': '#1A1D29',
+                        'navy-700': '#252940',
+                        'navy-600': '#374151',
+                        'success': '#22C55E',
+                        'danger': '#EF4444',
+                        'warning': '#F59E0B',
+                        'info': '#3B82F6',
+                        'cyan': '#06B6D4'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="h-full bg-navy-900 text-white font-sans">
+    <!-- @COMPONENT: AppHeader [navigation, wallet connection, account info] -->
+    <header class="bg-navy-800 border-b border-navy-700 sticky top-0 z-50">
+        <div class="px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo and Navigation -->
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-r from-info to-cyan rounded-lg flex items-center justify-center">
+                            <i class="fas fa-cloud-rain text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">WeatherFlow</span>
+                    </div>
+                    
+                    <nav class="hidden md:flex space-x-6">
+                        <a href="#" class="text-white hover:text-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium border-b-2 border-cyan">Options</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-md text-sm font-medium">Portfolio</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-md text-sm font-medium">Analytics</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors px-3 py-2 rounded-md text-sm font-medium">Markets</a>
+                    </nav>
+                </div>
+
+                <!-- Account Info and Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Flow EVM Network Status -->
+                    <div class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-navy-700 rounded-lg">
+                        <div class="w-2 h-2 bg-success rounded-full"></div>
+                        <span class="text-xs text-gray-300">Flow EVM</span>
+                    </div>
+                    
+                    <!-- Account Balance -->
+                    <div data-mock="true" class="hidden sm:flex items-center space-x-2 px-3 py-1 bg-navy-700 rounded-lg">
+                        <i class="fas fa-coins text-warning text-xs"></i>
+                        <span class="text-sm font-medium">1,250.50 FLOW</span>
+                    </div>
+
+                    <!-- Wallet Connection -->
+                    <button data-event="click:connectWallet" class="bg-info hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-wallet mr-2"></i>
+                        Connected: 0x1234...5678
+                    </button>
+
+                    <!-- Mobile Menu -->
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: AppHeader -->
+
+    <div class="flex h-[calc(100vh-4rem)]">
+        <!-- @COMPONENT: Sidebar [portfolio summary, watchlist, recent trades] -->
+        <aside class="hidden lg:block w-80 bg-navy-800 border-r border-navy-700 overflow-y-auto">
+            <div class="p-6">
+                <!-- Portfolio Summary -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold mb-4">Portfolio Summary</h2>
+                    <div class="bg-navy-700 rounded-lg p-4 space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Total Value</span>
+                            <span data-bind="portfolio.totalValue" class="font-semibold">$12,845.30</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Day P&L</span>
+                            <span data-bind="portfolio.dayPnL" class="text-success font-semibold">+$342.50 (+2.74%)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Open Positions</span>
+                            <span data-bind="portfolio.openPositions" class="font-semibold">8</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Buying Power</span>
+                            <span data-bind="portfolio.buyingPower" class="font-semibold">$3,420.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Positions -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold mb-4">Open Positions</h2>
+                    <div class="space-y-3">
+                        <!-- @MAP: positions.map(position => ( -->
+                        <div data-mock="true" class="bg-navy-700 rounded-lg p-3">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="font-medium text-sm">Dallas Rain Call</div>
+                                    <div class="text-xs text-gray-400">Strike: 25mm Exp: Jan 19</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-success">+$125.50</div>
+                                    <div class="text-xs text-gray-400">+8.3%</div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400">
+                                <span>Qty: 5</span>
+                                <span>Avg: $2.50</span>
+                            </div>
+                        </div>
+                        
+                        <div data-mock="true" class="bg-navy-700 rounded-lg p-3">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="font-medium text-sm">Miami Wind Put</div>
+                                    <div class="text-xs text-gray-400">Strike: 35mph Exp: Jan 26</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-semibold text-danger">-$75.25</div>
+                                    <div class="text-xs text-gray-400">-12.1%</div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400">
+                                <span>Qty: 3</span>
+                                <span>Avg: $4.20</span>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+
+                <!-- Weather Alerts -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-4">Weather Alerts</h2>
+                    <div class="space-y-3">
+                        <div data-mock="true" class="bg-warning/10 border border-warning/30 rounded-lg p-3">
+                            <div class="flex items-start space-x-2">
+                                <i class="fas fa-exclamation-triangle text-warning text-sm mt-1"></i>
+                                <div>
+                                    <div class="text-sm font-medium">Heavy Rain Alert</div>
+                                    <div class="text-xs text-gray-400">Dallas expected 30mm+ in next 24h</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div data-mock="true" class="bg-info/10 border border-info/30 rounded-lg p-3">
+                            <div class="flex items-start space-x-2">
+                                <i class="fas fa-info-circle text-info text-sm mt-1"></i>
+                                <div>
+                                    <div class="text-sm font-medium">Settlement Notice</div>
+                                    <div class="text-xs text-gray-400">Houston Wind options settle in 2 days</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <!-- @COMPONENT: MainContent [options chain, underlying selection, order entry] -->
+        <main class="flex-1 overflow-hidden flex flex-col">
+            <!-- Market Selection and Info Bar -->
+            <div class="bg-navy-800 border-b border-navy-700 p-4">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                    <!-- Underlying Selection -->
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <select data-event="change:selectUnderlying" class="bg-navy-700 border border-navy-600 rounded-lg px-4 py-2 pr-10 text-white appearance-none focus:outline-none focus:ring-2 focus:ring-info">
+                                <option>Dallas Rainfall Index (DRI)</option>
+                                <option>Houston Wind Index (HWI)</option>
+                                <option>Miami Hurricane Index (MHI)</option>
+                                <option>Austin Temperature Index (ATI)</option>
+                                <option>Phoenix Heat Index (PHI)</option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                        </div>
+                        
+                        <!-- Current Index Value -->
+                        <div data-mock="true" class="flex items-center space-x-2">
+                            <span class="text-2xl font-bold">22.75mm</span>
+                            <span class="text-success text-sm font-medium">+1.25 (+5.8%)</span>
+                            <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <!-- Market Stats -->
+                    <div class="flex items-center space-x-6 text-sm">
+                        <div>
+                            <span class="text-gray-400">24h High:</span>
+                            <span data-bind="market.high24h" class="ml-1 font-medium">24.10mm</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">24h Low:</span>
+                            <span data-bind="market.low24h" class="ml-1 font-medium">21.30mm</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">Vol:</span>
+                            <span data-bind="market.volume" class="ml-1 font-medium">1,247</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">IV:</span>
+                            <span data-bind="market.impliedVolatility" class="ml-1 font-medium">28.5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expiration Tabs -->
+                <div class="flex space-x-1 mt-4">
+                    <button data-event="click:selectExpiration" class="px-4 py-2 rounded-lg text-sm font-medium bg-info text-white">Jan 19 (7d)</button>
+                    <button data-event="click:selectExpiration" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-navy-700">Jan 26 (14d)</button>
+                    <button data-event="click:selectExpiration" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-navy-700">Feb 16 (3rd Fri)</button>
+                    <button data-event="click:selectExpiration" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-navy-700">Mar 21 (Monthly)</button>
+                </div>
+            </div>
+
+            <!-- Options Chain -->
+            <div class="flex-1 overflow-auto">
+                <div class="min-w-[1200px]">
+                    <!-- Options Chain Header -->
+                    <div class="bg-navy-700 border-b border-navy-600 grid grid-cols-21 gap-1 text-xs font-medium text-gray-300 p-2 sticky top-0">
+                        <!-- Calls Header -->
+                        <div class="col-span-9 grid grid-cols-9 gap-1">
+                            <div class="text-center py-2">Volume</div>
+                            <div class="text-center py-2">OI</div>
+                            <div class="text-center py-2">Delta</div>
+                            <div class="text-center py-2">Gamma</div>
+                            <div class="text-center py-2">Theta</div>
+                            <div class="text-center py-2">Vega</div>
+                            <div class="text-center py-2">Bid</div>
+                            <div class="text-center py-2">Ask</div>
+                            <div class="text-center py-2 bg-success/20 text-success font-semibold">CALLS</div>
+                        </div>
+                        
+                        <!-- Strike Header -->
+                        <div class="col-span-3 flex items-center justify-center py-2 bg-gray-600/20 font-semibold">
+                            STRIKE
+                        </div>
+                        
+                        <!-- Puts Header -->
+                        <div class="col-span-9 grid grid-cols-9 gap-1">
+                            <div class="text-center py-2 bg-danger/20 text-danger font-semibold">PUTS</div>
+                            <div class="text-center py-2">Bid</div>
+                            <div class="text-center py-2">Ask</div>
+                            <div class="text-center py-2">Delta</div>
+                            <div class="text-center py-2">Gamma</div>
+                            <div class="text-center py-2">Theta</div>
+                            <div class="text-center py-2">Vega</div>
+                            <div class="text-center py-2">OI</div>
+                            <div class="text-center py-2">Volume</div>
+                        </div>
+                    </div>
+
+                    <!-- Options Chain Rows -->
+                    <div class="divide-y divide-navy-600">
+                        <!-- @MAP: optionStrikes.map(strike => ( -->
+                        <!-- Deep ITM Call Strike: 15mm -->
+                        <div data-mock="true" class="grid grid-cols-21 gap-1 hover:bg-navy-700/50 transition-colors">
+                            <!-- Call Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center text-gray-300">425</div>
+                                <div class="text-center text-gray-300">1,203</div>
+                                <div class="text-center text-success font-medium">0.85</div>
+                                <div class="text-center text-gray-300">0.03</div>
+                                <div class="text-center text-danger">-0.12</div>
+                                <div class="text-center text-gray-300">0.08</div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">7.60</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">7.80</div>
+                                <div class="text-center"></div>
+                            </div>
+                            <!-- Strike Price -->
+                            <div class="col-span-3 flex items-center justify-center py-3 bg-navy-600/30 font-bold text-lg">
+                                15.0mm
+                            </div>
+                            <!-- Put Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center"></div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">0.05</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">0.10</div>
+                                <div class="text-center text-danger">-0.15</div>
+                                <div class="text-center text-gray-300">0.01</div>
+                                <div class="text-center text-danger">-0.02</div>
+                                <div class="text-center text-gray-300">0.03</div>
+                                <div class="text-center text-gray-300">850</div>
+                                <div class="text-center text-gray-300">125</div>
+                            </div>
+                        </div>
+
+                        <!-- ITM Call Strike: 20mm -->
+                        <div data-mock="true" class="grid grid-cols-21 gap-1 hover:bg-navy-700/50 transition-colors">
+                            <!-- Call Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center text-gray-300">672</div>
+                                <div class="text-center text-gray-300">2,105</div>
+                                <div class="text-center text-success font-medium">0.68</div>
+                                <div class="text-center text-gray-300">0.06</div>
+                                <div class="text-center text-danger">-0.18</div>
+                                <div class="text-center text-gray-300">0.15</div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">3.20</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">3.40</div>
+                                <div class="text-center"></div>
+                            </div>
+                            <!-- Strike Price -->
+                            <div class="col-span-3 flex items-center justify-center py-3 bg-navy-600/30 font-bold text-lg">
+                                20.0mm
+                            </div>
+                            <!-- Put Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center"></div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">0.45</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">0.65</div>
+                                <div class="text-center text-danger">-0.32</div>
+                                <div class="text-center text-gray-300">0.06</div>
+                                <div class="text-center text-danger">-0.18</div>
+                                <div class="text-center text-gray-300">0.15</div>
+                                <div class="text-center text-gray-300">1,450</div>
+                                <div class="text-center text-gray-300">380</div>
+                            </div>
+                        </div>
+
+                        <!-- ATM Strike: 22.75mm (Current Price) -->
+                        <div data-mock="true" class="grid grid-cols-21 gap-1 hover:bg-navy-700/50 transition-colors bg-warning/5 border-t-2 border-b-2 border-warning">
+                            <!-- Call Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center text-gray-300">1,247</div>
+                                <div class="text-center text-gray-300">3,822</div>
+                                <div class="text-center text-warning font-bold">0.52</div>
+                                <div class="text-center text-gray-300">0.12</div>
+                                <div class="text-center text-danger">-0.25</div>
+                                <div class="text-center text-gray-300">0.22</div>
+                                <div class="text-center font-bold hover:bg-success/20 cursor-pointer px-2 py-1 rounded text-warning">1.85</div>
+                                <div class="text-center font-bold hover:bg-danger/20 cursor-pointer px-2 py-1 rounded text-warning">2.05</div>
+                                <div class="text-center"></div>
+                            </div>
+                            <!-- Strike Price (Current ATM) -->
+                            <div class="col-span-3 flex items-center justify-center py-3 bg-warning/20 font-bold text-lg text-warning">
+                                22.5mm
+                            </div>
+                            <!-- Put Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center"></div>
+                                <div class="text-center font-bold hover:bg-success/20 cursor-pointer px-2 py-1 rounded text-warning">1.75</div>
+                                <div class="text-center font-bold hover:bg-danger/20 cursor-pointer px-2 py-1 rounded text-warning">1.95</div>
+                                <div class="text-center text-warning font-bold">-0.48</div>
+                                <div class="text-center text-gray-300">0.12</div>
+                                <div class="text-center text-danger">-0.25</div>
+                                <div class="text-center text-gray-300">0.22</div>
+                                <div class="text-center text-gray-300">3,956</div>
+                                <div class="text-center text-gray-300">1,589</div>
+                            </div>
+                        </div>
+
+                        <!-- OTM Call Strike: 25mm -->
+                        <div data-mock="true" class="grid grid-cols-21 gap-1 hover:bg-navy-700/50 transition-colors">
+                            <!-- Call Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center text-gray-300">895</div>
+                                <div class="text-center text-gray-300">2,743</div>
+                                <div class="text-center text-success font-medium">0.35</div>
+                                <div class="text-center text-gray-300">0.10</div>
+                                <div class="text-center text-danger">-0.20</div>
+                                <div class="text-center text-gray-300">0.18</div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">0.85</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">1.05</div>
+                                <div class="text-center"></div>
+                            </div>
+                            <!-- Strike Price -->
+                            <div class="col-span-3 flex items-center justify-center py-3 bg-navy-600/30 font-bold text-lg">
+                                25.0mm
+                            </div>
+                            <!-- Put Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center"></div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">3.10</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">3.30</div>
+                                <div class="text-center text-danger">-0.65</div>
+                                <div class="text-center text-gray-300">0.10</div>
+                                <div class="text-center text-danger">-0.20</div>
+                                <div class="text-center text-gray-300">0.18</div>
+                                <div class="text-center text-gray-300">1,985</div>
+                                <div class="text-center text-gray-300">642</div>
+                            </div>
+                        </div>
+
+                        <!-- Far OTM Call Strike: 30mm -->
+                        <div data-mock="true" class="grid grid-cols-21 gap-1 hover:bg-navy-700/50 transition-colors">
+                            <!-- Call Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center text-gray-300">324</div>
+                                <div class="text-center text-gray-300">1,586</div>
+                                <div class="text-center text-success font-medium">0.18</div>
+                                <div class="text-center text-gray-300">0.06</div>
+                                <div class="text-center text-danger">-0.15</div>
+                                <div class="text-center text-gray-300">0.12</div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">0.25</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">0.40</div>
+                                <div class="text-center"></div>
+                            </div>
+                            <!-- Strike Price -->
+                            <div class="col-span-3 flex items-center justify-center py-3 bg-navy-600/30 font-bold text-lg">
+                                30.0mm
+                            </div>
+                            <!-- Put Data -->
+                            <div class="col-span-9 grid grid-cols-9 gap-1 items-center py-3 px-2 text-sm">
+                                <div class="text-center"></div>
+                                <div class="text-center font-medium hover:bg-success/20 cursor-pointer px-2 py-1 rounded">7.40</div>
+                                <div class="text-center font-medium hover:bg-danger/20 cursor-pointer px-2 py-1 rounded">7.65</div>
+                                <div class="text-center text-danger">-0.82</div>
+                                <div class="text-center text-gray-300">0.06</div>
+                                <div class="text-center text-danger">-0.15</div>
+                                <div class="text-center text-gray-300">0.12</div>
+                                <div class="text-center text-gray-300">1,203</div>
+                                <div class="text-center text-gray-300">278</div>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- @END_COMPONENT: MainContent -->
+    </div>
+
+    <!-- @COMPONENT: OrderModal [trade entry, confirmation] -->
+    <!-- @STATE: showOrderModal:boolean = false -->
+    <div id="orderModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-navy-800 rounded-xl border border-navy-600 w-full max-w-md">
+                <div class="flex items-center justify-between p-6 border-b border-navy-600">
+                    <h3 class="text-lg font-semibold">Place Order</h3>
+                    <button data-event="click:closeModal" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6 space-y-4">
+                    <!-- Order Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Order Type</label>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 py-2 px-4 bg-info text-white rounded-lg text-sm font-medium">Market</button>
+                            <button class="flex-1 py-2 px-4 bg-navy-700 text-gray-300 rounded-lg text-sm font-medium hover:bg-navy-600">Limit</button>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Action</label>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 py-2 px-4 bg-success text-white rounded-lg text-sm font-medium">Buy</button>
+                            <button class="flex-1 py-2 px-4 bg-navy-700 text-gray-300 rounded-lg text-sm font-medium hover:bg-navy-600">Sell</button>
+                        </div>
+                    </div>
+
+                    <!-- Contract Details -->
+                    <div class="bg-navy-700 rounded-lg p-4 space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Contract:</span>
+                            <span data-mock="true">Dallas Rain Call 22.5mm Jan 19</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Current Price:</span>
+                            <span data-mock="true" class="font-medium">$1.95</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Delta:</span>
+                            <span data-mock="true">0.52</span>
+                        </div>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Quantity</label>
+                        <input data-implementation="Should validate quantity input" type="number" min="1" max="100" value="1" class="w-full bg-navy-700 border border-navy-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-info">
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="bg-navy-700 rounded-lg p-4 space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Estimated Cost:</span>
+                            <span data-bind="order.estimatedCost" class="font-medium">$195.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Max Risk:</span>
+                            <span data-bind="order.maxRisk" class="font-medium">$195.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Max Profit:</span>
+                            <span data-bind="order.maxProfit" class="font-medium text-success">Unlimited</span>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button data-event="click:submitOrder" data-implementation="Should validate form and submit to smart contract" class="w-full bg-success hover:bg-green-600 text-white font-medium py-3 rounded-lg transition-colors">
+                        Place Buy Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: OrderModal -->
+
+    <!-- @COMPONENT: FloatingActionBar [mobile trading controls] -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-navy-800 border-t border-navy-600 p-4">
+        <div class="flex space-x-3">
+            <button class="flex-1 bg-success hover:bg-green-600 text-white font-medium py-3 rounded-lg transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Buy Call
+            </button>
+            <button class="flex-1 bg-danger hover:bg-red-600 text-white font-medium py-3 rounded-lg transition-colors">
+                <i class="fas fa-minus mr-2"></i>
+                Buy Put
+            </button>
+            <button class="px-4 py-3 bg-navy-700 hover:bg-navy-600 text-white rounded-lg transition-colors">
+                <i class="fas fa-chart-line"></i>
+            </button>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: FloatingActionBar -->
+
+    <script>
+        (function() {
+            // TODO: Implement real-time price updates via WebSocket or polling
+            // TODO: Implement contract interaction via ethers.js and Flow EVM
+            // TODO: Implement WeatherXM API integration for real weather data
+            
+            // Mock real-time price updates
+            function updatePrices() {
+                const priceElements = document.querySelectorAll('[data-bind*="price"], [data-mock="true"]');
+                // Simulate price fluctuations
+                // Real implementation would connect to smart contract events
+            }
+
+            // Modal controls
+            const orderModal = document.getElementById('orderModal');
+            
+            // Click-to-trade functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-event*="click:"]')) {
+                    const action = e.target.closest('[data-event*="click:"]').getAttribute('data-event');
+                    
+                    if (action.includes('openOrderModal')) {
+                        orderModal.classList.remove('hidden');
+                    } else if (action.includes('closeModal')) {
+                        orderModal.classList.add('hidden');
+                    }
+                    
+                    // TODO: Implement other click handlers for trading actions
+                }
+            });
+
+            // Options chain click handlers
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.hover\\:bg-success\\/20, .hover\\:bg-danger\\/20')) {
+                    // TODO: Open order modal with pre-filled contract details
+                    orderModal.classList.remove('hidden');
+                }
+            });
+
+            // Mobile responsive behavior
+            function handleResize() {
+                // TODO: Implement responsive layout adjustments
+            }
+            
+            window.addEventListener('resize', handleResize);
+            
+            // Initialize
+            handleResize();
+            
+            // Start price updates (in real app, this would be WebSocket connection)
+            setInterval(updatePrices, 3000);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+1. Smart Contract Enhancements
+Prompt:
+Add the following features to the Solidity smart contract:
+
+Option Lifecycle Management:
+
+Support for option creation, purchase, exercise, and expiration.
+
+Include both call and put options for rainfall indexes.
+
+Allow for multiple strikes and expiration dates.
+
+Automated Settlement:
+
+Integrate on-chain triggers for automatic settlement and payout based on WeatherXM rainfall data.
+
+Support for partial and full settlements if the contract allows.
+
+Event Emission:
+
+Emit detailed events for all key actions (creation, purchase, exercise, expiration, settlement) to support real-time UI updates.
+
+Fee and Premium Logic:
+
+Implement platform fees and dynamic premium calculation based on market demand or AI-driven risk scoring.
+
+Access Control:
+
+Add admin controls for contract upgrades, emergency stops, and parameter adjustments.
+
+2. WeatherXM Oracle/Data Integration
+Prompt:
+Integrate WeatherXM’s on-chain oracle (or, if not public, a secure backend relay):
+
+On-Chain Data Bridge:
+
+Ensure the smart contract can receive and verify rainfall data directly from WeatherXM’s oracle or a trusted relay service.
+
+Set up scheduled or event-driven updates for rainfall index values.
+
+Data Integrity:
+
+Add cryptographic verification (proofs, signatures) if supported by WeatherXM’s oracle.
+
+Include fallback/manual update mechanisms for demo or testing.
+
+3. Advanced Option Pricing & Greeks
+Prompt:
+Implement advanced pricing and analytics:
+
+Options Pricing Module:
+
+Use historical rainfall data and a mean-reverting (Ornstein-Uhlenbeck) or Monte Carlo simulation model for fair value calculation.
+
+Display expected value, risk, and premium for each contract.
+
+Greeks Calculation:
+
+Calculate and display Delta, Gamma, Vega, and Theta for each option contract, using the chosen pricing model.
+
+Show these metrics in the frontend for transparency and advanced users.
+
+4. Frontend Features (React.js, Robinhood-Style UI)
+Prompt:
+Upgrade the frontend with the following:
+
+Options Chain Visualization:
+
+Display a full options chain with strikes, expiries, premiums, Greeks, and real-time rainfall index.
+
+User Portfolio Dashboard:
+
+Show all user positions, open contracts, settlement status, and historical trades.
+
+Interactive Trade Modals:
+
+Simple, step-by-step buy/sell flows with clear confirmation and error handling.
+
+Live Data & Notifications:
+
+Real-time updates for rainfall index, contract status, and payouts.
+
+Push notifications for option expiry, settlement, or major weather events.
+
+Accessibility & Responsiveness:
+
+Ensure the UI is mobile-friendly and accessible.
+
+5. Liquidity & Community Pool Integration
+Prompt:
+Add support for liquidity providers and mutual aid pools:
+
+AMM Integration:
+
+Allow users to provide liquidity to option pools and earn trading fees.
+
+Show pool stats (liquidity, utilization, fee earnings).
+
+Community Pools:
+
+Enable creation and management of mutual aid pools for collective risk sharing.
+
+Add governance features (voting, proposals) for pool members.
+
+6. Security, Testing, and Documentation
+Prompt:
+Ensure best practices and usability:
+
+Comprehensive Testing:
+
+Unit and integration tests for all smart contract functions.
+
+Test edge cases for data updates, settlements, and payouts.
+
+Security Features:
+
+Add rate limiting, input validation, and emergency stop mechanisms.
+
+Documentation:
+
+Update README and in-app guides to explain all features, flows, and contract logic in English.
+
+7. Optional: AI/ML Microservice
+Prompt:
+If not already present, add a Python FastAPI microservice to:
+
+Process WeatherXM rainfall data for anomaly detection or advanced index smoothing.
+
+Provide endpoints for the frontend and smart contract to fetch processed analytics.

@@ -1,0 +1,88 @@
+Build a modern, production-ready decentralized application (DApp) for trading rainfall-based weather options on Flow EVM. The DApp uses real-time WeatherXM rainfall data for contract settlement, features a Robinhood-inspired options trading UI, and is designed for rapid development and demo in English.
+
+1. Create a New Replit Workspace
+Select the Solidity + React template (or create two Repls: one for Solidity/Hardhat, one for React.js).
+
+Project structure:
+
+/contracts — Solidity smart contracts (Hardhat)
+
+/frontend — React.js app (Robinhood-style options UI)
+
+/backend (optional) — Node.js or Python microservice for WeatherXM data
+
+2. Smart Contract Setup (Solidity, Hardhat)
+Initialize a Hardhat project in /contracts.
+
+Add OpenZeppelin contracts for security.
+
+Write a RainfallOption.sol contract with:
+
+Option creation (strike, expiry, premium, notional)
+
+Buy/sell logic
+
+Settlement logic based on rainfall index (to be updated by oracle)
+
+Events for UI updates
+
+Prepare deployment scripts for Flow EVM testnet.
+
+3. WeatherXM Data Integration
+Register for a WeatherXM API key.
+
+In /backend, create a minimal Node.js or Python script to:
+
+Fetch current rainfall data for a demo location.
+
+Prepare data for Chainlink oracle submission (mock or real, as time allows).
+
+(Optional for MVP: manually update contract with rainfall value for demo.)
+
+4. Frontend Setup (React.js)
+Scaffold a React app in /frontend.
+
+Use Tailwind CSS or Material-UI for fast, clean styling.
+
+Implement a Robinhood-style options chain:
+
+List available rainfall options (expiry, strike, premium, payoff).
+
+Simple “Buy” and “Sell” buttons with modal for trade confirmation.
+
+Wallet connect (MetaMask, WalletConnect) using Ethers.js.
+
+Dashboard to view user positions and real-time rainfall index.
+
+Settlement status and payout display.
+
+5. Blockchain Integration
+Use Ethers.js in React to:
+
+Connect to Flow EVM testnet.
+
+Read/write to RainfallOption contract.
+
+Fetch user balances, option status, and contract events.
+
+6. Documentation
+All code comments, UI text, and documentation in English.
+
+Add a README.md with:
+
+Project summary
+
+Setup instructions (install, run, deploy)
+
+Demo flow (connect wallet, buy option, see settlement)
+
+Team/contact info
+
+7. MVP Focus (6-Hour Sprint)
+Only implement rainfall options for one demo location.
+
+Use mock/manual rainfall data update if Chainlink integration is too time-consuming.
+
+Prioritize clean, intuitive UI and working buy/sell/settle flows.
+
+Make sure code is public and open-source.

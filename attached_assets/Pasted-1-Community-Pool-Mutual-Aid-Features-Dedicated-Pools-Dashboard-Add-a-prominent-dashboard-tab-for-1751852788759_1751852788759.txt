@@ -1,0 +1,106 @@
+1. Community Pool & Mutual Aid Features
+Dedicated Pools Dashboard:
+Add a prominent dashboard tab for “Community Pools” where users can:
+
+Create, join, and manage mutual aid pools.
+
+View all available pools, their rules, and join status.
+
+On-Chain Governance:
+Integrate governance tools for pool members:
+
+Propose and vote on rule changes (e.g., payout thresholds, fees).
+
+Display active proposals and voting results.
+
+Detailed Pool Stats:
+Show real-time stats for each pool:
+
+Total Value Locked (TVL)
+
+Number of members
+
+Next payout date and amount
+
+Payout history and recent activity feed
+
+Eligibility Calculator:
+Let users input their stake to estimate potential payouts for the next event.
+
+2. Weather Data Source & Oracle Transparency
+Clear Data Provenance:
+Display the weather data source (e.g., “WeatherXM via Chainlink Oracle”) in all relevant UI sections.
+
+Timestamps & Proof:
+Show timestamps and, if possible, cryptographic proof or signatures for each data update.
+
+Update Frequency & Settlement Logic:
+In the UI or documentation, explain:
+
+How often weather data is updated (on-demand, hourly, daily)
+
+How and when settlements are triggered (e.g., after expiry, or when a threshold is crossed).
+
+3. Option Pricing & Greeks Explanation
+Greeks Tooltips:
+Add tooltips or info popups that explain each Greek (e.g., Delta, Theta) in the context of weather options, using simple language and weather-specific examples.
+
+Pricing Model Disclosure:
+Briefly describe the pricing methodology (e.g., “Monte Carlo simulation using historical rainfall data”) in the UI or documentation so users understand how premiums and payouts are determined.
+
+4. Settlement & Payout Logic Transparency
+Payout History Tab:
+Add a section showing all past payouts, including:
+
+Event date
+
+Trigger condition (e.g., rainfall > 25mm)
+
+Recipients and amounts
+
+Eligibility & Distribution Logic:
+Clearly outline:
+
+How and when settlements occur (manual trigger or automatic)
+
+How payouts are distributed (equal split, proportional, needs-based)
+
+Visual eligibility indicator for each user
+
+5. User Onboarding & Documentation
+Written Onboarding Guide:
+Provide a clear, step-by-step written guide for new users covering:
+
+Wallet connection
+
+Trading options
+
+Joining community pools
+
+Understanding risk and settlement
+
+Help/FAQ Section:
+Add an in-app “Help” or “FAQ” section for quick reference on common questions and troubleshooting.
+
+6. Highlight AI Features
+AI Insights Visibility:
+Make AI-driven analytics (e.g., Monte Carlo pricing, anomaly detection, index smoothing) more prominent in the UI.
+
+Use badges or info icons with brief explanations of how AI is used for pricing, risk scoring, and data validation.
+
+Transparency for AI Decisions:
+When AI flags anomalies or suggests pricing, display a short rationale or summary so users understand the basis for these insights.
+
+7. General UX & Accessibility
+Responsive & Accessible Design:
+Ensure all new UI components are mobile-friendly and accessible, with clear labels, adequate contrast, and keyboard navigation support.
+
+Consistent Styling:
+Maintain a cohesive, modern look throughout, matching the options chain and portfolio sections.
+
+8. Security, Testing, and Auditability
+Comprehensive Testing:
+Add unit and integration tests for all new smart contract and backend features, especially for pool logic, settlement, and governance actions.
+
+Audit Trails:
+Maintain logs and on-chain records for all major actions (data updates, settlements, governance votes) to support transparency and user trust.

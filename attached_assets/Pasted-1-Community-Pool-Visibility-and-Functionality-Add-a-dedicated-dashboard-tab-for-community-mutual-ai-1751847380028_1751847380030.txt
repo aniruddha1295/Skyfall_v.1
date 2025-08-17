@@ -1,0 +1,39 @@
+1. Community Pool Visibility and Functionality
+Add a dedicated dashboard tab for community/mutual aid pools.
+
+Enable users to create, join, and manage pools directly from the UI.
+
+Implement on-chain governance features (proposals, voting) accessible within the dashboard.
+
+Display detailed pool statistics: Total Value Locked (TVL), member lists, payout history, and eligibility criteria.
+
+Add notifications and activity feeds for pool events (e.g., new members, payouts, governance actions).
+
+2. Weather Data Source and Oracle Integration
+Clearly display the provenance of weather data in the UI, e.g., “Data Source: WeatherXM, delivered on-chain via [oracle name]”.
+
+Show timestamps and cryptographic proof or signatures of data delivery for auditing and transparency.
+
+In the UI or documentation, explain how often weather data updates occur and how settlements are triggered (manual or automatic).
+
+3. Option Pricing and Greeks Explanation
+Add tooltips or info popups explaining the meaning and calculation of Greeks (e.g., Delta, Theta) specifically for weather derivatives.
+
+Briefly describe the option pricing model (e.g., Monte Carlo simulation) in the UI or documentation so users understand how premiums and payouts are determined.
+
+4. Settlement and Payout Logic Transparency
+Add a dedicated “Payout History” tab or section showing all past payout events, including date, amount, recipient, and triggering condition.
+
+Implement an “Eligibility Calculator” where users input their stake or pool contribution to estimate their potential payout.
+
+Clearly outline the settlement process in the UI or documentation, specifying whether settlements are manual or automatic and how payouts are distributed.
+
+5. User Onboarding and Documentation
+Provide a clear, written onboarding guide covering wallet connection, trading, pool participation, and risk disclosures.
+
+Add a “Help” or “FAQ” section within the app for easy reference.
+
+6. Highlight AI Features
+If AI is used for index smoothing, anomaly detection, or option pricing, make these features visible in the UI.
+
+Provide brief explanations or tooltips about how AI contributes to pricing, risk assessment, or data integrity.

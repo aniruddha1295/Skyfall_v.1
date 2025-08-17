@@ -1,0 +1,108 @@
+Integrate a conversational AI agent into the WeatherXM Rainfall Options DApp. This agent should help users structure trades using natural language, leveraging historical data, probability analysis, backtesting, and all relevant options/futures fundamentals. The agent must explain its recommendations, including max gain/loss and risk management advice, using transparent logic.
+
+1. Agent Workflow & User Experience
+Add a “Trade Assistant” or “AI Agent” button accessible from the main dashboard and options trading screens.
+
+When clicked, open a chat or prompt box where users can type questions or requests such as:
+
+“Suggest a high-probability rainfall option for Dallas next month.”
+
+“What’s the best trade if I want limited downside and a 70% chance of profit?”
+
+“Backtest a call option on rainfall for the past 5 years and show the results.”
+
+2. Data Gathering & Analysis
+The agent should:
+
+Fetch and analyze historical rainfall data for the selected location and period (using WeatherXM and on-chain data).
+
+Access the current options and futures chain, including strikes, expiries, and premiums.
+
+Run Monte Carlo simulations or historical scenario analysis to estimate trade probabilities and expected value.
+
+Backtest user-specified strategies using past data.
+
+3. Trade Structuring Logic
+Based on user input and analysis, the agent should:
+
+Recommend specific option or future contracts (type, strike, expiry) tailored to the user’s risk profile and goals.
+
+Calculate and display:
+
+Max gain
+
+Max loss
+
+Break-even point
+
+Probability of profit
+
+Suggested position size or risk management tips
+
+4. Natural Language Explanations
+For every recommendation, the agent must generate a plain-language explanation that includes:
+
+Why this trade was chosen (referencing historical data, volatility, or probability).
+
+The logic behind the strike/expiry selection.
+
+How the risk/reward profile fits the user’s request.
+
+How to manage the trade (position sizing, monitoring, exit strategy).
+
+5. Output Format
+Present results in a summary table:
+
+Trade Type	Underlying	Expiry	Strike	Premium	Max Gain	Max Loss	Prob. Profit
+Put Option	Dallas Rainfall	2025-08-01	35mm	$30	$120	$30	78%
+Follow with a detailed explanation in natural language.
+
+6. Technical Implementation
+Use Flow AI Agent or a similar LLM-based backend to:
+
+Parse user intent and context.
+
+Fetch and process historical and real-time data.
+
+Run simulations and analytics.
+
+Generate explanations and output in user-friendly language.
+
+Ensure the agent can access all relevant app data and analytics modules (historical index, options chain, simulation engine).
+
+Make the agent’s workflow and recommendations auditable and transparent for user trust.
+
+7. User Controls & Transparency
+Allow users to adjust parameters (e.g., risk level, time frame, underlying) via natural language or quick-select buttons.
+
+Provide a “Show Calculations” option for users who want to see the underlying data and logic.
+
+Clearly indicate when the agent is using historical data, simulations, or live market info.
+
+8. Example User Flow
+User clicks “AI Trade Assistant.”
+
+User types: “Find me a conservative trade with low risk and a good chance of profit for Dallas rainfall in August.”
+
+Agent analyzes historical data, runs simulations, and recommends a put option with high probability of profit.
+
+Agent displays a summary table and explains:
+
+Why this contract was chosen.
+
+The probability of profit and risk/reward.
+
+How to size the position and manage risk.
+
+Deliverables:
+
+Chat interface for natural language queries.
+
+Backend integration with historical data, analytics, and simulation modules.
+
+Clear, actionable trade recommendations with explanations and risk metrics.
+
+User controls for adjusting trade parameters and viewing calculation logic.
+
+If you need further breakdowns (such as sample agent prompts, backend architecture, or UI wireframes), specify which aspect to expand.
+

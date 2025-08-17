@@ -1,0 +1,88 @@
+1. Community Pool & Mutual Aid Features
+Add a Dedicated Community Pools Tab:
+Introduce a prominent section for "Community Pools" where users can:
+
+Create, join, and manage pools.
+
+View pool stats: Total Value Locked (TVL), member count, next payout, payout history, and activity feed.
+
+See member lists and governance proposals.
+
+On-Chain Governance:
+Allow pool members to propose and vote on changes (e.g., payout rules, eligibility). Display active proposals and voting results in the UI.
+
+Eligibility Calculator:
+Let users input their stake and estimate potential payouts for the next event.
+
+2. Weather Data Source & Oracle Transparency
+Clear Data Provenance:
+Always display the weather data source (e.g., “WeatherXM via Chainlink Oracle”) in relevant UI sections.
+
+Timestamps & Verification:
+Show timestamps and, if available, cryptographic proof for each data update to support auditability.
+
+Update Frequency & Settlement Logic:
+Clarify in the UI or documentation:
+
+How often weather data is updated (on-demand, hourly, daily).
+
+How and when settlements are triggered (e.g., after expiry, or when a threshold is crossed).
+
+3. Option Pricing & Greeks Explanation
+Greeks Tooltips:
+Add tooltips or info popups explaining each Greek (Delta, Theta, etc.) in the context of weather options, using simple language and weather-specific examples.
+
+Pricing Model Disclosure:
+Briefly describe the pricing methodology (e.g., “Monte Carlo simulation using historical rainfall data”) in the UI or documentation.
+
+4. Settlement & Payout Logic Transparency
+Payout History Tab:
+Add a section showing all past payouts, including event date, trigger condition, recipients, and amounts.
+
+Eligibility & Distribution Logic:
+Clearly outline:
+
+How and when settlements occur (manual trigger or automatic).
+
+How payouts are distributed (equal split, proportional, needs-based).
+
+Provide a visual eligibility indicator for each user.
+
+5. User Onboarding & Documentation
+Written Onboarding Guide:
+Provide a clear, step-by-step written guide for new users covering:
+
+Wallet connection
+
+Trading options
+
+Joining community pools
+
+Understanding risk and settlement
+
+Help/FAQ Section:
+Add an in-app “Help” or “FAQ” section for quick reference on common questions and troubleshooting.
+
+6. Highlight AI Features
+AI Insights Visibility:
+Make AI-driven analytics (e.g., Monte Carlo pricing, anomaly detection, index smoothing) more prominent in the UI.
+
+Use badges or info icons with brief explanations of how AI is used for pricing, risk scoring, and data validation.
+
+Transparency for AI Decisions:
+When AI flags anomalies or suggests pricing, display a short rationale so users understand the basis for these insights.
+
+7. Underlying Index Chart
+Add a Rainfall Index Chart:
+Display a line chart of the rainfall index over the past 30 days (or selectable periods). Place this chart near the options chain or in each underlying’s section.
+
+Mark strike levels or payout thresholds for clarity.
+
+Allow users to hover for exact values and see tooltips for significant events.
+
+8. General UX & Accessibility
+Responsive & Accessible Design:
+Ensure all new UI components are mobile-friendly and accessible, with clear labels, adequate contrast, and keyboard navigation support.
+
+Consistent Styling:
+Maintain a cohesive, modern look throughout, matching the options chain and portfolio sections.

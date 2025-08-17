@@ -1,0 +1,46 @@
+Adding a small info tooltip for each underlying asset (e.g., rainfall, temperature, wind index) is an excellent UX enhancement. Placing a clickable or hoverable "i" icon (or similar) on the top right of each underlying’s section allows users to quickly access key details and context without cluttering the main interface.
+
+Benefits
+Clarity: Users can instantly understand what each underlying represents, how it’s measured, and why it matters for options or pools.
+
+Transparency: Shows data provenance, update frequency, and settlement logic for each underlying.
+
+Education: Helps new users learn about weather indexes, risk factors, and contract triggers.
+
+Trust: Reinforces that the platform is data-driven and user-centric.
+
+Suggested Tooltip Content
+For each underlying, the tooltip could include:
+
+Name and Description:
+E.g., “Dallas, TX Rainfall Index — Total rainfall in millimeters measured over the last 24 hours by WeatherXM stations.”
+
+Data Source:
+E.g., “Data from WeatherXM, delivered on-chain via Chainlink Oracle.”
+
+Update Frequency:
+E.g., “Updated every hour/on demand.”
+
+Settlement Logic:
+E.g., “Options settle based on the final value at expiry. Payouts are triggered if rainfall exceeds the strike.”
+
+Timestamp and Verification:
+E.g., “Last update: 2 mins ago. Cryptographically verified.”
+
+(Optional) Link to More Info:
+“Learn more about how this index is calculated.”
+
+Implementation Tips
+Use a small, consistent icon (e.g., “i” or “?”) on the top right of each underlying’s card or section.
+
+On click (or hover), display a compact modal or dropdown with the info above.
+
+Make the tooltip accessible (keyboard and screen reader support).
+
+Allow easy updates to tooltip content as new underlyings or data sources are added.
+
+Example UI Placement
+Underlying	Tooltip Icon Placement	Content Shown When Clicked
+Dallas Rainfall	Top right of card	Description, source, update, settlement
+Dallas Temperature	Top right of card	Description, source, update, settlement
+Dallas Wind Index	Top right of card	Description, source, update, settlement

@@ -1,0 +1,1227 @@
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherTrade Pro - Institutional Weather Derivatives Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a'
+                        },
+                        dark: {
+                            100: '#f8fafc',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#0b1426'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark-950 text-dark-100 font-sans">
+    <!-- @COMPONENT: MainLayout -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- @COMPONENT: Sidebar -->
+        <div class="w-64 bg-dark-900 border-r border-dark-700 flex-shrink-0">
+            <!-- Header -->
+            <div class="p-6 border-b border-dark-700">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-cloud-rain text-white text-sm"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-white">WeatherTrade Pro</h1>
+                        <p class="text-xs text-dark-400">Institutional Platform</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="p-4 space-y-2">
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-primary-600 text-white group" data-tab="trading">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Trading</span>
+                    <i class="fas fa-info-circle ml-auto opacity-50 hover:opacity-100 cursor-help" title="Professional options trading interface with real-time data"></i>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-dark-300 hover:bg-dark-800 group" data-tab="pools">
+                    <i class="fas fa-users"></i>
+                    <span>Community Pools</span>
+                    <i class="fas fa-info-circle ml-auto opacity-50 hover:opacity-100 cursor-help" title="Mutual aid pools with on-chain governance"></i>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-dark-300 hover:bg-dark-800 group" data-tab="history">
+                    <i class="fas fa-history"></i>
+                    <span>Payout History</span>
+                    <i class="fas fa-info-circle ml-auto opacity-50 hover:opacity-100 cursor-help" title="Complete audit trail of all settlements and payouts"></i>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-dark-300 hover:bg-dark-800 group" data-tab="analytics">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Analytics</span>
+                    <div class="ml-auto flex items-center space-x-1">
+                        <span class="bg-purple-600 text-xs px-1.5 py-0.5 rounded text-white">AI</span>
+                        <i class="fas fa-info-circle opacity-50 hover:opacity-100 cursor-help" title="Monte Carlo pricing and AI-driven risk assessment"></i>
+                    </div>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-dark-300 hover:bg-dark-800 group" data-tab="help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Education</span>
+                    <i class="fas fa-info-circle ml-auto opacity-50 hover:opacity-100 cursor-help" title="Comprehensive guides and risk disclosures"></i>
+                </a>
+            </nav>
+
+            <!-- Wallet Connection -->
+            <div class="absolute bottom-6 left-4 right-4">
+                <div class="bg-dark-800 rounded-lg p-3 border border-dark-700">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <span class="text-sm text-dark-300">Flow EVM Connected</span>
+                        <i class="fas fa-info-circle text-dark-500 cursor-help" title="Connected to Flow EVM mainnet via secure COA account"></i>
+                    </div>
+                    <p class="text-xs text-dark-500 mt-1">0x1234...5678</p>
+                    <p class="text-xs text-green-400 mt-1">Balance: 1,250.50 FLOW</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- @COMPONENT: MainContent -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <div class="bg-dark-900 border-b border-dark-700 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-6">
+                        <h2 class="text-xl font-semibold" id="page-title">Options Trading</h2>
+                        <div class="flex items-center space-x-2 text-sm text-dark-400">
+                            <i class="fas fa-wifi text-green-500"></i>
+                            <span>WeatherXM via Chainlink Oracle</span>
+                            <i class="fas fa-info-circle cursor-help" title="Data from WeatherXM, delivered on-chain via Chainlink Oracle. Last update: 2 mins ago. Cryptographically verified."></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-sm text-dark-400">
+                            <span>Last Update:</span>
+                            <span class="text-green-400" id="last-update">2 mins ago</span>
+                        </div>
+                        <button class="bg-primary-600 hover:bg-primary-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fas fa-sync-alt mr-2"></i>
+                            Refresh Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-auto p-6">
+                <!-- @COMPONENT: TradingInterface -->
+                <div id="trading-content" class="space-y-6">
+                    <!-- Underlying Assets Overview -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <!-- Dallas Rainfall Index -->
+                        <div class="bg-dark-800 rounded-lg p-4 border border-dark-700 relative">
+                            <div class="absolute top-3 right-3">
+                                <i class="fas fa-info-circle text-dark-500 hover:text-primary-400 cursor-help" 
+                                   title="Dallas, TX Rainfall Index — Total rainfall in millimeters measured over the last 24 hours by WeatherXM stations. Data from WeatherXM, delivered on-chain via Chainlink Oracle. Updated every hour. Options settle based on the final value at expiry. Last update: 2 mins ago. Cryptographically verified."></i>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-cloud-rain text-blue-400 text-xl"></i>
+                                <div>
+                                    <h3 class="font-semibold">Dallas Rainfall</h3>
+                                    <p class="text-xs text-dark-400">24h Index (mm)</p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="text-2xl font-bold text-white">15.2 mm</div>
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <span class="text-green-400">+2.3</span>
+                                    <span class="text-dark-400">(+17.8%) today</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dallas Temperature Index -->
+                        <div class="bg-dark-800 rounded-lg p-4 border border-dark-700 relative">
+                            <div class="absolute top-3 right-3">
+                                <i class="fas fa-info-circle text-dark-500 hover:text-primary-400 cursor-help" 
+                                   title="Dallas, TX Temperature Index — Average temperature in Celsius over the last 24 hours. Data from WeatherXM, delivered on-chain via Chainlink Oracle. Updated every hour. Options settle based on the final value at expiry."></i>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-thermometer-half text-orange-400 text-xl"></i>
+                                <div>
+                                    <h3 class="font-semibold">Dallas Temperature</h3>
+                                    <p class="text-xs text-dark-400">24h Avg (°C)</p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="text-2xl font-bold text-white">28.5°C</div>
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <span class="text-red-400">-1.2</span>
+                                    <span class="text-dark-400">(-4.0%) today</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dallas Wind Index -->
+                        <div class="bg-dark-800 rounded-lg p-4 border border-dark-700 relative">
+                            <div class="absolute top-3 right-3">
+                                <i class="fas fa-info-circle text-dark-500 hover:text-primary-400 cursor-help" 
+                                   title="Dallas, TX Wind Index — Average wind speed in km/h over the last 24 hours. Data from WeatherXM, delivered on-chain via Chainlink Oracle. Updated every hour. Options settle based on the final value at expiry."></i>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-wind text-cyan-400 text-xl"></i>
+                                <div>
+                                    <h3 class="font-semibold">Dallas Wind Speed</h3>
+                                    <p class="text-xs text-dark-400">24h Avg (km/h)</p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="text-2xl font-bold text-white">12.8 km/h</div>
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <span class="text-green-400">+0.5</span>
+                                    <span class="text-dark-400">(+4.1%) today</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Options Chain with Chart -->
+                    <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+                        <!-- Mini Chart -->
+                        <div class="bg-dark-800 rounded-lg p-4 border border-dark-700">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold text-white">Dallas Rainfall (24h)</h3>
+                                <div class="flex items-center space-x-2">
+                                    <span class="bg-green-600 text-xs px-2 py-1 rounded text-white">Live</span>
+                                    <i class="fas fa-info-circle text-dark-500 cursor-help" title="Real-time weather index movement with 5-minute updates"></i>
+                                </div>
+                            </div>
+                            <!-- Simulated chart area -->
+                            <div class="h-48 bg-dark-900 rounded border border-dark-600 relative overflow-hidden">
+                                <!-- Chart simulation with CSS -->
+                                <div class="absolute inset-0 flex items-end justify-between px-2 py-2">
+                                    <div class="w-1 bg-blue-500 opacity-60" style="height: 30%"></div>
+                                    <div class="w-1 bg-blue-500 opacity-70" style="height: 45%"></div>
+                                    <div class="w-1 bg-blue-500 opacity-50" style="height: 25%"></div>
+                                    <div class="w-1 bg-blue-500 opacity-80" style="height: 60%"></div>
+                                    <div class="w-1 bg-blue-500 opacity-90" style="height: 75%"></div>
+                                    <div class="w-1 bg-blue-500" style="height: 85%"></div>
+                                    <div class="w-1 bg-green-500" style="height: 95%"></div>
+                                </div>
+                                <div class="absolute top-2 left-2 text-xs text-dark-400">15.2 mm</div>
+                                <div class="absolute bottom-2 right-2 text-xs text-dark-400">5-min</div>
+                            </div>
+                            <div class="mt-2 flex justify-between text-xs text-dark-400">
+                                <span>6h ago</span>
+                                <span>3h ago</span>
+                                <span>Now</span>
+                            </div>
+                        </div>
+
+                        <!-- Options Chain -->
+                        <div class="xl:col-span-3 bg-dark-800 rounded-lg border border-dark-700 overflow-hidden">
+                            <div class="p-4 border-b border-dark-700">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-white">Options Chain - Dallas Rainfall</h3>
+                                    <div class="flex items-center space-x-4">
+                                        <select class="bg-dark-700 border border-dark-600 rounded px-3 py-1 text-sm">
+                                            <option>Jan 31, 2025</option>
+                                            <option>Feb 28, 2025</option>
+                                            <option>Mar 31, 2025</option>
+                                        </select>
+                                        <div class="flex items-center space-x-1">
+                                            <span class="bg-purple-600 text-xs px-2 py-1 rounded text-white">AI Pricing</span>
+                                            <i class="fas fa-info-circle text-dark-500 cursor-help" title="Prices calculated using Monte Carlo simulation with historical rainfall data. AI-enhanced risk scoring active."></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Options Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-dark-700 text-dark-300">
+                                        <tr>
+                                            <th colspan="4" class="px-4 py-3 text-center border-r border-dark-600">CALLS</th>
+                                            <th class="px-4 py-3 text-center">STRIKE</th>
+                                            <th colspan="4" class="px-4 py-3 text-center border-l border-dark-600">PUTS</th>
+                                        </tr>
+                                        <tr class="text-xs">
+                                            <th class="px-2 py-2">
+                                                Bid
+                                                <i class="fas fa-info-circle ml-1 cursor-help" title="Highest price buyers are willing to pay"></i>
+                                            </th>
+                                            <th class="px-2 py-2">
+                                                Ask
+                                                <i class="fas fa-info-circle ml-1 cursor-help" title="Lowest price sellers are willing to accept"></i>
+                                            </th>
+                                            <th class="px-2 py-2">
+                                                Delta
+                                                <i class="fas fa-info-circle ml-1 cursor-help" title="Rate of change in option price per 1mm change in rainfall"></i>
+                                            </th>
+                                            <th class="px-2 py-2 border-r border-dark-600">
+                                                Vol
+                                                <i class="fas fa-info-circle ml-1 cursor-help" title="24h trading volume"></i>
+                                            </th>
+                                            <th class="px-2 py-2">Strike Price</th>
+                                            <th class="px-2 py-2 border-l border-dark-600">
+                                                Vol
+                                                <i class="fas fa-info-circle ml-1 cursor-help" title="24h trading volume"></i>
+                                            </th>
+                                            <th class="px-2 py-2">
+                                                Delta
+                                                <i class="fas fa-info-circle ml-1 cursor-help" title="Rate of change in option price per 1mm change in rainfall"></i>
+                                            </th>
+                                            <th class="px-2 py-2">
+                                                Ask
+                                                <i class="fas fa-info-circle ml-1 cursor-help" title="Lowest price sellers are willing to accept"></i>
+                                            </th>
+                                            <th class="px-2 py-2">Bid</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-dark-100">
+                                        <!-- Option rows -->
+                                        <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                            <td class="px-2 py-3 text-green-400">2.8</td>
+                                            <td class="px-2 py-3 text-red-400">3.2</td>
+                                            <td class="px-2 py-3">0.65</td>
+                                            <td class="px-2 py-3 border-r border-dark-600">145</td>
+                                            <td class="px-2 py-3 text-center font-semibold">10.0 mm</td>
+                                            <td class="px-2 py-3 border-l border-dark-600">89</td>
+                                            <td class="px-2 py-3">-0.35</td>
+                                            <td class="px-2 py-3 text-red-400">1.9</td>
+                                            <td class="px-2 py-3 text-green-400">1.5</td>
+                                        </tr>
+                                        <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                            <td class="px-2 py-3 text-green-400">4.1</td>
+                                            <td class="px-2 py-3 text-red-400">4.6</td>
+                                            <td class="px-2 py-3">0.72</td>
+                                            <td class="px-2 py-3 border-r border-dark-600">203</td>
+                                            <td class="px-2 py-3 text-center font-semibold">12.5 mm</td>
+                                            <td class="px-2 py-3 border-l border-dark-600">156</td>
+                                            <td class="px-2 py-3">-0.28</td>
+                                            <td class="px-2 py-3 text-red-400">3.4</td>
+                                            <td class="px-2 py-3 text-green-400">3.0</td>
+                                        </tr>
+                                        <tr class="border-b border-dark-700 hover:bg-dark-700/50 bg-dark-700/30">
+                                            <td class="px-2 py-3 text-green-400 font-semibold">6.2</td>
+                                            <td class="px-2 py-3 text-red-400 font-semibold">6.8</td>
+                                            <td class="px-2 py-3 font-semibold">0.58</td>
+                                            <td class="px-2 py-3 border-r border-dark-600 font-semibold">312</td>
+                                            <td class="px-2 py-3 text-center font-bold text-yellow-400">15.0 mm</td>
+                                            <td class="px-2 py-3 border-l border-dark-600 font-semibold">287</td>
+                                            <td class="px-2 py-3 font-semibold">-0.42</td>
+                                            <td class="px-2 py-3 text-red-400 font-semibold">5.1</td>
+                                            <td class="px-2 py-3 text-green-400 font-semibold">4.7</td>
+                                        </tr>
+                                        <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                            <td class="px-2 py-3 text-green-400">8.9</td>
+                                            <td class="px-2 py-3 text-red-400">9.5</td>
+                                            <td class="px-2 py-3">0.45</td>
+                                            <td class="px-2 py-3 border-r border-dark-600">178</td>
+                                            <td class="px-2 py-3 text-center font-semibold">17.5 mm</td>
+                                            <td class="px-2 py-3 border-l border-dark-600">134</td>
+                                            <td class="px-2 py-3">-0.55</td>
+                                            <td class="px-2 py-3 text-red-400">7.8</td>
+                                            <td class="px-2 py-3 text-green-400">7.3</td>
+                                        </tr>
+                                        <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                            <td class="px-2 py-3 text-green-400">12.1</td>
+                                            <td class="px-2 py-3 text-red-400">12.8</td>
+                                            <td class="px-2 py-3">0.32</td>
+                                            <td class="px-2 py-3 border-r border-dark-600">95</td>
+                                            <td class="px-2 py-3 text-center font-semibold">20.0 mm</td>
+                                            <td class="px-2 py-3 border-l border-dark-600">78</td>
+                                            <td class="px-2 py-3">-0.68</td>
+                                            <td class="px-2 py-3 text-red-400">11.2</td>
+                                            <td class="px-2 py-3 text-green-400">10.7</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trading Actions -->
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <h3 class="font-semibold text-white mb-4">Quick Trade</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-dark-300 mb-2">Option Type</label>
+                                    <select class="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-2">
+                                        <option>Call - 15.0mm Strike</option>
+                                        <option>Put - 15.0mm Strike</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-dark-300 mb-2">Quantity</label>
+                                    <input type="number" value="1" class="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-2" min="1">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-dark-300 mb-2">Price Limit</label>
+                                    <input type="number" value="6.5" step="0.1" class="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-2">
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bg-dark-700 rounded-lg p-4">
+                                    <h4 class="font-medium text-white mb-2">Trade Summary</h4>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-dark-400">Premium:</span>
+                                            <span class="text-white">6.5 FLOW</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-dark-400">Platform Fee:</span>
+                                            <span class="text-white">0.1 FLOW</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-dark-400">Total Cost:</span>
+                                            <span class="text-white font-semibold">6.6 FLOW</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-dark-400">Break-even:</span>
+                                            <span class="text-white">21.6 mm</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <button class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition-colors">
+                                        Buy Call
+                                    </button>
+                                    <button class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-medium transition-colors">
+                                        Buy Put
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- @COMPONENT: CommunityPoolsInterface -->
+                <div id="pools-content" class="space-y-6 hidden">
+                    <!-- Pool Creation -->
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-semibold text-white">Community Pools</h3>
+                            <button class="bg-primary-600 hover:bg-primary-700 px-4 py-2 rounded-lg font-medium transition-colors">
+                                <i class="fas fa-plus mr-2"></i>
+                                Create New Pool
+                            </button>
+                        </div>
+
+                        <!-- Active Pools -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                            <!-- Pool Card 1 -->
+                            <div class="bg-dark-700 rounded-lg p-5 border border-dark-600">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="font-semibold text-white">Dallas Flood Relief</h4>
+                                    <div class="flex items-center space-x-1">
+                                        <span class="bg-green-600 text-xs px-2 py-1 rounded text-white">Active</span>
+                                        <i class="fas fa-info-circle text-dark-500 cursor-help" title="Mutual aid pool for flood protection. Payouts triggered when 24h rainfall > 40mm. Equal distribution among members."></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Total Value Locked:</span>
+                                        <span class="text-white font-semibold">2,450 FLOW</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Members:</span>
+                                        <span class="text-white">24 contributors</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Your Stake:</span>
+                                        <span class="text-green-400">150 FLOW</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Trigger:</span>
+                                        <span class="text-white">Rainfall > 40mm</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Next Payout:</span>
+                                        <span class="text-yellow-400">~102 FLOW</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-4 border-t border-dark-600">
+                                    <div class="flex space-x-2">
+                                        <button class="flex-1 bg-primary-600 hover:bg-primary-700 text-white py-2 px-3 rounded text-sm font-medium transition-colors">
+                                            Add Stake
+                                        </button>
+                                        <button class="flex-1 bg-dark-600 hover:bg-dark-500 text-white py-2 px-3 rounded text-sm font-medium transition-colors">
+                                            Vote
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pool Card 2 -->
+                            <div class="bg-dark-700 rounded-lg p-5 border border-dark-600">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="font-semibold text-white">Texas Agricultural Pool</h4>
+                                    <div class="flex items-center space-x-1">
+                                        <span class="bg-blue-600 text-xs px-2 py-1 rounded text-white">Pending</span>
+                                        <i class="fas fa-info-circle text-dark-500 cursor-help" title="Drought protection for agricultural communities. Payouts triggered when 7-day rainfall < 5mm. Needs-based distribution."></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Total Value Locked:</span>
+                                        <span class="text-white font-semibold">1,875 FLOW</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Members:</span>
+                                        <span class="text-white">18 contributors</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Your Stake:</span>
+                                        <span class="text-dark-400">Not joined</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Trigger:</span>
+                                        <span class="text-white">7-day < 5mm</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Min. Contribution:</span>
+                                        <span class="text-yellow-400">50 FLOW</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-4 border-t border-dark-600">
+                                    <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded text-sm font-medium transition-colors">
+                                        Join Pool
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Pool Card 3 -->
+                            <div class="bg-dark-700 rounded-lg p-5 border border-dark-600">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="font-semibold text-white">Hurricane Preparedness</h4>
+                                    <div class="flex items-center space-x-1">
+                                        <span class="bg-orange-600 text-xs px-2 py-1 rounded text-white">Warning</span>
+                                        <i class="fas fa-info-circle text-dark-500 cursor-help" title="Emergency fund for severe weather events. Payouts triggered when 24h rainfall > 100mm or wind speed > 120km/h. Proportional distribution."></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Total Value Locked:</span>
+                                        <span class="text-white font-semibold">5,230 FLOW</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Members:</span>
+                                        <span class="text-white">42 contributors</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Your Stake:</span>
+                                        <span class="text-green-400">300 FLOW</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Current Risk:</span>
+                                        <span class="text-orange-400">Elevated</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-dark-400">Est. Payout:</span>
+                                        <span class="text-yellow-400">~375 FLOW</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-4 border-t border-dark-600">
+                                    <div class="flex space-x-2">
+                                        <button class="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-3 rounded text-sm font-medium transition-colors">
+                                            View Alert
+                                        </button>
+                                        <button class="flex-1 bg-dark-600 hover:bg-dark-500 text-white py-2 px-3 rounded text-sm font-medium transition-colors">
+                                            Manage
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Governance Section -->
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <h3 class="text-lg font-semibold text-white mb-4">Active Governance Proposals</h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Proposal 1 -->
+                            <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-medium text-white">Proposal #3: Reduce Flood Pool Trigger</h4>
+                                    <span class="bg-green-600 text-xs px-2 py-1 rounded text-white">Voting Open</span>
+                                </div>
+                                <p class="text-sm text-dark-300 mb-3">
+                                    Reduce the flood pool trigger from 40mm to 35mm to provide earlier protection for members based on recent weather patterns.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4 text-sm">
+                                        <span class="text-green-400">For: 18 votes</span>
+                                        <span class="text-red-400">Against: 4 votes</span>
+                                        <span class="text-dark-400">Ends in 2 days</span>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">Vote For</button>
+                                        <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">Vote Against</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Proposal 2 -->
+                            <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-medium text-white">Proposal #4: New Temperature Pool</h4>
+                                    <span class="bg-blue-600 text-xs px-2 py-1 rounded text-white">Discussion</span>
+                                </div>
+                                <p class="text-sm text-dark-300 mb-3">
+                                    Create a new community pool for extreme temperature events (> 40°C or < -10°C) with equal distribution among affected members.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4 text-sm">
+                                        <span class="text-dark-400">Minimum stake: 100 FLOW</span>
+                                        <span class="text-dark-400">Proposed by: 0x1234...5678</span>
+                                    </div>
+                                    <button class="bg-primary-600 hover:bg-primary-700 text-white px-3 py-1 rounded text-sm">Join Discussion</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eligibility Calculator -->
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <h3 class="text-lg font-semibold text-white mb-4">Payout Eligibility Calculator</h3>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-dark-300 mb-2">Select Pool</label>
+                                    <select class="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-2">
+                                        <option>Dallas Flood Relief</option>
+                                        <option>Texas Agricultural Pool</option>
+                                        <option>Hurricane Preparedness</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-dark-300 mb-2">Your Contribution (FLOW)</label>
+                                    <input type="number" value="150" class="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-2">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-dark-300 mb-2">Scenario</label>
+                                    <select class="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-2">
+                                        <option>Trigger Event Occurs</option>
+                                        <option>Moderate Event (50% payout)</option>
+                                        <option>Major Event (100% payout)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="bg-dark-700 rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-4">Payout Projection</h4>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Your Stake:</span>
+                                        <span class="text-white">150 FLOW</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Pool Share:</span>
+                                        <span class="text-white">6.12%</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Available Payout:</span>
+                                        <span class="text-white">2,450 FLOW</span>
+                                    </div>
+                                    <div class="border-t border-dark-600 pt-3">
+                                        <div class="flex justify-between">
+                                            <span class="text-dark-400">Your Projected Payout:</span>
+                                            <span class="text-green-400 font-semibold text-lg">150 FLOW</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm mt-1">
+                                            <span class="text-dark-500">Net Benefit:</span>
+                                            <span class="text-green-400">0 FLOW</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 text-xs text-dark-400">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Calculation based on equal distribution model. Actual payouts may vary based on pool rules and governance decisions.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- @COMPONENT: PayoutHistoryInterface -->
+                <div id="history-content" class="space-y-6 hidden">
+                    <div class="bg-dark-800 rounded-lg border border-dark-700 overflow-hidden">
+                        <div class="p-6 border-b border-dark-700">
+                            <h3 class="text-xl font-semibold text-white">Payout History & Audit Trail</h3>
+                            <p class="text-dark-400 mt-1">Complete transparency of all settlements and distributions</p>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-dark-700 text-dark-300">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left">Date</th>
+                                        <th class="px-4 py-3 text-left">Event Type</th>
+                                        <th class="px-4 py-3 text-left">Pool</th>
+                                        <th class="px-4 py-3 text-left">Trigger Value</th>
+                                        <th class="px-4 py-3 text-left">Recipients</th>
+                                        <th class="px-4 py-3 text-left">Total Amount</th>
+                                        <th class="px-4 py-3 text-left">Your Payout</th>
+                                        <th class="px-4 py-3 text-left">Status</th>
+                                        <th class="px-4 py-3 text-left">Proof</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-dark-100">
+                                    <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                        <td class="px-4 py-4">Jan 12, 2025</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-blue-600 text-xs px-2 py-1 rounded text-white">Flood Event</span>
+                                        </td>
+                                        <td class="px-4 py-4">Dallas Flood Relief</td>
+                                        <td class="px-4 py-4">45.2mm rainfall</td>
+                                        <td class="px-4 py-4">24 members</td>
+                                        <td class="px-4 py-4 font-semibold">2,400 FLOW</td>
+                                        <td class="px-4 py-4 text-green-400 font-semibold">100 FLOW</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-green-600 text-xs px-2 py-1 rounded text-white">Paid</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <i class="fas fa-shield-alt text-green-400 cursor-help" title="Cryptographically verified settlement with blockchain proof"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                        <td class="px-4 py-4">Dec 28, 2024</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-orange-600 text-xs px-2 py-1 rounded text-white">Drought Relief</span>
+                                        </td>
+                                        <td class="px-4 py-4">Texas Agricultural Pool</td>
+                                        <td class="px-4 py-4">2.1mm (7-day)</td>
+                                        <td class="px-4 py-4">18 members</td>
+                                        <td class="px-4 py-4 font-semibold">1,800 FLOW</td>
+                                        <td class="px-4 py-4 text-dark-400">Not member</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-green-600 text-xs px-2 py-1 rounded text-white">Paid</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <i class="fas fa-shield-alt text-green-400 cursor-help" title="Cryptographically verified settlement with blockchain proof"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                        <td class="px-4 py-4">Dec 15, 2024</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-red-600 text-xs px-2 py-1 rounded text-white">Hurricane Alert</span>
+                                        </td>
+                                        <td class="px-4 py-4">Hurricane Preparedness</td>
+                                        <td class="px-4 py-4">128mm rainfall</td>
+                                        <td class="px-4 py-4">42 members</td>
+                                        <td class="px-4 py-4 font-semibold">5,200 FLOW</td>
+                                        <td class="px-4 py-4 text-green-400 font-semibold">371 FLOW</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-green-600 text-xs px-2 py-1 rounded text-white">Paid</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <i class="fas fa-shield-alt text-green-400 cursor-help" title="Cryptographically verified settlement with blockchain proof"></i>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-dark-700 hover:bg-dark-700/50">
+                                        <td class="px-4 py-4">Nov 30, 2024</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-blue-600 text-xs px-2 py-1 rounded text-white">Options Settlement</span>
+                                        </td>
+                                        <td class="px-4 py-4">Individual Trading</td>
+                                        <td class="px-4 py-4">18.5mm expiry</td>
+                                        <td class="px-4 py-4">You</td>
+                                        <td class="px-4 py-4 font-semibold">150 FLOW</td>
+                                        <td class="px-4 py-4 text-green-400 font-semibold">150 FLOW</td>
+                                        <td class="px-4 py-4">
+                                            <span class="bg-green-600 text-xs px-2 py-1 rounded text-white">Paid</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <i class="fas fa-shield-alt text-green-400 cursor-help" title="Cryptographically verified settlement with blockchain proof"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Settlement Process Explanation -->
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <h3 class="text-lg font-semibold text-white mb-4">Settlement Process Transparency</h3>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium text-white mb-3">Automatic Settlement</h4>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center text-xs font-semibold text-white">1</div>
+                                        <div>
+                                            <p class="text-white font-medium">Data Collection</p>
+                                            <p class="text-dark-400">WeatherXM oracle updates rainfall data on-chain every hour</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center text-xs font-semibold text-white">2</div>
+                                        <div>
+                                            <p class="text-white font-medium">Trigger Evaluation</p>
+                                            <p class="text-dark-400">Smart contract automatically checks if trigger conditions are met</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center text-xs font-semibold text-white">3</div>
+                                        <div>
+                                            <p class="text-white font-medium">Settlement Execution</p>
+                                            <p class="text-dark-400">Payouts are calculated and distributed automatically to eligible wallets</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center text-xs font-semibold text-white">4</div>
+                                        <div>
+                                            <p class="text-white font-medium">Verification</p>
+                                            <p class="text-dark-400">Cryptographic proof is generated and stored on-chain for auditability</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-white mb-3">Distribution Logic</h4>
+                                <div class="space-y-4">
+                                    <div class="bg-dark-700 rounded-lg p-4">
+                                        <h5 class="font-medium text-white mb-2">Equal Split</h5>
+                                        <p class="text-dark-400 text-sm">Total pool amount divided equally among all eligible members regardless of contribution size.</p>
+                                    </div>
+                                    <div class="bg-dark-700 rounded-lg p-4">
+                                        <h5 class="font-medium text-white mb-2">Proportional</h5>
+                                        <p class="text-dark-400 text-sm">Payout amount proportional to each member's contribution to the total pool.</p>
+                                    </div>
+                                    <div class="bg-dark-700 rounded-lg p-4">
+                                        <h5 class="font-medium text-white mb-2">Needs-Based</h5>
+                                        <p class="text-dark-400 text-sm">Distribution based on verified need assessment and community voting.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- @COMPONENT: AnalyticsInterface -->
+                <div id="analytics-content" class="space-y-6 hidden">
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-semibold text-white">AI-Powered Analytics</h3>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-purple-600 text-xs px-2 py-1 rounded text-white">AI Active</span>
+                                <i class="fas fa-info-circle text-dark-500 cursor-help" title="Advanced analytics powered by Monte Carlo simulation and machine learning algorithms"></i>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights Cards -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+                            <div class="bg-dark-700 rounded-lg p-5 border border-dark-600">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-semibold text-white">Monte Carlo Pricing</h4>
+                                    <i class="fas fa-chart-line text-purple-400"></i>
+                                </div>
+                                <p class="text-sm text-dark-300 mb-3">
+                                    Option prices calculated using 10,000 simulation runs based on 5 years of historical rainfall data
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Confidence Level:</span>
+                                        <span class="text-green-400">95.2%</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Price Accuracy:</span>
+                                        <span class="text-green-400">±2.1%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-dark-700 rounded-lg p-5 border border-dark-600">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-semibold text-white">Risk Assessment</h4>
+                                    <i class="fas fa-shield-alt text-yellow-400"></i>
+                                </div>
+                                <p class="text-sm text-dark-300 mb-3">
+                                    AI-driven risk scoring based on weather patterns, seasonal trends, and climate data
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Current Risk Level:</span>
+                                        <span class="text-yellow-400">Moderate</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">7-Day Outlook:</span>
+                                        <span class="text-green-400">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-dark-700 rounded-lg p-5 border border-dark-600">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h4 class="font-semibold text-white">Anomaly Detection</h4>
+                                    <i class="fas fa-exclamation-triangle text-orange-400"></i>
+                                </div>
+                                <p class="text-sm text-dark-300 mb-3">
+                                    Machine learning algorithms detect unusual weather patterns and data irregularities
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Anomalies Detected:</span>
+                                        <span class="text-green-400">0 today</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Data Quality Score:</span>
+                                        <span class="text-green-400">98.7%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Decision Transparency -->
+                        <div class="bg-dark-700 rounded-lg p-5 border border-dark-600">
+                            <h4 class="font-semibold text-white mb-4">AI Decision Transparency</h4>
+                            
+                            <div class="space-y-4">
+                                <div class="border border-dark-600 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h5 class="font-medium text-white">Option Pricing Recommendation</h5>
+                                        <span class="text-xs text-dark-400">2 mins ago</span>
+                                    </div>
+                                    <p class="text-sm text-dark-300 mb-2">
+                                        AI suggests increasing 15mm call option premium by 5% due to increased rainfall probability
+                                    </p>
+                                    <div class="text-xs text-dark-400">
+                                        <strong>Rationale:</strong> Historical patterns show 23% higher rainfall in similar atmospheric conditions. Monte Carlo confidence: 92.3%
+                                    </div>
+                                </div>
+
+                                <div class="border border-dark-600 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h5 class="font-medium text-white">Risk Alert</h5>
+                                        <span class="text-xs text-dark-400">1 hour ago</span>
+                                    </div>
+                                    <p class="text-sm text-dark-300 mb-2">
+                                        Weather pattern analysis indicates potential flood risk in 48-72 hours
+                                    </p>
+                                    <div class="text-xs text-dark-400">
+                                        <strong>Rationale:</strong> Atmospheric pressure dropping 8mb/hour, temperature differential of 12°C, similar to historical flood events
+                                    </div>
+                                </div>
+
+                                <div class="border border-dark-600 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h5 class="font-medium text-white">Data Quality Assessment</h5>
+                                        <span class="text-xs text-dark-400">5 mins ago</span>
+                                    </div>
+                                    <p class="text-sm text-dark-300 mb-2">
+                                        All weather station data verified and within normal parameters
+                                    </p>
+                                    <div class="text-xs text-dark-400">
+                                        <strong>Rationale:</strong> Cross-validation with 5 nearby stations shows 99.2% correlation. No anomalies detected in data transmission
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Historical Analysis -->
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <h3 class="text-lg font-semibold text-white mb-4">Historical Performance Analysis</h3>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium text-white mb-3">Model Accuracy</h4>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-dark-400">Price Prediction Accuracy:</span>
+                                        <span class="text-green-400 font-semibold">94.2%</span>
+                                    </div>
+                                    <div class="w-full bg-dark-600 rounded-full h-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: 94.2%"></div>
+                                    </div>
+                                    
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-dark-400">Risk Assessment Accuracy:</span>
+                                        <span class="text-green-400 font-semibold">87.8%</span>
+                                    </div>
+                                    <div class="w-full bg-dark-600 rounded-full h-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: 87.8%"></div>
+                                    </div>
+
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-dark-400">Settlement Prediction:</span>
+                                        <span class="text-yellow-400 font-semibold">76.5%</span>
+                                    </div>
+                                    <div class="w-full bg-dark-600 rounded-full h-2">
+                                        <div class="bg-yellow-500 h-2 rounded-full" style="width: 76.5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-white mb-3">Performance Metrics</h4>
+                                <div class="bg-dark-700 rounded-lg p-4 space-y-3">
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Total Predictions:</span>
+                                        <span class="text-white">1,247</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">Successful Settlements:</span>
+                                        <span class="text-green-400">1,174</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">False Positives:</span>
+                                        <span class="text-yellow-400">42</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-dark-400">False Negatives:</span>
+                                        <span class="text-red-400">31</span>
+                                    </div>
+                                    <div class="flex justify-between border-t border-dark-600 pt-3">
+                                        <span class="text-dark-400">Overall Success Rate:</span>
+                                        <span class="text-green-400 font-semibold">94.1%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- @COMPONENT: HelpInterface -->
+                <div id="help-content" class="space-y-6 hidden">
+                    <div class="bg-dark-800 rounded-lg p-6 border border-dark-700">
+                        <h3 class="text-xl font-semibold text-white mb-6">Help & Education Center</h3>
+
+                        <!-- Quick Start Guide -->
+                        <div class="mb-8">
+                            <h4 class="text-lg font-semibold text-white mb-4">Quick Start Guide</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center mb-3">
+                                        <i class="fas fa-wallet text-white"></i>
+                                    </div>
+                                    <h5 class="font-semibold text-white mb-2">1. Connect Wallet</h5>
+                                    <p class="text-sm text-dark-300">Connect your Flow EVM compatible wallet to start trading weather derivatives</p>
+                                </div>
+                                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                                    <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mb-3">
+                                        <i class="fas fa-chart-line text-white"></i>
+                                    </div>
+                                    <h5 class="font-semibold text-white mb-2">2. Study Options</h5>
+                                    <p class="text-sm text-dark-300">Review the options chain, Greeks, and pricing to understand your positions</p>
+                                </div>
+                                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mb-3">
+                                        <i class="fas fa-handshake text-white"></i>
+                                    </div>
+                                    <h5 class="font-semibold text-white mb-2">3. Trade or Join Pools</h5>
+                                    <p class="text-sm text-dark-300">Buy individual options or join community pools for mutual protection</p>
+                                </div>
+                                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600">
+                                    <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mb-3">
+                                        <i class="fas fa-coins text-white"></i>
+                                    </div>
+                                    <h5 class="font-semibold text-white mb-2">4. Monitor & Settle</h5>
+                                    <p class="text-sm text-dark-300">Track weather data and receive automatic payouts when conditions are met</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Section -->
+                        <div class="mb-8">
+                            <h4 class="text-lg font-semibold text-white mb-4">Frequently Asked Questions</h4>
+                            <div class="space-y-4">
+                                <div class="bg-dark-700 rounded-lg border border-dark-600">
+                                    <button class="w-full text-left p-4 flex items-center justify-between">
+                                        <span class="font-medium text-white">What are weather derivatives and how do they work?</span>
+                                        <i class="fas fa-chevron-down text-dark-400"></i>
+                                    </button>
+                                    <div class="px-4 pb-4 text-sm text-dark-300">
+                                        Weather derivatives are financial instruments whose value is derived from weather-related variables like rainfall, temperature, or wind speed. They allow you to hedge against or speculate on weather events. In our platform, options pay out based on actual weather measurements from WeatherXM's decentralized network.
+                                    </div>
+                                </div>
+
+                                <div class="bg-dark-700 rounded-lg border border-dark-600">
+                                    <button class="w-full text-left p-4 flex items-center justify-between">
+                                        <span class="font-medium text-white">How are weather data and settlements verified?</span>
+                                        <i class="fas fa-chevron-down text-dark-400"></i>
+                                    </button>
+                                    <div class="px-4 pb-4 text-sm text-dark-300">
+                                        Weather data comes from WeatherXM's network of 7,000+ verified weather stations globally. Data is delivered on-chain via Chainlink oracles with cryptographic proof. All settlements are automatic and transparent, with full audit trails available in the Payout History section.
+                                    </div>
+                                </div>
+
+                                <div class="bg-dark-700 rounded-lg border border-dark-600">
+                                    <button class="w-full text-left p-4 flex items-center justify-between">
+                                        <span class="font-medium text-white">What's the difference between individual options and community pools?</span>
+                                        <i class="fas fa-chevron-down text-dark-400"></i>
+                                    </button>
+                                    <div class="px-4 pb-4 text-sm text-dark-300">
+                                        Individual options are traditional derivatives where you pay a premium for potential payout. Community pools are mutual aid funds where members contribute to a shared pool that pays out to affected members during weather events. Pools often have governance features and can use different distribution methods.
+                                    </div>
+                                </div>
+
+                                <div class="bg-dark-700 rounded-lg border border-dark-600">
+                                    <button class="w-full text-left p-4 flex items-center justify-between">
+                                        <span class="font-medium text-white">How does AI pricing work and can I trust it?</span>
+                                        <i class="fas fa-chevron-down text-dark-400"></i>
+                                    </button>
+                                    <div class="px-4 pb-4 text-sm text-dark-300">
+                                        Our AI uses Monte Carlo simulation with 5+ years of historical weather data to calculate fair option prices. The system runs 10,000+ scenarios and achieves 94.2% pricing accuracy. All AI decisions include transparent rationale explanations, and you can always see the methodology in the Analytics section.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Risk Disclosures -->
+                        <div class="mb-8">
+                            <h4 class="text-lg font-semibold text-white mb-4">Risk Disclosures</h4>
+                            <div class="bg-red-900/20 border border-red-600/30 rounded-lg p-4">
+                                <h5 class="font-semibold text-red-300 mb-2">Important Risk Information</h5>
+                                <div class="space-y-2 text-sm text-red-200">
+                                    <p>• Weather derivatives involve significant risk and may result in total loss of premium</p>
+                                    <p>• Past weather patterns do not guarantee future results</p>
+                                    <p>• Community pools are subject to governance decisions and may change payout rules</p>
+                                    <p>• Smart contract risks include potential bugs or vulnerabilities</p>
+                                    <p>• Oracle data risks include potential delays or inaccuracies in weather reporting</p>
+                                    <p>• Regulatory risks may affect the availability or legality of weather derivatives</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact & Support -->
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-4">Contact & Support</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600 text-center">
+                                    <i class="fas fa-comments text-primary-400 text-2xl mb-2"></i>
+                                    <h5 class="font-semibold text-white mb-1">Community Chat</h5>
+                                    <p class="text-sm text-dark-300">Join our Discord for real-time support</p>
+                                </div>
+                                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600 text-center">
+                                    <i class="fas fa-envelope text-green-400 text-2xl mb-2"></i>
+                                    <h5 class="font-semibold text-white mb-1">Email Support</h5>
+                                    <p class="text-sm text-dark-300">support@weathertrade.pro</p>
+                                </div>
+                                <div class="bg-dark-700 rounded-lg p-4 border border-dark-600 text-center">
+                                    <i class="fas fa-book text-purple-400 text-2xl mb-2"></i>
+                                    <h5 class="font-semibold text-white mb-1">Documentation</h5>
+                                    <p class="text-sm text-dark-300">Comprehensive guides and API docs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: MainLayout -->
+
+    <script>
+        (function() {
+            // Tab navigation functionality
+            const tabButtons = document.querySelectorAll('[data-tab]');
+            const contentSections = {
+                'trading': document.getElementById('trading-content'),
+                'pools': document.getElementById('pools-content'),
+                'history': document.getElementById('history-content'),
+                'analytics': document.getElementById('analytics-content'),
+                'help': document.getElementById('help-content')
+            };
+            const pageTitle = document.getElementById('page-title');
+
+            const titleMap = {
+                'trading': 'Options Trading',
+                'pools': 'Community Pools',
+                'history': 'Payout History',
+                'analytics': 'AI Analytics',
+                'help': 'Help & Education'
+            };
+
+            function showTab(tabName) {
+                // Hide all content sections
+                Object.values(contentSections).forEach(section => {
+                    section.classList.add('hidden');
+                });
+
+                // Show selected content
+                if (contentSections[tabName]) {
+                    contentSections[tabName].classList.remove('hidden');
+                }
+
+                // Update navigation styles
+                tabButtons.forEach(button => {
+                    button.classList.remove('bg-primary-600', 'text-white');
+                    button.classList.add('text-dark-300', 'hover:bg-dark-800');
+                });
+
+                // Highlight active tab
+                const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('bg-primary-600', 'text-white');
+                    activeButton.classList.remove('text-dark-300', 'hover:bg-dark-800');
+                }
+
+                // Update page title
+                if (titleMap[tabName]) {
+                    pageTitle.textContent = titleMap[tabName];
+                }
+            }
+
+            // Add click event listeners
+            tabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabName = button.getAttribute('data-tab');
+                    showTab(tabName);
+                });
+            });
+
+            // Simulated real-time data updates
+            function updateLastUpdateTime() {
+                const lastUpdate = document.getElementById('last-update');
+                if (lastUpdate) {
+                    const now = new Date();
+                    const minutes = Math.floor(Math.random() * 5) + 1;
+                    lastUpdate.textContent = `${minutes} min${minutes > 1 ? 's' : ''} ago`;
+                }
+            }
+
+            // Update time every 30 seconds
+            setInterval(updateLastUpdateTime, 30000);
+
+            // TODO: Implement business logic for:
+            // - Real-time weather data fetching from WeatherXM API
+            // - Options trading functionality with smart contract interaction
+            // - Community pool management and governance
+            // - Payment processing and settlement automation
+            // - AI analytics and risk assessment
+            // - User authentication and wallet integration
+        })();
+    </script>
+</body>
+</html>

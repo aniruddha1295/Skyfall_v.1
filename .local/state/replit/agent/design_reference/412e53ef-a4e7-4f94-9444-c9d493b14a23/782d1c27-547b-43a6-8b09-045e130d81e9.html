@@ -1,0 +1,641 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherFlow - Professional Weather Options Trading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0B0E14',
+                            800: '#1A1D26',
+                            700: '#252A36',
+                            600: '#3C4556',
+                            500: '#8B949E'
+                        },
+                        profit: '#00D4AA',
+                        loss: '#FF6B6B',
+                        warning: '#FFB800',
+                        success: '#39D353'
+                    },
+                    fontFamily: {
+                        'professional': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-dark-900 text-white font-professional">
+    <!-- @COMPONENT: Header [navigation and wallet connection] -->
+    <header class="bg-dark-800 border-b border-dark-700 px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-cloud-rain text-white text-sm"></i>
+                    </div>
+                    <h1 class="text-xl font-bold">WeatherFlow</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="text-blue-400 border-b-2 border-blue-400 pb-1">Trade</a>
+                    <a href="#" class="text-dark-500 hover:text-white transition-colors">Portfolio</a>
+                    <a href="#" class="text-dark-500 hover:text-white transition-colors">Pools</a>
+                    <a href="#" class="text-dark-500 hover:text-white transition-colors">Analytics</a>
+                </nav>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="hidden lg:flex items-center space-x-4 text-sm">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                        <span class="text-dark-500">Flow EVM</span>
+                    </div>
+                    <span class="text-dark-500">|</span>
+                    <span class="text-profit">FLOW: $2.34</span>
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-colors" data-event="click:connectWallet">
+                    Connect Wallet
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <div class="flex h-screen">
+        <!-- @COMPONENT: Sidebar [market selector and quick stats] -->
+        <aside class="w-80 bg-dark-800 border-r border-dark-700 flex flex-col">
+            <!-- Weather Index Selector -->
+            <div class="p-6 border-b border-dark-700">
+                <label class="block text-sm font-medium text-dark-500 mb-2">Weather Index</label>
+                <select class="w-full bg-dark-700 border border-dark-600 rounded-lg px-3 py-2 text-white" data-bind="selectedIndex">
+                    <option value="dallas-rainfall">Dallas Rainfall Index</option>
+                    <option value="houston-wind">Houston Wind Index</option>
+                    <option value="miami-hurricane">Miami Hurricane Index</option>
+                    <option value="chicago-temp">Chicago Temperature Index</option>
+                    <option value="la-wildfire">LA Wildfire Risk Index</option>
+                </select>
+            </div>
+
+            <!-- Current Index Value -->
+            <div class="p-6 border-b border-dark-700">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-profit" data-bind="currentIndexValue">47.2mm</div>
+                    <div class="text-sm text-dark-500">Current 24h Rainfall</div>
+                    <div class="flex items-center justify-center space-x-2 mt-2">
+                        <i class="fas fa-arrow-up text-profit text-sm"></i>
+                        <span class="text-profit text-sm" data-bind="indexChange">+12.4%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="p-6 space-y-4">
+                <h3 class="text-lg font-semibold">Market Stats</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Implied Vol</span>
+                        <span class="font-medium">68.2%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Open Interest</span>
+                        <span class="font-medium">1,247</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Volume (24h)</span>
+                        <span class="font-medium">892</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Total Pool TVL</span>
+                        <span class="font-medium text-profit">$2.4M</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Alert -->
+            <div class="p-6 border-t border-dark-700 mt-auto">
+                <div class="bg-warning/10 border border-warning/20 rounded-lg p-4">
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-exclamation-triangle text-warning mt-1"></i>
+                        <div>
+                            <div class="text-sm font-medium">Weather Alert</div>
+                            <div class="text-xs text-dark-500 mt-1">Heavy rainfall expected in Dallas area. Options may experience increased volatility.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <!-- @COMPONENT: MainTradingInterface [options chain and trading panels] -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Trading Header with Expiration Selector -->
+            <div class="bg-dark-800 border-b border-dark-700 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-6">
+                        <h2 class="text-lg font-semibold">Dallas Rainfall Options Chain</h2>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium">Weekly</button>
+                            <button class="px-3 py-1 bg-dark-700 text-dark-500 rounded text-sm hover:text-white">Monthly</button>
+                            <button class="px-3 py-1 bg-dark-700 text-dark-500 rounded text-sm hover:text-white">Quarterly</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4 text-sm">
+                        <span class="text-dark-500">Settlement:</span>
+                        <span class="font-medium">Jan 20, 2025 12:00 UTC</span>
+                        <span class="text-warning">3d 14h</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Options Chain Table -->
+            <div class="flex-1 overflow-auto px-6 py-4">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Calls Column -->
+                    <div>
+                        <div class="bg-dark-800 rounded-lg">
+                            <div class="p-4 border-b border-dark-700">
+                                <h3 class="text-center font-semibold text-profit">CALLS</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="space-y-1 text-xs font-medium text-dark-500 mb-3">
+                                    <div class="grid grid-cols-6 gap-2">
+                                        <span>Bid</span>
+                                        <span>Ask</span>
+                                        <span>Vol</span>
+                                        <span>Delta</span>
+                                        <span>Gamma</span>
+                                        <span>IV</span>
+                                    </div>
+                                </div>
+                                <!-- @MAP: callOptions.map(option => ( -->
+                                <div class="space-y-2" data-mock="true">
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors" data-event="click:selectOption">
+                                        <span class="text-profit">4.20</span>
+                                        <span class="text-loss">4.80</span>
+                                        <span>247</span>
+                                        <span>0.67</span>
+                                        <span>0.23</span>
+                                        <span>72.1%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">3.10</span>
+                                        <span class="text-loss">3.60</span>
+                                        <span>189</span>
+                                        <span>0.54</span>
+                                        <span>0.28</span>
+                                        <span>69.8%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">2.15</span>
+                                        <span class="text-loss">2.55</span>
+                                        <span>312</span>
+                                        <span>0.42</span>
+                                        <span>0.31</span>
+                                        <span>67.3%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">1.35</span>
+                                        <span class="text-loss">1.75</span>
+                                        <span>156</span>
+                                        <span>0.31</span>
+                                        <span>0.33</span>
+                                        <span>65.7%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">0.85</span>
+                                        <span class="text-loss">1.15</span>
+                                        <span>98</span>
+                                        <span>0.22</span>
+                                        <span>0.29</span>
+                                        <span>63.2%</span>
+                                    </div>
+                                </div>
+                                <!-- @END_MAP )) -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strikes Column -->
+                    <div>
+                        <div class="bg-dark-800 rounded-lg">
+                            <div class="p-4 border-b border-dark-700">
+                                <h3 class="text-center font-semibold">STRIKES</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="space-y-2 text-center" data-mock="true">
+                                    <div class="py-2 font-medium hover:bg-blue-600/20 rounded cursor-pointer transition-colors">40.0mm</div>
+                                    <div class="py-2 font-medium hover:bg-blue-600/20 rounded cursor-pointer transition-colors">45.0mm</div>
+                                    <div class="py-2 font-bold bg-blue-600/30 rounded">50.0mm</div>
+                                    <div class="py-2 font-medium hover:bg-blue-600/20 rounded cursor-pointer transition-colors">55.0mm</div>
+                                    <div class="py-2 font-medium hover:bg-blue-600/20 rounded cursor-pointer transition-colors">60.0mm</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Puts Column -->
+                    <div>
+                        <div class="bg-dark-800 rounded-lg">
+                            <div class="p-4 border-b border-dark-700">
+                                <h3 class="text-center font-semibold text-loss">PUTS</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="space-y-1 text-xs font-medium text-dark-500 mb-3">
+                                    <div class="grid grid-cols-6 gap-2">
+                                        <span>Bid</span>
+                                        <span>Ask</span>
+                                        <span>Vol</span>
+                                        <span>Delta</span>
+                                        <span>Gamma</span>
+                                        <span>IV</span>
+                                    </div>
+                                </div>
+                                <!-- @MAP: putOptions.map(option => ( -->
+                                <div class="space-y-2" data-mock="true">
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">0.95</span>
+                                        <span class="text-loss">1.25</span>
+                                        <span>134</span>
+                                        <span>-0.28</span>
+                                        <span>0.31</span>
+                                        <span>71.8%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">1.45</span>
+                                        <span class="text-loss">1.85</span>
+                                        <span>203</span>
+                                        <span>-0.41</span>
+                                        <span>0.33</span>
+                                        <span>68.9%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">2.30</span>
+                                        <span class="text-loss">2.70</span>
+                                        <span>287</span>
+                                        <span>-0.52</span>
+                                        <span>0.29</span>
+                                        <span>66.1%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">3.25</span>
+                                        <span class="text-loss">3.75</span>
+                                        <span>178</span>
+                                        <span>-0.63</span>
+                                        <span>0.25</span>
+                                        <span>64.7%</span>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-2 text-xs py-2 hover:bg-dark-700 rounded cursor-pointer transition-colors">
+                                        <span class="text-profit">4.40</span>
+                                        <span class="text-loss">4.90</span>
+                                        <span>156</span>
+                                        <span>-0.72</span>
+                                        <span>0.21</span>
+                                        <span>63.5%</span>
+                                    </div>
+                                </div>
+                                <!-- @END_MAP )) -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- @END_COMPONENT: MainTradingInterface -->
+
+        <!-- @COMPONENT: RightPanel [portfolio and risk management] -->
+        <aside class="w-96 bg-dark-800 border-l border-dark-700 flex flex-col">
+            <!-- Portfolio Summary -->
+            <div class="p-6 border-b border-dark-700">
+                <h3 class="text-lg font-semibold mb-4">Portfolio</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Account Value</span>
+                        <span class="font-bold text-xl">$12,847.32</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Today's P&L</span>
+                        <span class="font-medium text-profit">+$327.45 (+2.6%)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Buying Power</span>
+                        <span class="font-medium">$8,234.67</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Positions -->
+            <div class="p-6 border-b border-dark-700 flex-1 overflow-auto">
+                <h4 class="font-semibold mb-4">Open Positions</h4>
+                <div class="space-y-3" data-mock="true">
+                    <div class="bg-dark-700 rounded-lg p-3">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="text-sm font-medium">DAL50C Jan20</div>
+                            <div class="text-profit text-sm">+$124.50</div>
+                        </div>
+                        <div class="text-xs text-dark-500 space-y-1">
+                            <div class="flex justify-between">
+                                <span>Qty: 3</span>
+                                <span>Avg: $2.15</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Delta: 1.26</span>
+                                <span>Theta: -0.12</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-dark-700 rounded-lg p-3">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="text-sm font-medium">DAL45P Jan20</div>
+                            <div class="text-loss text-sm">-$67.25</div>
+                        </div>
+                        <div class="text-xs text-dark-500 space-y-1">
+                            <div class="flex justify-between">
+                                <span>Qty: -2</span>
+                                <span>Avg: $1.85</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Delta: 0.72</span>
+                                <span>Theta: +0.08</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Metrics -->
+            <div class="p-6 border-b border-dark-700">
+                <h4 class="font-semibold mb-4">Risk Metrics</h4>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Portfolio Delta</span>
+                        <span class="font-medium">+1.98</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Portfolio Gamma</span>
+                        <span class="font-medium">+0.54</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Portfolio Theta</span>
+                        <span class="font-medium text-loss">-$12.40</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Portfolio Vega</span>
+                        <span class="font-medium">+$89.20</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Trade Panel -->
+            <div class="p-6">
+                <h4 class="font-semibold mb-4">Quick Trade</h4>
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="bg-profit hover:bg-profit/80 text-black font-medium py-2 px-4 rounded transition-colors" data-event="click:openBuyModal">
+                            BUY
+                        </button>
+                        <button class="bg-loss hover:bg-loss/80 text-white font-medium py-2 px-4 rounded transition-colors" data-event="click:openSellModal">
+                            SELL
+                        </button>
+                    </div>
+                    <div class="text-xs text-dark-500 text-center">
+                        Select an option from the chain to trade
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- @END_COMPONENT: RightPanel -->
+    </div>
+
+    <!-- @COMPONENT: TradingModal [buy/sell confirmation modal] -->
+    <div id="tradingModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50" data-mock="true">
+        <div class="bg-dark-800 rounded-lg shadow-xl w-96 m-4">
+            <div class="p-6 border-b border-dark-700">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Trade Confirmation</h3>
+                    <button class="text-dark-500 hover:text-white" data-event="click:closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="bg-dark-700 rounded-lg p-4">
+                    <div class="text-center">
+                        <div class="text-xl font-bold text-profit">BUY TO OPEN</div>
+                        <div class="text-lg font-semibold mt-1">DAL50C Jan20</div>
+                        <div class="text-sm text-dark-500">Dallas Rainfall Call Option</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Strike Price</span>
+                        <span class="font-medium">50.0mm</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Expiration</span>
+                        <span class="font-medium">Jan 20, 2025</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Quantity</span>
+                        <input type="number" value="1" min="1" class="bg-dark-700 border border-dark-600 rounded px-2 py-1 w-20 text-right">
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-dark-500">Price</span>
+                        <span class="font-medium">$2.35</span>
+                    </div>
+                    <div class="flex justify-between font-semibold">
+                        <span>Total Cost</span>
+                        <span>$235.00</span>
+                    </div>
+                </div>
+
+                <div class="bg-dark-700/50 rounded-lg p-3 text-xs">
+                    <div class="space-y-1">
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Max Profit</span>
+                            <span>Unlimited</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Max Loss</span>
+                            <span>$235.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Break Even</span>
+                            <span>52.35mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex space-x-3">
+                    <button class="flex-1 bg-dark-700 hover:bg-dark-600 py-2 rounded font-medium transition-colors" data-event="click:closeModal">
+                        Cancel
+                    </button>
+                    <button class="flex-1 bg-profit hover:bg-profit/80 text-black py-2 rounded font-medium transition-colors" data-event="click:executeTrade" data-implementation="Should interact with smart contract">
+                        Confirm Trade
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: TradingModal -->
+
+    <!-- @COMPONENT: BottomPanel [liquidity pools and additional features] -->
+    <div class="fixed bottom-0 left-0 right-0 bg-dark-800 border-t border-dark-700 transform translate-y-full transition-transform duration-300" id="bottomPanel">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold">Liquidity Pools & Analytics</h3>
+                <button class="text-dark-500 hover:text-white" data-event="click:toggleBottomPanel">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Pool Stats -->
+                <div class="bg-dark-700 rounded-lg p-4">
+                    <h4 class="font-semibold mb-3">Pool Performance</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Total TVL</span>
+                            <span class="font-medium">$2.4M</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">24h Volume</span>
+                            <span class="font-medium">$89.2K</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">APY</span>
+                            <span class="font-medium text-profit">14.7%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Your Share</span>
+                            <span class="font-medium">0.23%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Analytics -->
+                <div class="bg-dark-700 rounded-lg p-4">
+                    <h4 class="font-semibold mb-3">Weather Analytics</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Forecast Accuracy</span>
+                            <span class="font-medium">87.3%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Historical Volatility</span>
+                            <span class="font-medium">42.1%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Settlement Rate</span>
+                            <span class="font-medium">94.8%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-dark-500">Oracle Updates</span>
+                            <span class="font-medium text-success">Real-time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Pool -->
+                <div class="bg-dark-700 rounded-lg p-4">
+                    <h4 class="font-semibold mb-3">Community Pool</h4>
+                    <div class="space-y-3">
+                        <div class="text-sm space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-dark-500">Pool Size</span>
+                                <span class="font-medium">$567K</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-dark-500">Members</span>
+                                <span class="font-medium">1,234</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-medium transition-colors" data-event="click:joinPool">
+                            Join Pool
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: BottomPanel -->
+
+    <!-- Panel Toggle Button -->
+    <button class="fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors" data-event="click:toggleBottomPanel">
+        <i class="fas fa-chart-bar text-white"></i>
+    </button>
+
+    <script>
+        // IIFE to avoid global namespace pollution
+        (function() {
+            // TODO: Implement blockchain connection logic
+            // TODO: Implement real-time data websocket connections
+            // TODO: Implement smart contract interactions for trading
+            
+            // Mock real-time data updates
+            function updateMarketData() {
+                const elements = document.querySelectorAll('[data-bind]');
+                // TODO: Replace with actual blockchain data fetching
+                // This is just for demo purposes
+            }
+
+            // Panel toggle functionality
+            function toggleBottomPanel() {
+                const panel = document.getElementById('bottomPanel');
+                const isOpen = !panel.classList.contains('translate-y-full');
+                
+                if (isOpen) {
+                    panel.classList.add('translate-y-full');
+                } else {
+                    panel.classList.remove('translate-y-full');
+                }
+            }
+
+            // Modal controls
+            function openTradingModal() {
+                const modal = document.getElementById('tradingModal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            function closeTradingModal() {
+                const modal = document.getElementById('tradingModal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+
+            // Event listeners
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('[data-event*="toggleBottomPanel"]')) {
+                    toggleBottomPanel();
+                }
+                if (e.target.matches('[data-event*="openBuyModal"], [data-event*="openSellModal"]')) {
+                    openTradingModal();
+                }
+                if (e.target.matches('[data-event*="closeModal"]') || e.target.closest('#tradingModal') === e.target) {
+                    closeTradingModal();
+                }
+                if (e.target.matches('[data-event*="connectWallet"]')) {
+                    // TODO: Implement wallet connection logic
+                    console.log('Connecting wallet...');
+                }
+                if (e.target.matches('[data-event*="executeTrade"]')) {
+                    // TODO: Implement smart contract trading logic
+                    console.log('Executing trade...');
+                    closeTradingModal();
+                }
+            });
+
+            // Simulate real-time updates
+            setInterval(updateMarketData, 5000);
+        })();
+    </script>
+</body>
+</html>

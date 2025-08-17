@@ -1,0 +1,115 @@
+1. Smart Contract Layer (Solidity, Hardhat)
+Prompt:
+
+Add a Solidity smart contract for rainfall-based options.
+
+Include functions for:
+
+Creating new option contracts (strike, expiry, premium, notional, location)
+
+Buying and selling options
+
+Settling options based on a rainfall index
+
+Emitting events for UI updates
+
+Use OpenZeppelin libraries for security.
+
+Prepare deployment scripts for Flow EVM testnet.
+
+2. WeatherXM Data Integration
+Prompt:
+
+Set up a backend service (Node.js or Python) to:
+
+Fetch real-time rainfall data from the WeatherXM API for a demo location.
+
+Format and relay rainfall data to the smart contract for settlement.
+
+For MVP, allow manual update of rainfall data for demo/testing if oracle integration is not ready.
+
+3. Oracle/On-Chain Data Bridge
+Prompt:
+
+Integrate an oracle mechanism (e.g., Chainlink or mock oracle) to bring WeatherXM rainfall data on-chain:
+
+The smart contract should have a function that can be called to update the rainfall index from the backend/oracle.
+
+Ensure data integrity and verifiability for settlement.
+
+4. AI/Index Calculation Microservice (Optional for MVP)
+Prompt:
+
+Add a Python FastAPI microservice to:
+
+Process raw WeatherXM rainfall data into a robust index (e.g., 24h or 7-day cumulative rainfall).
+
+(Optional) Run basic anomaly detection or smoothing for the index.
+
+Expose endpoints for the backend/frontend to fetch the processed index.
+
+5. Frontend (React.js, Robinhood-Style UI)
+Prompt:
+
+Build a React.js frontend styled after Robinhood’s options UI:
+
+Display an options chain: expiration, strike, premium, payoff, break-even.
+
+Add clear “Buy” and “Sell” buttons with modal trade confirmation.
+
+Show user positions, real-time rainfall index, and settlement status.
+
+Integrate wallet connection (MetaMask, WalletConnect) using Ethers.js.
+
+Use Tailwind CSS or Material-UI for a clean, modern look.
+
+6. Blockchain Integration (Ethers.js)
+Prompt:
+
+In the frontend, use Ethers.js to:
+
+Connect to Flow EVM testnet
+
+Interact with the RainfallOption contract: read options, buy/sell, check balances, and listen for events
+
+Display transaction status and confirmations
+
+7. Documentation and Demo
+Prompt:
+
+Add a clear README.md in English that includes:
+
+Project summary and key features
+
+Setup instructions (install, run, deploy)
+
+Demo flow: connect wallet, buy option, see settlement
+
+Team/contact info
+
+8. Security and Testing
+Prompt:
+
+Add unit tests for the smart contracts using Hardhat.
+
+Test option creation, purchase, settlement, and event emission.
+
+Use OpenZeppelin test helpers for best practices.
+
+9. MVP Focus for Hackathon
+Prompt:
+
+For the 6-hour MVP:
+
+Focus on rainfall options for one location
+
+Use manual or mock rainfall updates if oracle integration is not feasible
+
+Ensure the UI is intuitive and all flows (buy, sell, settle) are working
+
+Make all code and documentation public and in English
+
+10. (Optional) Add Greeks and Pricing Model
+Prompt:
+
+Add a simple module to calculate and display the Greeks (Delta, Gamma, Vega, Theta) for each option, using a Monte Carlo or historical simulation approach for rainfall index options.

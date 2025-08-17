@@ -1,0 +1,529 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RainFlow - Weather Options Trading</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-primary': '#1C1C1E',
+                        'dark-secondary': '#2C2C2E',
+                        'dark-tertiary': '#38383A',
+                        'success': '#00C805',
+                        'danger': '#FF3B30',
+                        'primary-blue': '#007AFF',
+                        'text-secondary': '#8E8E93'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark-primary text-white font-inter">
+    <!-- @COMPONENT: Header [navigation and wallet connection] -->
+    <header class="bg-dark-secondary border-b border-dark-tertiary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-xl font-bold text-white">
+                            <i class="fas fa-cloud-rain text-primary-blue mr-2"></i>
+                            RainFlow
+                        </h1>
+                    </div>
+                    <nav class="hidden md:block ml-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="#" class="text-white px-3 py-2 rounded-md text-sm font-medium bg-dark-primary">Trade</a>
+                            <a href="#" class="text-text-secondary hover:text-white px-3 py-2 rounded-md text-sm font-medium">Portfolio</a>
+                            <a href="#" class="text-text-secondary hover:text-white px-3 py-2 rounded-md text-sm font-medium">History</a>
+                            <a href="#" class="text-text-secondary hover:text-white px-3 py-2 rounded-md text-sm font-medium">Analytics</a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:block text-sm text-text-secondary">
+                        Flow EVM • <span class="text-success">Connected</span>
+                    </div>
+                    <button class="bg-primary-blue hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-wallet mr-2"></i>
+                        0x1a2b...3c4d
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- @COMPONENT: MarketOverview [current weather data and market stats] -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2">
+                <div class="bg-dark-secondary rounded-xl p-6 border border-dark-tertiary">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 class="text-xl font-semibold mb-1">Real-Time Rainfall Index</h2>
+                            <p class="text-text-secondary text-sm">WeatherXM Network • San Francisco, CA</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-success" data-bind="currentRainfall">12.4mm</div>
+                            <div class="text-sm text-success">+2.1mm (↗ 20%)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Simulated Chart Area -->
+                    <div class="h-48 bg-dark-primary rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                        <!-- @FUNCTIONALITY: This chart should implement real-time rainfall data visualization using Chart.js or similar -->
+                        <div class="w-full h-full relative">
+                            <!-- Simulated chart bars -->
+                            <div class="absolute bottom-0 left-0 w-full h-full flex items-end space-x-1 px-4 py-4">
+                                <div class="bg-primary-blue w-3 h-8 rounded-t"></div>
+                                <div class="bg-primary-blue w-3 h-12 rounded-t"></div>
+                                <div class="bg-primary-blue w-3 h-16 rounded-t"></div>
+                                <div class="bg-primary-blue w-3 h-24 rounded-t"></div>
+                                <div class="bg-success w-3 h-32 rounded-t"></div>
+                                <div class="bg-success w-3 h-28 rounded-t"></div>
+                                <div class="bg-success w-3 h-36 rounded-t"></div>
+                                <div class="bg-success w-3 h-20 rounded-t"></div>
+                                <div class="bg-primary-blue w-3 h-14 rounded-t"></div>
+                                <div class="bg-primary-blue w-3 h-18 rounded-t"></div>
+                            </div>
+                            <div class="absolute top-4 left-4 text-text-secondary text-xs">
+                                <div>20mm</div>
+                                <div class="mt-8">15mm</div>
+                                <div class="mt-8">10mm</div>
+                                <div class="mt-8">5mm</div>
+                            </div>
+                            <div class="absolute bottom-2 left-4 right-4 flex justify-between text-text-secondary text-xs">
+                                <span>Jan 10</span>
+                                <span>Jan 11</span>
+                                <span>Jan 12</span>
+                                <span>Jan 13</span>
+                                <span>Jan 14</span>
+                                <span>Jan 15</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-lg font-semibold" data-bind="weatherStation.temperature">18°C</div>
+                            <div class="text-text-secondary text-sm">Temperature</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-semibold" data-bind="weatherStation.humidity">76%</div>
+                            <div class="text-text-secondary text-sm">Humidity</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-semibold" data-bind="weatherStation.pressure">1013mb</div>
+                            <div class="text-text-secondary text-sm">Pressure</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-dark-secondary rounded-xl p-6 border border-dark-tertiary">
+                    <h3 class="text-lg font-semibold mb-3">Market Summary</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-text-secondary">Total Volume</span>
+                            <span class="font-medium">$2.4M</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-text-secondary">Active Contracts</span>
+                            <span class="font-medium">1,247</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-text-secondary">Open Interest</span>
+                            <span class="font-medium">$8.9M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-secondary rounded-xl p-6 border border-dark-tertiary">
+                    <h3 class="text-lg font-semibold mb-3">Your Portfolio</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-text-secondary">Total Value</span>
+                            <span class="font-medium text-success">$12,450</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-text-secondary">Today's P&L</span>
+                            <span class="font-medium text-success">+$234 (1.9%)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-text-secondary">Open Positions</span>
+                            <span class="font-medium">7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: MarketOverview -->
+
+        <!-- @COMPONENT: OptionsChain [trading interface with buy/sell options] -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-dark-secondary rounded-xl border border-dark-tertiary">
+                <div class="p-6 border-b border-dark-tertiary">
+                    <h2 class="text-xl font-semibold mb-2">Options Chain</h2>
+                    <p class="text-text-secondary text-sm">Rainfall options expiring January 30, 2025</p>
+                </div>
+                
+                <div class="p-6">
+                    <!-- Options Table Header -->
+                    <div class="grid grid-cols-5 gap-4 text-text-secondary text-sm font-medium mb-4">
+                        <div>Strike</div>
+                        <div>Type</div>
+                        <div>Premium</div>
+                        <div>Volume</div>
+                        <div>Action</div>
+                    </div>
+
+                    <!-- @MAP: optionsData.map(option => ( -->
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-5 gap-4 items-center py-3 px-3 rounded-lg hover:bg-dark-primary transition-colors">
+                            <div class="font-medium" data-bind="option.strike">15mm</div>
+                            <div class="text-success text-sm">CALL</div>
+                            <div class="font-medium" data-bind="option.premium">$0.45</div>
+                            <div class="text-text-secondary text-sm" data-bind="option.volume">2.1K</div>
+                            <button data-event="click:handleBuyOption" class="bg-success hover:bg-green-600 px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Buy
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-5 gap-4 items-center py-3 px-3 rounded-lg hover:bg-dark-primary transition-colors">
+                            <div class="font-medium">20mm</div>
+                            <div class="text-success text-sm">CALL</div>
+                            <div class="font-medium">$0.32</div>
+                            <div class="text-text-secondary text-sm">1.8K</div>
+                            <button class="bg-success hover:bg-green-600 px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Buy
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-5 gap-4 items-center py-3 px-3 rounded-lg hover:bg-dark-primary transition-colors">
+                            <div class="font-medium">25mm</div>
+                            <div class="text-success text-sm">CALL</div>
+                            <div class="font-medium">$0.18</div>
+                            <div class="text-text-secondary text-sm">950</div>
+                            <button class="bg-success hover:bg-green-600 px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Buy
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-5 gap-4 items-center py-3 px-3 rounded-lg hover:bg-dark-primary transition-colors">
+                            <div class="font-medium">10mm</div>
+                            <div class="text-danger text-sm">PUT</div>
+                            <div class="font-medium">$0.28</div>
+                            <div class="text-text-secondary text-sm">1.2K</div>
+                            <button class="bg-danger hover:bg-red-600 px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Buy
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-5 gap-4 items-center py-3 px-3 rounded-lg hover:bg-dark-primary transition-colors">
+                            <div class="font-medium">8mm</div>
+                            <div class="text-danger text-sm">PUT</div>
+                            <div class="font-medium">$0.52</div>
+                            <div class="text-text-secondary text-sm">780</div>
+                            <button class="bg-danger hover:bg-red-600 px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Buy
+                            </button>
+                        </div>
+                    </div>
+                    <!-- @END_MAP )) -->
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- @COMPONENT: ActivePositions [user's current holdings] -->
+                <div class="bg-dark-secondary rounded-xl border border-dark-tertiary">
+                    <div class="p-6 border-b border-dark-tertiary">
+                        <h2 class="text-xl font-semibold">Active Positions</h2>
+                    </div>
+                    
+                    <div class="p-6 space-y-4">
+                        <!-- @MAP: userPositions.map(position => ( -->
+                        <div class="flex justify-between items-center p-3 rounded-lg bg-dark-primary">
+                            <div>
+                                <div class="font-medium" data-bind="position.details">20mm CALL</div>
+                                <div class="text-text-secondary text-sm" data-bind="position.expiry">Exp: Jan 30</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-medium" data-bind="position.quantity">5 contracts</div>
+                                <div class="text-success text-sm" data-bind="position.pnl">+$145 (12%)</div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center p-3 rounded-lg bg-dark-primary">
+                            <div>
+                                <div class="font-medium">15mm CALL</div>
+                                <div class="text-text-secondary text-sm">Exp: Jan 30</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-medium">3 contracts</div>
+                                <div class="text-danger text-sm">-$32 (5%)</div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center p-3 rounded-lg bg-dark-primary">
+                            <div>
+                                <div class="font-medium">10mm PUT</div>
+                                <div class="text-text-secondary text-sm">Exp: Feb 15</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-medium">2 contracts</div>
+                                <div class="text-success text-sm">+$89 (18%)</div>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: ActivePositions -->
+
+                <!-- @COMPONENT: WeatherStations [nearby weather data sources] -->
+                <div class="bg-dark-secondary rounded-xl border border-dark-tertiary">
+                    <div class="p-6 border-b border-dark-tertiary">
+                        <h2 class="text-xl font-semibold">WeatherXM Stations</h2>
+                    </div>
+                    
+                    <div class="p-6 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">SF Downtown</div>
+                                <div class="text-text-secondary text-sm">0.8 km away</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-success text-sm">● Online</div>
+                                <div class="text-text-secondary text-sm">Last: 2min ago</div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">Mission District</div>
+                                <div class="text-text-secondary text-sm">3.2 km away</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-success text-sm">● Online</div>
+                                <div class="text-text-secondary text-sm">Last: 1min ago</div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">Golden Gate Park</div>
+                                <div class="text-text-secondary text-sm">5.1 km away</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-success text-sm">● Online</div>
+                                <div class="text-text-secondary text-sm">Last: 3min ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: WeatherStations -->
+            </div>
+        </div>
+        <!-- @END_COMPONENT: OptionsChain -->
+
+        <!-- @COMPONENT: TradingHistory [recent transactions and settlements] -->
+        <div class="mt-8 bg-dark-secondary rounded-xl border border-dark-tertiary">
+            <div class="p-6 border-b border-dark-tertiary">
+                <h2 class="text-xl font-semibold">Recent Activity</h2>
+            </div>
+            
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-text-secondary text-sm">
+                                <th class="text-left py-3">Time</th>
+                                <th class="text-left py-3">Contract</th>
+                                <th class="text-left py-3">Action</th>
+                                <th class="text-left py-3">Quantity</th>
+                                <th class="text-left py-3">Price</th>
+                                <th class="text-left py-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="space-y-2">
+                            <!-- @MAP: tradingHistory.map(trade => ( -->
+                            <tr class="border-t border-dark-tertiary">
+                                <td class="py-3 text-text-secondary text-sm" data-bind="trade.timestamp">14:32</td>
+                                <td class="py-3 font-medium" data-bind="trade.contract">20mm CALL Jan30</td>
+                                <td class="py-3">
+                                    <span class="bg-success px-2 py-1 rounded text-xs" data-bind="trade.action">BUY</span>
+                                </td>
+                                <td class="py-3" data-bind="trade.quantity">5</td>
+                                <td class="py-3" data-bind="trade.price">$0.32</td>
+                                <td class="py-3">
+                                    <span class="text-success text-sm" data-bind="trade.status">Filled</span>
+                                </td>
+                            </tr>
+
+                            <tr class="border-t border-dark-tertiary">
+                                <td class="py-3 text-text-secondary text-sm">13:28</td>
+                                <td class="py-3 font-medium">15mm CALL Jan30</td>
+                                <td class="py-3">
+                                    <span class="bg-danger px-2 py-1 rounded text-xs">SELL</span>
+                                </td>
+                                <td class="py-3">2</td>
+                                <td class="py-3">$0.48</td>
+                                <td class="py-3">
+                                    <span class="text-success text-sm">Filled</span>
+                                </td>
+                            </tr>
+
+                            <tr class="border-t border-dark-tertiary">
+                                <td class="py-3 text-text-secondary text-sm">12:15</td>
+                                <td class="py-3 font-medium">25mm CALL Feb15</td>
+                                <td class="py-3">
+                                    <span class="bg-success px-2 py-1 rounded text-xs">BUY</span>
+                                </td>
+                                <td class="py-3">3</td>
+                                <td class="py-3">$0.18</td>
+                                <td class="py-3">
+                                    <span class="text-warning text-sm">Pending</span>
+                                </td>
+                            </tr>
+                            <!-- @END_MAP )) -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: TradingHistory -->
+    </div>
+
+    <!-- @COMPONENT: TradingModal [order confirmation dialog] -->
+    <!-- @STATE: isModalOpen:boolean = false -->
+    <div id="tradingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-dark-secondary rounded-xl border border-dark-tertiary max-w-md w-full">
+            <div class="p-6 border-b border-dark-tertiary">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Confirm Order</h3>
+                    <button id="closeModal" class="text-text-secondary hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Contract</span>
+                        <span class="font-medium" data-bind="selectedOption.details">20mm CALL Jan30</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Action</span>
+                        <span class="font-medium text-success" data-bind="selectedOption.action">BUY</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Quantity</span>
+                        <input type="number" value="1" min="1" class="bg-dark-primary border border-dark-tertiary rounded px-2 py-1 text-right w-20">
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-text-secondary">Premium</span>
+                        <span class="font-medium" data-bind="selectedOption.premium">$0.32</span>
+                    </div>
+                    <div class="flex justify-between border-t border-dark-tertiary pt-4">
+                        <span class="font-medium">Total Cost</span>
+                        <span class="font-medium text-lg" data-bind="order.totalCost">$0.32</span>
+                    </div>
+                </div>
+                
+                <div class="mt-6 space-y-3">
+                    <button data-event="click:handleSubmitOrder" class="w-full bg-success hover:bg-green-600 py-3 rounded-lg font-medium transition-colors">
+                        <!-- @FUNCTIONALITY: Should validate form and submit order to smart contract -->
+                        Confirm Order
+                    </button>
+                    <button id="cancelOrder" class="w-full bg-dark-tertiary hover:bg-gray-600 py-3 rounded-lg font-medium transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: TradingModal -->
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-dark-secondary border-t border-dark-tertiary">
+        <div class="grid grid-cols-4 text-center">
+            <button class="py-3 text-primary-blue">
+                <i class="fas fa-chart-line text-lg"></i>
+                <div class="text-xs mt-1">Trade</div>
+            </button>
+            <button class="py-3 text-text-secondary">
+                <i class="fas fa-briefcase text-lg"></i>
+                <div class="text-xs mt-1">Portfolio</div>
+            </button>
+            <button class="py-3 text-text-secondary">
+                <i class="fas fa-history text-lg"></i>
+                <div class="text-xs mt-1">History</div>
+            </button>
+            <button class="py-3 text-text-secondary">
+                <i class="fas fa-chart-bar text-lg"></i>
+                <div class="text-xs mt-1">Analytics</div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        
+        // Simple modal functionality for demo
+        (function() {
+            const modal = document.getElementById('tradingModal');
+            const closeModal = document.getElementById('closeModal');
+            const cancelOrder = document.getElementById('cancelOrder');
+            const buyButtons = document.querySelectorAll('[data-event="click:handleBuyOption"]');
+
+            function openModal() {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            buyButtons.forEach(button => {
+                button.addEventListener('click', openModal);
+            });
+
+            closeModal.addEventListener('click', hideModal);
+            cancelOrder.addEventListener('click', hideModal);
+
+            // Close modal when clicking backdrop
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+        })();
+
+        // Simulated real-time data updates
+        (function() {
+            function updateRainfallData() {
+                const currentRainfall = document.querySelector('[data-bind="currentRainfall"]');
+                if (currentRainfall) {
+                    const value = (Math.random() * 20 + 5).toFixed(1);
+                    currentRainfall.textContent = `${value}mm`;
+                }
+            }
+
+            // Update every 5 seconds for demo
+            setInterval(updateRainfallData, 5000);
+        })();
+    </script>
+</body>
+</html>

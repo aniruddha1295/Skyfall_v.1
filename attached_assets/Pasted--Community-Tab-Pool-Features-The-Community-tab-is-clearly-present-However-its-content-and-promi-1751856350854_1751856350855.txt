@@ -1,0 +1,61 @@
+. Community Tab & Pool Features
+The Community tab is clearly present. However, its content and prominence could be further optimized:
+
+Pool Stats & Activity: Consider making key metrics (TVL, member count, next payout, recent activity) more visually prominent within the tab for instant scanning.
+
+Governance Actions: If proposals or voting are supported, ensure these are highly visible and actionable, not buried in submenus.
+
+Eligibility Calculator: If not already present, add a clear input for users to estimate their potential payout based on their stake.
+
+2. Data Provenance & Oracle Transparency
+The rainfall and weather index data are shown, but the source and update timing are not immediately visible:
+
+Data Source: Clearly label each data widget with its source (e.g., “WeatherXM via Chainlink Oracle”).
+
+Timestamps: Display the last update time and, if possible, a verification badge or hash for auditability.
+
+3. Option Pricing & Greeks
+Greeks (Delta, Theta) are displayed, but there’s no immediate explanation for non-expert users:
+
+Add tooltips or info icons next to each Greek, briefly explaining its meaning in the context of weather options.
+
+Consider a short description of the pricing model (e.g., “Monte Carlo simulation using historical rainfall data”) near the premium or in a help section.
+
+4. Settlement & Payout Logic
+Payout history and eligibility are not immediately visible:
+
+Add a dedicated section or tab for Payout History showing past events, triggers, recipients, and amounts.
+
+Clearly indicate how and when settlements occur, and how payouts are distributed (equal split, proportional, etc.).
+
+If possible, provide a visual eligibility indicator for each user.
+
+5. Underlying Index Chart
+The rainfall index is referenced, but a visual chart (e.g., 30-day rainfall trend) is not visible:
+
+Add an interactive line chart for the underlying index, with strike levels and payout triggers marked for clarity.
+
+Allow users to hover for exact values and see tooltips for significant events.
+
+6. AI Features
+AI insights are mentioned, but their role and impact are not obvious:
+
+Make AI-driven analytics (Monte Carlo pricing, anomaly detection, smoothing) more prominent.
+
+Use info icons or badges with brief explanations of how AI is used for pricing, risk scoring, and data validation.
+
+7. User Onboarding & Documentation
+The app is feature-rich, but new users may need more guidance:
+
+Add a step-by-step written onboarding guide covering wallet connection, trading, pool participation, and settlement.
+
+Include a Help or FAQ section for quick reference.
+
+8. General UX & Accessibility
+Ensure all UI components are mobile-friendly and accessible, with clear labels, high contrast, and keyboard support.
+
+Maintain consistent styling across all sections, especially as new features are added.
+
+Summary:
+The core features are present, including the Community tab. Focus on making pool metrics, governance, and payout logic more prominent and transparent; clarify data and AI provenance; add educational tooltips and visualizations; and enhance onboarding for a more robust, user-friendly, and competitive platform.
+

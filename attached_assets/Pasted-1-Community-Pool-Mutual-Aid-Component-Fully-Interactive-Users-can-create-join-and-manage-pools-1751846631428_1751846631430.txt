@@ -1,0 +1,90 @@
+1. Community Pool / Mutual Aid Component
+Fully Interactive:
+Users can create, join, and manage pools directly from the UI.
+
+On-Chain Governance:
+Proposals and voting are visible and actionable in the dashboard.
+
+Dashboard Stats:
+Real-time pool stats (TVL, member list, recent payouts) are shown with detailed breakdowns.
+
+Notifications/Activity Feeds:
+Users receive updates for pool events, e.g., new members, triggered payouts.
+
+2. Weather Data Source and Oracle Integration
+Data Sources:
+Use both WeatherXM’s oracle and Chainlink for redundancy and trust.
+
+Backend Relay:
+The backend fetches, formats, and relays weather data on-chain (rather than the contract pulling directly).
+
+Update Frequency:
+Rainfall data is updated on-chain on demand (when needed for settlement or user action).
+
+Data Provenance:
+UI displays proof of source, timestamp, and other contextual details for auditing and transparency.
+
+3. Option Pricing and Greeks
+Live Calculation:
+Option pricing and Greeks are calculated live in the frontend or backend (Python or JS).
+
+Pricing Model:
+Use Monte Carlo simulation for weather option pricing.
+
+UI Tooltips:
+Tooltips/info popups explain each Greek and its weather-specific meaning.
+
+Subset for MVP:
+Only display a subset of Greeks (e.g., Delta and Theta) for MVP—expand later as needed.
+
+4. Settlement and Payout Logic
+Manual Trigger/Approval:
+Settlement and payouts can be manually triggered/approved for MVP (automate later).
+
+Customizable Payout Logic:
+Community pools support equal split, needs-based, or proportional payouts.
+
+Visibility:
+Payout events and eligibility criteria are highly visible in the UI.
+Example:
+
+Dedicated “Payout History” tab showing event, date, recipients, and amount.
+
+Eligibility calculator where users can input their stake and see potential payout.
+
+Automatic Payouts:
+Once triggered, payouts are pushed automatically to eligible wallets (no user claim required).
+
+5. User Onboarding and Documentation
+Written Guide:
+A clear, written guide in the documentation is sufficient for onboarding.
+
+Walkthroughs in Docs:
+No need for interactive UI walkthroughs at this stage.
+
+Risk Disclosures:
+No special compliance/risk notices required for MVP.
+
+Documentation Hosting:
+No need to host docs within the DApp—external resources are fine for now.
+
+Example: Payout Visibility Section
+Payout History Tab Example:
+
+Event	Date	Pool Name	Recipients	Amount	Trigger
+Flood Payout	2025-07-03	Dallas Pool	12 members	$1,200	Rainfall > 60mm
+Drought Relief	2025-06-20	Texas Agri	8 members	$800	Rainfall < 10mm
+Eligibility Calculator Example:
+
+User enters their pool contribution and sees projected payout for the next event.
+
+UI displays: “With your stake of $100, you would receive $120 if the next payout is triggered.”
+
+Summary Table: Your Feature Decisions
+Feature Area	Your Choice/Preference
+Community Pool UI	Fully interactive, with on-chain governance and detailed stats
+Weather Data Integration	WeatherXM + Chainlink, backend relays on-chain, on-demand updates, provenance in UI
+Option Pricing/Greeks	Live calculation (Python/JS), Monte Carlo, tooltips, subset of Greeks for MVP
+Settlement/Payouts	Manual trigger for MVP, customizable logic, payouts pushed automatically, high visibility
+Onboarding/Docs	Written guide only, no in-app walkthrough, no risk notices, external docs acceptable
+This clear, detailed scope can be handed directly to your dev team or AI assistant to ensure all critical and advanced features are implemented as you envision. If you need code snippets, UI wireframes, or further breakdowns for any section, just ask!
