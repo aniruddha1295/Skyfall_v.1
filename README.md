@@ -1,8 +1,8 @@
-# 🌦️ SkyHedge - Advanced Weather Derivatives DApp
+# 🌦️ Skyfall - Advanced Weather Derivatives DApp
 
 <div align="center">
 
-![SkyHedge Logo](https://img.shields.io/badge/SkyHedge-AI%20Powered%20Trading-blue?style=for-the-badge&logo=thunderbird)
+![Skyfall Logo](https://img.shields.io/badge/Skyfall-AI%20Powered%20Trading-blue?style=for-the-badge&logo=thunderbird)
 
 **🚀 Production-ready weather derivatives DApp featuring multi-chain blockchain integration, hybrid oracle networks, real-time weather data visualization, AI-powered trading recommendations, and comprehensive portfolio management for professional weather risk management solutions.**
 
@@ -154,7 +154,7 @@ FLARE_RPC_URL=https://coston2-api.flare.network/ext/bc/C/rpc
 FLARE_PRIVATE_KEY=your_flare_testnet_private_key
 
 # Database
-DATABASE_URL=postgresql://username:password@localhost:5432/skyhedge
+DATABASE_URL=postgresql://username:password@localhost:5432/skyfall
 
 # Production Settings
 NODE_ENV=development

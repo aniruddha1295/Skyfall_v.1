@@ -1,4 +1,4 @@
-# Flow EVM Smart Contract Deployment - SkyHedge RainfallIndex
+# Flow EVM Smart Contract Deployment - Skyfall RainfallIndex
 
 ## Overview
 This document outlines the comprehensive deployment of the RainfallIndex smart contract on Flow EVM, including detailed contract specifications, deployment procedures, and integration guidelines.
@@ -315,7 +315,7 @@ await window.ethereum.request({
 
 ## Deployment Status: ✅ COMPLETED
 
-The RainfallIndex smart contract has been successfully deployed on Flow EVM with full integration into the SkyHedge platform. The contract is now ready for trading rainfall-based weather derivatives with real-time oracle data integration.
+The RainfallIndex smart contract has been successfully deployed on Flow EVM with full integration into the Skyfall platform. The contract is now ready for trading rainfall-based weather derivatives with real-time oracle data integration.
 
 **Network**: Flow EVM Testnet (Chain ID: 545)
 **Status**: Active and operational

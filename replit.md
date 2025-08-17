@@ -1,13 +1,13 @@
-# SkyHedge - Weather Derivatives DApp
+# Skyfall - Weather Derivatives DApp
 
 ## Overview
-SkyHedge is a decentralized application (DApp) on Flow EVM for trading rainfall-based weather derivatives. It enables users to trade weather options, participate in community mutual aid pools, and leverage AI for risk assessment and trade optimization. The project aims to provide a comprehensive trading platform with sophisticated pricing models and community governance, integrating real-time weather data from multiple oracle sources.
+Skyfall is a decentralized application (DApp) on Flow EVM for trading rainfall-based weather derivatives. It enables users to trade weather options, participate in community mutual aid pools, and leverage AI for risk assessment and trade optimization. The project aims to provide a comprehensive trading platform with sophisticated pricing models and community governance, integrating real-time weather data from multiple oracle sources.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
 ## System Architecture
-SkyHedge features a full-stack architecture with a React 18 frontend (TypeScript, Vite, Tailwind CSS, shadcn/ui, TanStack Query), an Express.js backend (TypeScript, RESTful API), and a PostgreSQL database (Drizzle ORM). The application integrates with the Flow EVM testnet for blockchain operations.
+Skyfall features a full-stack architecture with a React 18 frontend (TypeScript, Vite, Tailwind CSS, shadcn/ui, TanStack Query), an Express.js backend (TypeScript, RESTful API), and a PostgreSQL database (Drizzle ORM). The application integrates with the Flow EVM testnet for blockchain operations.
 
 Core components include:
 - **Weather Options Trading System**: Offers options chains, Monte Carlo-based pricing, risk analytics (Greeks), and automated settlement.

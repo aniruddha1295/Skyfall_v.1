@@ -110,7 +110,7 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Play className="h-6 w-6 text-primary" />
-            Getting Started with SkyHedge
+            Getting Started with Skyfall
           </DialogTitle>
         </DialogHeader>
         
