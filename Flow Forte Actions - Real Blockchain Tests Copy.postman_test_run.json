@@ -1,0 +1,360 @@
+{
+	"id": "90fab3bc-3bf8-4d25-bacb-07be0e63478c",
+	"name": "Flow Forte Actions - Real Blockchain Tests Copy",
+	"timestamp": "2025-10-28T18:55:02.296Z",
+	"collection_id": "48841485-640c11c6-a724-49b8-84c4-94a3730aee73",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 7,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-10-28T18:54:55.426Z",
+	"totalFail": 16,
+	"results": [
+		{
+			"id": "732bdd7f-cc17-403f-a223-0a9922945db7",
+			"name": "1. Health Check - Verify Blockchain Connection",
+			"url": "http://localhost:5000/api/flow-actions/health",
+			"time": 398,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Health check returns success": true,
+				"Emulator is running": false,
+				"Contracts are deployed": false,
+				"Block height is greater than 0": false
+			},
+			"testPassFailCounts": {
+				"Health check returns success": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Emulator is running": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Contracts are deployed": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Block height is greater than 0": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				398
+			],
+			"allTests": [
+				{
+					"Health check returns success": true,
+					"Emulator is running": false,
+					"Contracts are deployed": false,
+					"Block height is greater than 0": false
+				}
+			]
+		},
+		{
+			"id": "4b20b850-2d82-4433-86ff-2cb27773d645",
+			"name": "2. Get Initial Weather Stations (Should be empty)",
+			"url": "http://localhost:5000/api/flow-actions/stations",
+			"time": 331,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Stations endpoint works": true,
+				"Returns stations array": true
+			},
+			"testPassFailCounts": {
+				"Stations endpoint works": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns stations array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				331
+			],
+			"allTests": [
+				{
+					"Stations endpoint works": true,
+					"Returns stations array": true
+				}
+			]
+		},
+		{
+			"id": "4d31b9f7-90d7-4806-873f-2da20564d805",
+			"name": "3. Create Weather Update Action (REAL BLOCKCHAIN TX)",
+			"url": "http://localhost:5000/api/flow-actions/weather-update",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Weather update action created successfully": false,
+				"Returns transaction ID (proof of blockchain tx)": false,
+				"Returns action ID": true
+			},
+			"testPassFailCounts": {
+				"Weather update action created successfully": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Returns transaction ID (proof of blockchain tx)": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Returns action ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Weather update action created successfully": false,
+					"Returns transaction ID (proof of blockchain tx)": false,
+					"Returns action ID": true
+				}
+			]
+		},
+		{
+			"id": "2dfee8ca-1763-4cd1-b006-9c25111d4c81",
+			"name": "4. Verify Weather Data Stored on Blockchain",
+			"url": "http://localhost:5000/api/flow-actions/weather/POSTMAN_TEST_1761677697",
+			"time": 334,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Weather data retrieved from blockchain": false,
+				"Weather data matches what we stored": false,
+				"Data has blockchain timestamp": false
+			},
+			"testPassFailCounts": {
+				"Weather data retrieved from blockchain": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Weather data matches what we stored": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Data has blockchain timestamp": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				334
+			],
+			"allTests": [
+				{
+					"Weather data retrieved from blockchain": false,
+					"Weather data matches what we stored": false,
+					"Data has blockchain timestamp": false
+				}
+			]
+		},
+		{
+			"id": "d1977fae-2b19-4ae8-8cfe-e6700833c9d9",
+			"name": "5. Verify Station Added to Blockchain",
+			"url": "http://localhost:5000/api/flow-actions/stations",
+			"time": 319,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Station count increased": false,
+				"Our test station is in the list": false
+			},
+			"testPassFailCounts": {
+				"Station count increased": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Our test station is in the list": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				319
+			],
+			"allTests": [
+				{
+					"Station count increased": false,
+					"Our test station is in the list": false
+				}
+			]
+		},
+		{
+			"id": "c2865de4-b8b0-45ac-aba7-8a6b9814c5e1",
+			"name": "6. Create Weather Hedge Action (REAL BLOCKCHAIN TX)",
+			"url": "http://localhost:5000/api/flow-actions/weather-hedge",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Weather hedge action created successfully": false,
+				"Returns transaction ID (proof of blockchain tx)": false,
+				"Returns option details": true
+			},
+			"testPassFailCounts": {
+				"Weather hedge action created successfully": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Returns transaction ID (proof of blockchain tx)": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Returns option details": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Weather hedge action created successfully": false,
+					"Returns transaction ID (proof of blockchain tx)": false,
+					"Returns option details": true
+				}
+			]
+		},
+		{
+			"id": "7fa74403-d4b9-46d5-bfc2-cac4fdeae7f7",
+			"name": "7. Verify Weather Options on Blockchain",
+			"url": "http://localhost:5000/api/flow-actions/options",
+			"time": 310,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Options retrieved from blockchain": true,
+				"At least one option exists": false,
+				"Options have required fields": true
+			},
+			"testPassFailCounts": {
+				"Options retrieved from blockchain": {
+					"pass": 1,
+					"fail": 0
+				},
+				"At least one option exists": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Options have required fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				310
+			],
+			"allTests": [
+				{
+					"Options retrieved from blockchain": true,
+					"At least one option exists": false,
+					"Options have required fields": true
+				}
+			]
+		},
+		{
+			"id": "1e463582-43c4-48fa-bd60-b0dceec78b19",
+			"name": "8. Test Batch Weather Sync (Multiple Stations)",
+			"url": "http://localhost:5000/api/flow-actions/sync-weather",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Batch sync completed successfully": false,
+				"All stations synced successfully": false,
+				"Each result has transaction ID": false
+			},
+			"testPassFailCounts": {
+				"Batch sync completed successfully": {
+					"pass": 0,
+					"fail": 1
+				},
+				"All stations synced successfully": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Each result has transaction ID": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Batch sync completed successfully": false,
+					"All stations synced successfully": false,
+					"Each result has transaction ID": false
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1709,
+	"collection": {
+		"requests": [
+			{
+				"id": "732bdd7f-cc17-403f-a223-0a9922945db7",
+				"method": "GET"
+			},
+			{
+				"id": "4b20b850-2d82-4433-86ff-2cb27773d645",
+				"method": "GET"
+			},
+			{
+				"id": "4d31b9f7-90d7-4806-873f-2da20564d805",
+				"method": "POST"
+			},
+			{
+				"id": "2dfee8ca-1763-4cd1-b006-9c25111d4c81",
+				"method": "GET"
+			},
+			{
+				"id": "d1977fae-2b19-4ae8-8cfe-e6700833c9d9",
+				"method": "GET"
+			},
+			{
+				"id": "c2865de4-b8b0-45ac-aba7-8a6b9814c5e1",
+				"method": "POST"
+			},
+			{
+				"id": "7fa74403-d4b9-46d5-bfc2-cac4fdeae7f7",
+				"method": "GET"
+			},
+			{
+				"id": "1e463582-43c4-48fa-bd60-b0dceec78b19",
+				"method": "POST"
+			}
+		]
+	}
+}

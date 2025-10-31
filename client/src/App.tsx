@@ -8,6 +8,8 @@ import Dashboard from "@/pages/dashboard";
 import { FlowAIPage } from "@/pages/flow-ai";
 import FlareWindFutures from "@/components/flare/FlareWindFutures";
 import StakingPage from "@/pages/staking";
+import { FlowActionsPanel } from "@/components/FlowActionsPanel";
+import { LiveTestnetDashboard } from "@/components/live-testnet/LiveTestnetDashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -15,6 +17,8 @@ function Router() {
     <Switch>
       <Route path="/" component={Dashboard} />
       <Route path="/flow-ai" component={FlowAIPage} />
+      <Route path="/flow-actions" component={FlowActionsPanel} />
+      <Route path="/live-testnet" component={LiveTestnetDashboard} />
       <Route path="/flare-wind-futures" component={FlareWindFutures} />
       <Route path="/staking" component={StakingPage} />
       <Route component={NotFound} />

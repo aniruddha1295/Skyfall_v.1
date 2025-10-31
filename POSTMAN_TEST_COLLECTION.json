@@ -1,0 +1,412 @@
+{
+  "info": {
+    "name": "Flow Forte Actions - Real Blockchain Tests",
+    "description": "Comprehensive tests to verify Flow blockchain integration is working (not mock)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Health Check - Verify Blockchain Connection",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "health"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Health check returns success', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('Emulator is running', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.emulatorRunning).to.be.true;",
+              "});",
+              "",
+              "pm.test('Contracts are deployed', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.contractsDeployed).to.be.true;",
+              "});",
+              "",
+              "pm.test('Block height is greater than 0', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.blockHeight).to.be.greaterThan(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Get Initial Weather Stations (Should be empty)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/stations",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "stations"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Stations endpoint works', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('Returns stations array', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.stations).to.be.an('array');",
+              "});",
+              "",
+              "// Store initial count for comparison",
+              "const response = pm.response.json();",
+              "pm.globals.set('initialStationCount', response.data.count);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Create Weather Update Action (REAL BLOCKCHAIN TX)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"stationId\": \"POSTMAN_TEST_{{$timestamp}}\",\n  \"rainfall\": 25.5,\n  \"windSpeed\": 15.2,\n  \"temperature\": 22.0,\n  \"source\": \"Postman_Test\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/weather-update",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "weather-update"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Weather update action created successfully', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('Returns transaction ID (proof of blockchain tx)', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.transactionId).to.exist;",
+              "    pm.expect(response.data.transactionId).to.be.a('string');",
+              "    pm.expect(response.data.transactionId.length).to.be.greaterThan(10);",
+              "});",
+              "",
+              "pm.test('Returns action ID', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.actionId).to.exist;",
+              "});",
+              "",
+              "// Store station ID for later tests",
+              "const requestBody = JSON.parse(pm.request.body.raw);",
+              "pm.globals.set('testStationId', requestBody.stationId);",
+              "",
+              "// Store transaction ID for verification",
+              "const response = pm.response.json();",
+              "pm.globals.set('weatherTxId', response.data.transactionId);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Verify Weather Data Stored on Blockchain",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/weather/{{testStationId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "weather", "{{testStationId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Wait 2 seconds for blockchain to process",
+              "setTimeout(function(){}, 2000);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Weather data retrieved from blockchain', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('Weather data matches what we stored', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.rainfall).to.equal(25.5);",
+              "    pm.expect(response.data.windSpeed).to.equal(15.2);",
+              "    pm.expect(response.data.temperature).to.equal(22.0);",
+              "    pm.expect(response.data.source).to.equal('Postman_Test');",
+              "});",
+              "",
+              "pm.test('Data has blockchain timestamp', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.timestamp).to.exist;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Verify Station Added to Blockchain",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/stations",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "stations"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Station count increased', function () {",
+              "    const response = pm.response.json();",
+              "    const initialCount = parseInt(pm.globals.get('initialStationCount'));",
+              "    pm.expect(response.data.count).to.be.greaterThan(initialCount);",
+              "});",
+              "",
+              "pm.test('Our test station is in the list', function () {",
+              "    const response = pm.response.json();",
+              "    const testStationId = pm.globals.get('testStationId');",
+              "    pm.expect(response.data.stations).to.include(testStationId);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Create Weather Hedge Action (REAL BLOCKCHAIN TX)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"stationId\": \"{{testStationId}}\",\n  \"optionType\": 0,\n  \"strike\": 100.0,\n  \"premium\": 5.0,\n  \"expiry\": {{$timestamp}}000,\n  \"totalSupply\": 10\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/weather-hedge",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "weather-hedge"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Weather hedge action created successfully', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('Returns transaction ID (proof of blockchain tx)', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.transactionId).to.exist;",
+              "    pm.expect(response.data.transactionId).to.be.a('string');",
+              "});",
+              "",
+              "pm.test('Returns option details', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.optionDetails).to.exist;",
+              "    pm.expect(response.data.optionDetails.strike).to.equal(100);",
+              "    pm.expect(response.data.optionDetails.premium).to.equal(5);",
+              "});",
+              "",
+              "// Store hedge transaction ID",
+              "const response = pm.response.json();",
+              "pm.globals.set('hedgeTxId', response.data.transactionId);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Verify Weather Options on Blockchain",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/options",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "options"]
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Wait 2 seconds for blockchain to process",
+              "setTimeout(function(){}, 2000);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Options retrieved from blockchain', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('At least one option exists', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.count).to.be.greaterThan(0);",
+              "});",
+              "",
+              "pm.test('Options have required fields', function () {",
+              "    const response = pm.response.json();",
+              "    if (response.data.options.length > 0) {",
+              "        const option = response.data.options[0];",
+              "        pm.expect(option.optionId).to.exist;",
+              "        pm.expect(option.stationId).to.exist;",
+              "        pm.expect(option.strike).to.exist;",
+              "        pm.expect(option.premium).to.exist;",
+              "    }",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Test Batch Weather Sync (Multiple Stations)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"stations\": [\n    {\n      \"stationId\": \"BATCH_TEST_1_{{$timestamp}}\",\n      \"rainfall\": 30.0,\n      \"windSpeed\": 20.0,\n      \"temperature\": 25.0,\n      \"source\": \"Batch_Test\"\n    },\n    {\n      \"stationId\": \"BATCH_TEST_2_{{$timestamp}}\",\n      \"rainfall\": 15.0,\n      \"windSpeed\": 10.0,\n      \"temperature\": 18.0,\n      \"source\": \"Batch_Test\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/flow-actions/sync-weather",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "flow-actions", "sync-weather"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Batch sync completed successfully', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.success).to.be.true;",
+              "});",
+              "",
+              "pm.test('All stations synced successfully', function () {",
+              "    const response = pm.response.json();",
+              "    pm.expect(response.data.successCount).to.equal(2);",
+              "    pm.expect(response.data.totalCount).to.equal(2);",
+              "});",
+              "",
+              "pm.test('Each result has transaction ID', function () {",
+              "    const response = pm.response.json();",
+              "    response.data.results.forEach(result => {",
+              "        pm.expect(result.success).to.be.true;",
+              "        pm.expect(result.actionId).to.exist;",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global setup for all requests",
+          "console.log('Running Flow Forte Actions Test Suite...');"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test cleanup",
+          "if (pm.response.code !== 200) {",
+          "    console.log('Response Body:', pm.response.text());",
+          "}"
+        ]
+      }
+    }
+  ]
+}

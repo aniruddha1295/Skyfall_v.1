@@ -390,6 +390,30 @@ export default function Dashboard() {
           </Card>
         </div>
 
+        {/* Live Testnet Banner */}
+        <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                Live Flow Testnet Integration
+              </h3>
+              <p className="text-sm text-white/90">
+                Experience Forte Actions + Scheduled Transactions on live blockchain
+              </p>
+            </div>
+            <Link href="/live-testnet">
+              <Button 
+                variant="secondary" 
+                className="bg-white text-green-600 hover:bg-gray-100"
+              >
+                <CheckCircle className="h-4 w-4 mr-2" />
+                View Live Contracts
+              </Button>
+            </Link>
+          </div>
+        </div>
+
         {/* Tab Navigation */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4 sm:mb-6 w-full">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 bg-secondary p-0.5 gap-0.5 h-auto">

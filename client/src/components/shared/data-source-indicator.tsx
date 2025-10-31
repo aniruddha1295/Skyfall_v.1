@@ -64,39 +64,20 @@ export function DataSourceIndicator({
               </Badge>
             </TooltipTrigger>
             <TooltipContent>
-              <div className="text-xs">
-                <div>Primary Source: {primary}</div>
-                {backup && <div>Backup: {backup}</div>}
-                <div>Confidence: {(confidence * 100).toFixed(1)}%</div>
-              </div>
+              <div className="text-xs">Cross-validated across sources</div>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-
-        {crossValidated && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <CheckCircle className="h-3 w-3 text-green-400" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <div className="text-xs">Cross-validated across sources</div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         )}
 
         {blockchainVerified && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Shield className="h-3 w-3 text-blue-400" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <div className="text-xs">Blockchain verified</div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Shield className="h-3 w-3 text-blue-400" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <div className="text-xs">Blockchain verified</div>
+            </TooltipContent>
+          </Tooltip>
         )}
 
         <span className={`text-[10px] sm:text-xs font-mono ${getConfidenceColor(confidence)}`}>
