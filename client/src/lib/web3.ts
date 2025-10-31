@@ -137,14 +137,41 @@ export class Web3Wallet {
   }
 
   async disconnect(): Promise<void> {
-    // MetaMask doesn't have a programmatic disconnect
-    // Just clear our state
-    this.setState({
-      isConnected: false,
-      address: null,
-      chainId: null,
-      error: null
-    });
+    try {
+      // Clear local state first
+      this.setState({
+        isConnected: false,
+        address: null,
+        chainId: null,
+        error: null
+      });
+
+      // Note: MetaMask doesn't support programmatic disconnect
+      // Users need to disconnect manually from MetaMask extension
+      // This clears the app's connection state only
+      
+      // Optional: Clear any cached permissions (experimental)
+      if (window.ethereum?.request) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_revokePermissions',
+            params: [{ eth_accounts: {} }]
+          });
+        } catch (error) {
+          // wallet_revokePermissions is not supported by all wallets
+          console.log('Permission revocation not supported');
+        }
+      }
+    } catch (error) {
+      console.warn('Disconnect error:', error);
+      // Still clear local state even if permission revocation fails
+      this.setState({
+        isConnected: false,
+        address: null,
+        chainId: null,
+        error: null
+      });
+    }
   }
 
   async switchNetwork(chainId: number): Promise<void> {

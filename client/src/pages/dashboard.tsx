@@ -100,6 +100,12 @@ export default function Dashboard() {
             </div>
             
             <div className="flex items-center space-x-3">
+              <Link href="/live-testnet">
+                <Button variant="default" size="sm" className="text-xs bg-green-600 hover:bg-green-700">
+                  <Activity className="h-4 w-4 mr-1" />
+                  Live Testnet
+                </Button>
+              </Link>
               <Link href="/flare-wind-futures">
                 <Button variant="outline" size="sm" className="text-xs">
                   <Wind className="h-4 w-4 mr-1" />
@@ -210,6 +216,30 @@ export default function Dashboard() {
               <Play className="h-4 w-4 mr-2" />
               Get Started
             </Button>
+          </div>
+        </div>
+
+        {/* Live Testnet Banner */}
+        <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                Live Flow Testnet Integration
+              </h3>
+              <p className="text-sm text-white/90">
+                Experience Forte Actions + Scheduled Transactions on live blockchain
+              </p>
+            </div>
+            <Link href="/live-testnet">
+              <Button 
+                variant="secondary" 
+                className="bg-white text-green-600 hover:bg-gray-100"
+              >
+                <CheckCircle className="h-4 w-4 mr-2" />
+                View Live Contracts
+              </Button>
+            </Link>
           </div>
         </div>
 
