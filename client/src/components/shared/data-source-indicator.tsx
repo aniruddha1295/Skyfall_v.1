@@ -53,12 +53,14 @@ export function DataSourceIndicator({
 
   if (compact) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 min-w-0">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Badge variant="secondary" className={`text-xs ${getSourceColor(primary)} border`}>
-                {primary === "weatherxm" ? "OpenWeather" : primary.toUpperCase()}
+              <Badge variant="secondary" className={`text-[10px] sm:text-xs ${getSourceColor(primary)} border px-1.5 sm:px-2`}>
+                <span className="truncate">
+                  {primary === "weatherxm" ? "OWM" : primary.slice(0, 3).toUpperCase()}
+                </span>
               </Badge>
             </TooltipTrigger>
             <TooltipContent>
@@ -97,7 +99,7 @@ export function DataSourceIndicator({
           </TooltipProvider>
         )}
 
-        <span className={`text-xs font-mono ${getConfidenceColor(confidence)}`}>
+        <span className={`text-[10px] sm:text-xs font-mono ${getConfidenceColor(confidence)}`}>
           {(confidence * 100).toFixed(0)}%
         </span>
       </div>
