@@ -53,51 +53,34 @@ export function DataSourceIndicator({
 
   if (compact) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 min-w-0">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Badge variant="secondary" className={`text-xs ${getSourceColor(primary)} border`}>
-                {primary === "weatherxm" ? "OpenWeather" : primary.toUpperCase()}
+              <Badge variant="secondary" className={`text-[10px] sm:text-xs ${getSourceColor(primary)} border px-1.5 sm:px-2`}>
+                <span className="truncate">
+                  {primary === "weatherxm" ? "OWM" : primary.slice(0, 3).toUpperCase()}
+                </span>
               </Badge>
             </TooltipTrigger>
             <TooltipContent>
-              <div className="text-xs">
-                <div>Primary Source: {primary}</div>
-                {backup && <div>Backup: {backup}</div>}
-                <div>Confidence: {(confidence * 100).toFixed(1)}%</div>
-              </div>
+              <div className="text-xs">Cross-validated across sources</div>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-
-        {crossValidated && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <CheckCircle className="h-3 w-3 text-green-400" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <div className="text-xs">Cross-validated across sources</div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         )}
 
         {blockchainVerified && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Shield className="h-3 w-3 text-blue-400" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <div className="text-xs">Blockchain verified</div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Shield className="h-3 w-3 text-blue-400" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <div className="text-xs">Blockchain verified</div>
+            </TooltipContent>
+          </Tooltip>
         )}
 
-        <span className={`text-xs font-mono ${getConfidenceColor(confidence)}`}>
+        <span className={`text-[10px] sm:text-xs font-mono ${getConfidenceColor(confidence)}`}>
           {(confidence * 100).toFixed(0)}%
         </span>
       </div>

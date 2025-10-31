@@ -1,35 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Wallet, Copy, Check, ExternalLink, LogOut, AlertCircle } from "lucide-react";
-import { useWallet } from "@/lib/web3";
 import { useToast } from "@/hooks/use-toast";
+import { 
+  authenticate, 
+  unauthenticate, 
+  getCurrentUser, 
+  subscribeToUser 
+} from "@/lib/flow-config";
 
 export function WalletButton() {
-  const { 
-    isConnected, 
-    address, 
-    chainId, 
-    isLoading, 
-    error,
-    connect, 
-    disconnect,
-    switchNetwork 
-  } = useWallet();
-  
+  const [flowUser, setFlowUser] = useState<any>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
 
-  const copyAddress = async () => {
-    if (address) {
+  useEffect(() => {
+    initializeFlowWallet();
+  }, []);
+
+  const initializeFlowWallet = async () => {
+    try {
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('FCL timeout')), 5000)
+      );
+      
+      const user = await Promise.race([
+        getCurrentUser(),
+        timeoutPromise
+      ]);
+      
+      setFlowUser(user);
+      setIsConnected(user?.loggedIn || false);
+
+      // Subscribe to user changes with error handling
       try {
-        await navigator.clipboard.writeText(address);
+        subscribeToUser((user: any) => {
+          setFlowUser(user);
+          setIsConnected(user?.loggedIn || false);
+        });
+      } catch (subscribeError) {
+        console.warn('FCL subscription failed, continuing without live updates:', subscribeError);
+      }
+    } catch (error) {
+      console.warn('Flow wallet initialization failed (continuing in offline mode):', error);
+      // Don't show error to user - just continue without wallet
+      setFlowUser(null);
+      setIsConnected(false);
+    }
+  };
+
+  const copyAddress = async () => {
+    if (flowUser?.addr) {
+      try {
+        await navigator.clipboard.writeText(flowUser.addr);
         setCopied(true);
         toast({
-          title: "Address copied",
-          description: "Wallet address copied to clipboard",
+          title: "Flow address copied",
+          description: "Flow wallet address copied to clipboard",
         });
         setTimeout(() => setCopied(false), 2000);
       } catch (error) {
@@ -43,32 +76,35 @@ export function WalletButton() {
   };
 
   const formatAddress = (addr: string) => {
-    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+    return `${addr.slice(0, 8)}...${addr.slice(-6)}`;
   };
 
   const handleConnect = async () => {
     try {
-      await connect();
+      setIsLoading(true);
+      await authenticate();
       toast({
-        title: "Wallet connected",
-        description: "Successfully connected to MetaMask",
+        title: "Flow wallet connected",
+        description: "Successfully connected to Flow wallet",
       });
     } catch (error: any) {
       toast({
         title: "Connection failed",
-        description: error.message || "Failed to connect wallet",
+        description: error.message || "Failed to connect Flow wallet",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDisconnect = async () => {
     try {
-      await disconnect();
+      await unauthenticate();
       setShowWalletModal(false);
       toast({
-        title: "Wallet disconnected",
-        description: "Successfully disconnected wallet",
+        title: "Flow wallet disconnected",
+        description: "Successfully disconnected from Flow wallet",
       });
     } catch (error: any) {
       toast({
@@ -79,22 +115,12 @@ export function WalletButton() {
     }
   };
 
-  const getNetworkName = (chainId: number | null) => {
-    switch (chainId) {
-      case 1: return "Ethereum Mainnet";
-      case 11155111: return "Sepolia Testnet";
-      case 747: return "Flow EVM Testnet";
-      default: return `Chain ${chainId}`;
-    }
+  const getNetworkName = () => {
+    return "Flow Testnet";
   };
 
-  const getNetworkColor = (chainId: number | null) => {
-    switch (chainId) {
-      case 1: return "bg-blue-500";
-      case 11155111: return "bg-purple-500";
-      case 747: return "bg-green-500";
-      default: return "bg-gray-500";
-    }
+  const getNetworkColor = () => {
+    return "bg-green-500";
   };
 
   // Loading state
@@ -107,40 +133,26 @@ export function WalletButton() {
     );
   }
 
-  // Error state
-  if (error && !isConnected) {
-    return (
-      <Button
-        onClick={handleConnect}
-        variant="destructive"
-        className="flex items-center gap-2"
-      >
-        <AlertCircle className="h-4 w-4" />
-        Retry Connection
-      </Button>
-    );
-  }
-
   // Connected state
-  if (isConnected && address) {
+  if (isConnected && flowUser?.addr) {
     return (
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2 bg-secondary/50 rounded-lg px-3 py-2">
-          <div className={`w-2 h-2 rounded-full ${getNetworkColor(chainId)}`} />
+          <div className={`w-2 h-2 rounded-full ${getNetworkColor()}`} />
           <span className="text-sm text-muted-foreground">
-            {getNetworkName(chainId)}
+            {getNetworkName()}
           </span>
         </div>
         
         <Button
           variant="outline"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-gradient-to-r from-green-50 to-blue-50 border-green-200"
           onClick={() => setShowWalletModal(true)}
         >
-          <Wallet className="h-4 w-4" />
-          <span className="hidden sm:block">{formatAddress(address)}</span>
-          <Badge variant="secondary" className="hidden md:flex">
-            Connected
+          <Wallet className="h-4 w-4 text-green-600" />
+          <span className="hidden sm:block text-green-700">{formatAddress(flowUser.addr)}</span>
+          <Badge variant="secondary" className="hidden md:flex bg-green-100 text-green-700">
+            Flow Connected
           </Badge>
         </Button>
 
@@ -156,20 +168,20 @@ export function WalletButton() {
             
             <div className="space-y-6">
               {/* Network Info */}
-              <div className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg">
+              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
                 <span className="text-sm text-muted-foreground">Network</span>
                 <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getNetworkColor(chainId)}`} />
-                  <span className="text-sm">{getNetworkName(chainId)}</span>
+                  <div className={`w-2 h-2 rounded-full ${getNetworkColor()}`} />
+                  <span className="text-sm text-green-700">{getNetworkName()}</span>
                 </div>
               </div>
 
               {/* Address */}
               <div className="space-y-2">
-                <label className="text-xs text-muted-foreground">Wallet Address</label>
+                <label className="text-xs text-muted-foreground">Flow Wallet Address</label>
                 <div className="flex items-center gap-2 p-3 bg-secondary/20 rounded-lg">
                   <span className="text-sm font-mono flex-1 break-all">
-                    {address}
+                    {flowUser?.addr}
                   </span>
                   <Button
                     size="sm"
@@ -193,14 +205,12 @@ export function WalletButton() {
                   size="sm"
                   className="flex items-center gap-2 flex-1"
                   onClick={() => {
-                    const explorerUrl = chainId === 1 
-                      ? `https://etherscan.io/address/${address}`
-                      : `https://sepolia.etherscan.io/address/${address}`;
+                    const explorerUrl = `https://testnet.flowscan.io/account/${flowUser?.addr}`;
                     window.open(explorerUrl, '_blank');
                   }}
                 >
                   <ExternalLink className="h-4 w-4" />
-                  View on Explorer
+                  View on FlowScan
                 </Button>
                 <Button
                   variant="destructive"
@@ -223,10 +233,10 @@ export function WalletButton() {
   return (
     <Button
       onClick={handleConnect}
-      className="bg-primary hover:bg-primary/90 text-primary-foreground"
+      className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white border-0"
     >
       <Wallet className="h-4 w-4 mr-2" />
-      Connect Wallet
+      Connect Flow Wallet
     </Button>
   );
 }

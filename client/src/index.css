@@ -391,3 +391,65 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Scrollbar utilities for trading platform */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for trading charts */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(207, 20%, 10%);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(208, 22%, 25%);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(208, 22%, 35%);
+}
+
+/* Trading platform animations */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Number animation for trading values */
+@keyframes value-change {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.value-flash {
+  animation: value-change 0.3s ease-in-out;
+}
+
+/* Trading gradient backgrounds */
+.trading-gradient-green {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+}
+
+.trading-gradient-red {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+}
