@@ -32,7 +32,6 @@ Comprehensive analytics dashboard featuring:
 
 ---
 
-https://sky-fall-msourial.replit.app
 
 ## ✨ Key Features
 
