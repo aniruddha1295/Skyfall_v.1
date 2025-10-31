@@ -417,7 +417,7 @@ export default function Dashboard() {
                 <Button
                   className="bg-green-600 hover:bg-green-500 text-white flex items-center gap-2 whitespace-nowrap h-auto min-h-[44px] sm:min-h-[36px] px-4 w-full sm:w-auto"
                 >
-                  <span className="text-xs sm:text-sm font-medium">View Live Contracts</span>
+                  <span className="text-xs sm:text-sm font-medium">Flow Actions Flip 338</span>
                   <ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </Button>
               </Link>

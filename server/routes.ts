@@ -895,21 +895,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/flow-testnet/schedule-settlement", async (req, res) => {
     try {
-      const { optionId, settlementTime } = req.body;
+      const { optionId, settlementTime, useRealExecution } = req.body;
       
       const scheduleId = `settlement_${optionId}_${Date.now()}`;
-      const mockTransactionId = `0x${Math.random().toString(16).substring(2, 66)}`;
       
-      res.json({
-        success: true,
-        scheduleId,
-        transactionId: mockTransactionId,
-        explorerUrl: `https://testnet.flowscan.io/transaction/${mockTransactionId}`,
-        message: "Option settlement scheduled on Flow testnet",
-        optionId,
-        settlementTime,
-        executionTime: new Date(settlementTime).getTime()
-      });
+      if (useRealExecution) {
+        // REAL Flow testnet contract call
+        const { executeRealScheduledTransaction } = await import('./flow-testnet-real');
+        const result = await executeRealScheduledTransaction(
+          optionId,
+          new Date(settlementTime).getTime()
+        );
+        
+        res.json({
+          success: true,
+          scheduleId,
+          transactionId: result.transactionId,
+          explorerUrl: result.explorerUrl,
+          isReal: result.isReal,
+          message: result.isReal ? 
+            "✅ REAL option settlement scheduled on Flow testnet blockchain" : 
+            "Demo mode: Option settlement simulated",
+          optionId,
+          settlementTime,
+          executionTime: new Date(settlementTime).getTime(),
+          error: result.error
+        });
+      } else {
+        // Demo mode with realistic transaction ID
+        const mockTransactionId = `0x${Math.random().toString(16).substring(2, 66)}`;
+        
+        res.json({
+          success: true,
+          scheduleId,
+          transactionId: mockTransactionId,
+          explorerUrl: `https://testnet.flowscan.io/transaction/${mockTransactionId}`,
+          isReal: false,
+          message: "Demo mode: Option settlement scheduled",
+          optionId,
+          settlementTime,
+          executionTime: new Date(settlementTime).getTime()
+        });
+      }
     } catch (error) {
       res.status(500).json({ error: "Failed to schedule settlement on testnet" });
     }
@@ -917,21 +944,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/flow-testnet/schedule-reward", async (req, res) => {
     try {
-      const { poolId, amount } = req.body;
+      const { poolId, amount, useRealExecution } = req.body;
       
       const scheduleId = `reward_${poolId}_${Date.now()}`;
-      const mockTransactionId = `0x${Math.random().toString(16).substring(2, 66)}`;
       
-      res.json({
-        success: true,
-        scheduleId,
-        transactionId: mockTransactionId,
-        explorerUrl: `https://testnet.flowscan.io/transaction/${mockTransactionId}`,
-        message: "Reward distribution scheduled on Flow testnet",
-        poolId,
-        amount,
-        executionTime: Date.now() + 3600000 // 1 hour from now
-      });
+      if (useRealExecution) {
+        // REAL Flow testnet contract call for reward distribution
+        const { executeRealRewardDistribution } = await import('./flow-testnet-real');
+        const result = await executeRealRewardDistribution(
+          poolId,
+          parseFloat(amount)
+        );
+        
+        res.json({
+          success: true,
+          scheduleId,
+          transactionId: result.transactionId,
+          explorerUrl: result.explorerUrl,
+          isReal: result.isReal,
+          message: result.isReal ? 
+            "✅ REAL reward distribution scheduled on Flow testnet blockchain" : 
+            "Demo mode: Reward distribution simulated",
+          poolId,
+          amount,
+          executionTime: Date.now() + 3600000, // 1 hour from now
+          error: result.error
+        });
+      } else {
+        // Demo mode with realistic transaction ID
+        const mockTransactionId = `0x${Math.random().toString(16).substring(2, 66)}`;
+        
+        res.json({
+          success: true,
+          scheduleId,
+          transactionId: mockTransactionId,
+          explorerUrl: `https://testnet.flowscan.io/transaction/${mockTransactionId}`,
+          isReal: false,
+          message: "Demo mode: Reward distribution scheduled",
+          poolId,
+          amount,
+          executionTime: Date.now() + 3600000 // 1 hour from now
+        });
+      }
     } catch (error) {
       res.status(500).json({ error: "Failed to schedule reward distribution on testnet" });
     }

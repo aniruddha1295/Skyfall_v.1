@@ -26,7 +26,7 @@ export function FlowTestnetBanner() {
             size="sm"
             className="bg-green-600 hover:bg-green-500 text-white border-green-500/50 flex items-center gap-2 flex-shrink-0"
           >
-            <span className="text-xs sm:text-sm whitespace-nowrap">View Live Contracts</span>
+            <span className="text-xs sm:text-sm whitespace-nowrap">Flow Actions Flip 338</span>
             <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </Link>

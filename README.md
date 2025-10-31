@@ -16,6 +16,22 @@
 </div>
 
 ---
+
+## 📊 **Dune Analytics Dashboard**
+
+**🎯 [View Live Analytics Dashboard on Dune](https://dune.com/tan0610/skyfall-weather-trading-analytics)**
+
+Comprehensive analytics dashboard featuring:
+- **Flow Blockchain Data**: Real-time transaction monitoring and contract interactions
+- **Weather Trading Metrics**: Trading volume, position analytics, and market trends  
+- **Portfolio Performance**: User engagement statistics and trading success rates
+- **Contract Activity**: Live monitoring of weather derivatives and scheduled transactions
+- **Network Statistics**: Flow testnet activity and transaction throughput
+
+*This dashboard integrates Flow Cadence blockchain data to provide deep insights into weather derivatives trading patterns and platform usage.*
+
+---
+
 https://sky-fall-msourial.replit.app
 
 ## ✨ Key Features
@@ -108,30 +124,176 @@ https://sky-fall-msourial.replit.app
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
-- PostgreSQL database
-- WeatherXM API key
-- OpenAI API key
+- **Node.js 18+** (Required for modern ES modules and TypeScript support)
+- **PostgreSQL database** (For portfolio and trading data storage)
+- **Flow CLI** (For Flow blockchain interaction and contract deployment)
+- **Git** (For repository cloning and version control)
+
+### Required API Keys
+- **OpenAI API key** (For AI-powered trading assistant)
+- **OpenWeather API key** (For real-time weather data)
+- **WeatherXM API key** (Optional: For additional weather data sources)
 
 ### Installation
 
+#### 1. **Clone the Repository**
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd skyfall-dapp
+git clone https://github.com/aniruddha1295/Skyfall_v.1.git
+cd Skyfall
+```
 
-# Install dependencies
+#### 2. **Install Flow CLI** (Required for Flow blockchain integration)
+```bash
+# Windows (PowerShell)
+iex "& { $(irm 'https://raw.githubusercontent.com/onflow/flow-cli/master/install.ps1') }"
+
+# macOS/Linux
+sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)"
+
+# Verify installation
+flow version
+```
+
+#### 3. **Install Node.js Dependencies**
+```bash
+# Install all project dependencies (includes Flow SDK)
 npm install
 
-# Set up environment variables
+# Verify Flow dependencies are installed
+npm list @onflow/fcl @onflow/types
+```
+
+#### 4. **Set up Environment Variables**
+```bash
+# Copy environment template
 cp .env.example .env
-# Add your API keys to .env
 
-# Run database migrations
-npm run db:migrate
+# Edit .env file with your API keys (see Environment Variables section below)
+```
 
-# Start development server
+#### 5. **Initialize Flow Configuration**
+```bash
+# Initialize Flow project (if not already done)
+flow init
+
+# Verify Flow testnet connection
+flow accounts get 0xf2085ff3cef1d657 --network testnet
+```
+
+#### 6. **Database Setup** (Optional - for portfolio tracking)
+```bash
+# If using PostgreSQL for portfolio data
+npm run db:push
+
+# Or skip database for demo mode
+```
+
+#### 7. **Start Development Server**
+```bash
+# Start both frontend and backend
 npm run dev
+
+# Server will run on:
+# Frontend: http://localhost:5173
+# Backend API: http://localhost:5000
+```
+
+### 🔧 Flow-Specific Setup
+
+#### **Flow Wallet Configuration**
+1. **Install Flow Wallet** (Blocto, Lilico, or other Flow-compatible wallet)
+2. **Switch to Flow Testnet** in your wallet
+3. **Get Testnet FLOW tokens** from [Flow Testnet Faucet](https://testnet-faucet.onflow.org/)
+
+#### **Contract Verification**
+```bash
+# Verify deployed contracts on Flow Testnet
+flow accounts get 0xf2085ff3cef1d657 --network testnet
+
+# Check contract deployment status
+node test-contract-deployment-status.js
+```
+
+#### **Flow Actions Testing**
+```bash
+# Test Flow Actions discovery
+curl http://localhost:5000/api/flow-actions/discover
+
+# Test specific action metadata
+curl http://localhost:5000/api/flow-actions/weather_update
+
+# Test Flow testnet integration
+curl http://localhost:5000/api/flow-testnet/weather-action
+
+# Test derivatives endpoints
+curl http://localhost:5000/api/flow-testnet/derivatives/active
+```
+
+### 🔧 Troubleshooting
+
+#### **Common Flow Integration Issues**
+
+1. **Flow CLI Installation Issues**
+```bash
+# If Flow CLI installation fails, try manual download:
+# Windows: Download from https://github.com/onflow/flow-cli/releases
+# Add to PATH manually
+
+# Verify installation
+flow version
+# Should show: Version: v1.x.x
+```
+
+2. **Flow Wallet Connection Issues**
+```bash
+# Check FCL configuration
+node -e "console.log(require('@onflow/fcl'))"
+
+# Test Flow testnet connection
+curl https://rest-testnet.onflow.org/v1/accounts/0xf2085ff3cef1d657
+```
+
+3. **Contract Verification Issues**
+```bash
+# Verify contracts are deployed
+flow accounts get 0xf2085ff3cef1d657 --network testnet
+
+# Check contract code
+flow scripts execute cadence/scripts/test_testnet_contracts.cdc --network testnet
+```
+
+4. **Environment Variable Issues**
+```bash
+# Check if Flow environment variables are loaded
+node -e "console.log(process.env.FLOW_ACCESS_NODE)"
+
+# Should output: https://rest-testnet.onflow.org
+```
+
+#### **Port Configuration**
+- **Frontend**: http://localhost:5173 (Vite dev server)
+- **Backend API**: http://localhost:5000 (Express server)
+- **Flow Testnet**: https://rest-testnet.onflow.org (External)
+- **FlowScan Explorer**: https://testnet.flowscan.io (External)
+
+#### **Testing Flow Integration**
+```bash
+# 1. Test basic server startup
+npm run dev
+
+# 2. Test Flow Actions API
+curl http://localhost:5000/api/flow-actions/discover
+
+# 3. Test Flow testnet endpoints
+curl http://localhost:5000/api/flow-testnet/weather-action
+
+# 4. Test contract deployment status
+node test-contract-deployment-status.js
+
+# 5. Test Flow wallet integration (in browser)
+# Navigate to http://localhost:5173
+# Click "Connect Flow Wallet" button
+# Should show Flow wallet discovery modal
 ```
 
 ### 🔑 Environment Variables
@@ -143,22 +305,71 @@ OPENAI_API_KEY=your_openai_api_key_here
 OPENWEATHER_API_KEY=your_openweather_api_key_here
 WEATHERXM_API_KEY=your_weatherxm_api_key_here
 
+# Flow Blockchain (REQUIRED)
+FLOW_NETWORK=testnet
+FLOW_ACCESS_NODE=https://rest-testnet.onflow.org
+FLOW_DISCOVERY_WALLET=https://fcl-discovery.onflow.org/testnet/authn
+FLOW_CONTRACT_ADDRESS=0xf2085ff3cef1d657
+WALLET_PRIVATE_KEY=your_flow_testnet_private_key_optional
+
 # Blockchain & Oracle Networks
 CHAINLINK_NODE_URL=wss://ethereum-mainnet.ws.alchemyapi.io/v2/your_key
 CHAINLINK_ORACLE_ADDRESS=0x_production_oracle_address
-WALLET_PRIVATE_KEY=your_wallet_private_key_for_oracle_payments
 LINK_TOKEN_ADDRESS=0x514910771AF9Ca656af840dff83E8264EcF986CA
 
 # Flare Network
 FLARE_RPC_URL=https://coston2-api.flare.network/ext/bc/C/rpc
 FLARE_PRIVATE_KEY=your_flare_testnet_private_key
 
-# Database
+# Database (Optional - for portfolio tracking)
 DATABASE_URL=postgresql://username:password@localhost:5432/skyfall
 
 # Production Settings
 NODE_ENV=development
-PORT=3000
+PORT=5000
+FRONTEND_PORT=5173
+```
+
+### 📦 Key Dependencies
+
+#### **Flow Blockchain Dependencies** (Already included in package.json)
+```json
+{
+  "@onflow/fcl": "^1.20.3",           // Flow Client Library - Core Flow integration
+  "@onflow/types": "^1.4.2",          // Flow type definitions for TypeScript
+  "buffer": "^6.0.3",                 // Buffer polyfill for Flow SDK
+  "util": "^0.12.5"                   // Utility functions for Flow operations
+}
+```
+
+#### **Core Application Dependencies**
+```json
+{
+  "express": "^4.21.2",               // Backend API server
+  "react": "^18.3.1",                 // Frontend framework
+  "typescript": "5.6.3",              // Type safety
+  "vite": "^5.4.19",                  // Build tool and dev server
+  "tailwindcss": "^3.4.17",           // CSS framework
+  "recharts": "^2.15.2"               // Weather data visualization
+}
+```
+
+#### **AI & Analytics Dependencies**
+```json
+{
+  "openai": "^5.8.2",                 // GPT-4o integration
+  "@tanstack/react-query": "^5.60.5", // Data fetching and caching
+  "zod": "^3.24.2"                    // Schema validation
+}
+```
+
+#### **Blockchain & Web3 Dependencies**
+```json
+{
+  "ethers": "^6.15.0",                // Ethereum integration
+  "@openzeppelin/contracts": "^5.4.0", // Smart contract standards
+  "hardhat": "^2.22.0"                // Contract development framework
+}
 ```
 
 ### 🔧 Advanced Setup
