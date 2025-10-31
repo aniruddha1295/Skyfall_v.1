@@ -43,6 +43,7 @@ import ChatInterface from "@/components/ai/chat-interface";
 import HelpModal from "@/components/shared/help-modal";
 import { FlowAISetupEnhanced } from "@/components/ai/flow-ai-setup-enhanced";
 import PortfolioOverview from "@/components/portfolio/portfolio-overview";
+import { FlowTestnetBanner } from "@/components/shared/flow-testnet-banner";
 import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
@@ -390,49 +391,37 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Live Testnet Banner */}
-        <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg p-4 mb-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                <Activity className="h-5 w-5" />
-                Live Flow Testnet Integration
-              </h3>
-              <p className="text-sm text-white/90">
-                Experience Forte Actions + Scheduled Transactions on live blockchain
-              </p>
-            </div>
-            <Link href="/live-testnet">
-              <Button 
-                variant="secondary" 
-                className="bg-white text-green-600 hover:bg-gray-100"
-              >
-                <CheckCircle className="h-4 w-4 mr-2" />
-                View Live Contracts
-              </Button>
-            </Link>
-          </div>
-        </div>
-
         {/* Tab Navigation */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4 sm:mb-6 w-full">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 bg-secondary p-0.5 gap-0.5 h-auto">
-            <TabsTrigger value="trading" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-sm px-1 sm:px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-[36px]">
-              <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span>Trading</span>
-            </TabsTrigger>
-            <TabsTrigger value="portfolio" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-sm px-1 sm:px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-[36px]">
-              <BarChart3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span>Portfolio</span>
-            </TabsTrigger>
-            <TabsTrigger value="community" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 relative text-[10px] sm:text-sm px-1 sm:px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-[36px]">
-              <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span>Community</span>
-              <Badge variant="secondary" className="hidden sm:inline-flex ml-1 text-xs bg-chart-3 text-chart-3-foreground absolute -top-1 -right-1 h-4 px-1">
-                New
-              </Badge>
-            </TabsTrigger>
-          </TabsList>
+        <div className="mb-4 sm:mb-6 w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full mb-4">
+              <TabsList className="flex-1 grid w-full grid-cols-2 sm:grid-cols-3 bg-secondary p-0.5 gap-0.5 h-auto">
+                <TabsTrigger value="trading" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-sm px-1 sm:px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-[36px]">
+                  <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span>Trading</span>
+                </TabsTrigger>
+                <TabsTrigger value="portfolio" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-sm px-1 sm:px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-[36px]">
+                  <BarChart3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span>Portfolio</span>
+                </TabsTrigger>
+                <TabsTrigger value="community" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 relative text-[10px] sm:text-sm px-1 sm:px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-[36px]">
+                  <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span>Community</span>
+                  <Badge variant="secondary" className="hidden sm:inline-flex ml-1 text-xs bg-chart-3 text-chart-3-foreground absolute -top-1 -right-1 h-4 px-1">
+                    New
+                  </Badge>
+                </TabsTrigger>
+              </TabsList>
+              
+              <Link href="/live-testnet">
+                <Button
+                  className="bg-green-600 hover:bg-green-500 text-white flex items-center gap-2 whitespace-nowrap h-auto min-h-[44px] sm:min-h-[36px] px-4 w-full sm:w-auto"
+                >
+                  <span className="text-xs sm:text-sm font-medium">View Live Contracts</span>
+                  <ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                </Button>
+              </Link>
+            </div>
 
           {/* Trading Tab */}
           <TabsContent value="trading" className="space-y-4 sm:space-y-6 w-full">
@@ -875,7 +864,8 @@ export default function Dashboard() {
               </div>
             </div>
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        </div>
       </div>
       {/* Fixed AI Agent Button */}
       <TooltipProvider>

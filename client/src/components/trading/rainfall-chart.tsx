@@ -200,8 +200,8 @@ export default function WeatherChart({ data, selectedCity, weatherMetric, timePe
 
   return (
     <Card className="w-full">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <CardTitle className="flex items-center gap-2 text-lg">
             {isRainfall ? (
               <Droplets className="h-5 w-5 text-primary" />
@@ -210,46 +210,44 @@ export default function WeatherChart({ data, selectedCity, weatherMetric, timePe
             )}
             {timePeriod}-Day {isRainfall ? "Rainfall" : "Wind Speed"} Trend
           </CardTitle>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <Database className="h-4 w-4" />
-              {isRainfall ? "Chainlink WeatherXM" : "Flare Network"}
-            </div>
-            <div className="flex space-x-2">
-              <Button 
-                variant={timePeriod === 1 ? "default" : "outline"} 
-                size="sm" 
-                className="text-xs"
-                onClick={() => onTimePeriodChange?.(1)}
-              >
-                1D
-              </Button>
-              <Button 
-                variant={timePeriod === 7 ? "default" : "outline"} 
-                size="sm" 
-                className="text-xs"
-                onClick={() => onTimePeriodChange?.(7)}
-              >
-                7D
-              </Button>
-              <Button 
-                variant={timePeriod === 30 ? "default" : "outline"} 
-                size="sm" 
-                className="text-xs"
-                onClick={() => onTimePeriodChange?.(30)}
-              >
-                30D
-              </Button>
-              <Button 
-                variant={timePeriod === 90 ? "default" : "outline"} 
-                size="sm" 
-                className="text-xs"
-                onClick={() => onTimePeriodChange?.(90)}
-              >
-                90D
-              </Button>
-            </div>
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <Database className="h-4 w-4" />
+            <span className="hidden sm:inline">{isRainfall ? "Chainlink WeatherXM" : "Flare Network"}</span>
           </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button 
+            variant={timePeriod === 1 ? "default" : "outline"} 
+            size="sm" 
+            className="text-xs flex-1 sm:flex-none min-w-[60px]"
+            onClick={() => onTimePeriodChange?.(1)}
+          >
+            1D
+          </Button>
+          <Button 
+            variant={timePeriod === 7 ? "default" : "outline"} 
+            size="sm" 
+            className="text-xs flex-1 sm:flex-none min-w-[60px]"
+            onClick={() => onTimePeriodChange?.(7)}
+          >
+            7D
+          </Button>
+          <Button 
+            variant={timePeriod === 30 ? "default" : "outline"} 
+            size="sm" 
+            className="text-xs flex-1 sm:flex-none min-w-[60px]"
+            onClick={() => onTimePeriodChange?.(30)}
+          >
+            30D
+          </Button>
+          <Button 
+            variant={timePeriod === 90 ? "default" : "outline"} 
+            size="sm" 
+            className="text-xs flex-1 sm:flex-none min-w-[60px]"
+            onClick={() => onTimePeriodChange?.(90)}
+          >
+            90D
+          </Button>
         </div>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">

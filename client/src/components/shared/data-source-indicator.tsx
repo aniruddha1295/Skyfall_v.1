@@ -67,7 +67,7 @@ export function DataSourceIndicator({
               <div className="text-xs">Cross-validated across sources</div>
             </TooltipContent>
           </Tooltip>
-        )}
+        </TooltipProvider>
 
         {blockchainVerified && (
           <Tooltip>

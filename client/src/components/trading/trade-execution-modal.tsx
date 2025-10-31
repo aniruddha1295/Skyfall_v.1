@@ -231,6 +231,35 @@ export default function TradeExecutionModal({ isOpen, onClose, tradeDetails }: T
                 </div>
               </div>
 
+              {/* Action Buttons */}
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <Button
+                  variant="outline"
+                  onClick={onClose}
+                  disabled={isExecuting}
+                  className="w-full border-gray-700 hover:bg-gray-800 text-sm sm:text-base h-10 sm:h-11"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleExecute}
+                  disabled={isExecuting || (orderType === "limit" && !limitPrice)}
+                  className={cn(
+                    "w-full text-sm sm:text-base h-10 sm:h-11",
+                    tradeDetails.action === "buy" 
+                      ? "bg-green-600 hover:bg-green-700" 
+                      : "bg-red-600 hover:bg-red-700"
+                  )}
+                >
+                  <span className="sm:hidden">
+                    {isExecuting ? "..." : `${tradeDetails.action.toUpperCase()} ${quantity}`}
+                  </span>
+                  <span className="hidden sm:inline">
+                    {isExecuting ? "Executing..." : `${tradeDetails.action.toUpperCase()} ${quantity} Contract${quantity > 1 ? 's' : ''}`}
+                  </span>
+                </Button>
+              </div>
+
               {/* Risk Warning */}
               <Alert className="bg-yellow-900/20 border-yellow-800">
                 <AlertCircle className="h-4 w-4 text-yellow-400" />
@@ -238,34 +267,6 @@ export default function TradeExecutionModal({ isOpen, onClose, tradeDetails }: T
                   Weather options involve risk. The value depends on actual rainfall outcomes.
                 </AlertDescription>
               </Alert>
-            </div>
-
-            <div className="flex gap-2 sm:gap-3 px-4 sm:px-6 pb-4 sm:pb-6 pt-3 sm:pt-4 border-t border-gray-800 bg-gray-900 sticky bottom-0">
-              <Button
-                variant="outline"
-                onClick={onClose}
-                disabled={isExecuting}
-                className="flex-1 border-gray-700 hover:bg-gray-800 text-sm sm:text-base"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleExecute}
-                disabled={isExecuting || (orderType === "limit" && !limitPrice)}
-                className={cn(
-                  "flex-1 text-sm sm:text-base",
-                  tradeDetails.action === "buy" 
-                    ? "bg-green-600 hover:bg-green-700" 
-                    : "bg-red-600 hover:bg-red-700"
-                )}
-              >
-                <span className="sm:hidden">
-                  {isExecuting ? "..." : `${tradeDetails.action.toUpperCase()} ${quantity}`}
-                </span>
-                <span className="hidden sm:inline">
-                  {isExecuting ? "Executing..." : `${tradeDetails.action.toUpperCase()} ${quantity} Contract${quantity > 1 ? 's' : ''}`}
-                </span>
-              </Button>
             </div>
           </>
         ) : (
