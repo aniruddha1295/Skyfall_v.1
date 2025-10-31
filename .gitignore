@@ -44,3 +44,14 @@ coverage/
 *.bak
 *.tmp
 *~
+Ani1295.pkey
+ test-action-execution.js
+        test-bounty-features.js
+        test-contract-deployment-status.js
+        test-critical-fixes-verification.js
+        test-critical-fixes.js
+        test-derivatives-integration.js
+        test-emulator-direct.js
+        test-flow-integration.js
+        test-flow-wallet-integration.js
+        test-real-transactions.js

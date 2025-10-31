@@ -1,0 +1,90 @@
+{
+	"contracts": {
+		"CommunityPools": {
+			"source": "./cadence/contracts/CommunityPools.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "f2085ff3cef1d657"
+			}
+		},
+		"ScheduledTransactions": {
+			"source": "./cadence/contracts/ScheduledTransactions.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "f2085ff3cef1d657"
+			}
+		},
+		"SimpleWeatherDerivatives": {
+			"source": "./cadence/contracts/SimpleWeatherDerivatives.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "f2085ff3cef1d657"
+			}
+		},
+		"SimpleWeatherOracle": {
+			"source": "./cadence/contracts/SimpleWeatherOracle.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "f2085ff3cef1d657"
+			}
+		},
+		"WeatherDerivatives": {
+			"source": "./cadence/contracts/WeatherDerivatives.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "f2085ff3cef1d657"
+			}
+		},
+		"WeatherOracle": {
+			"source": "./cadence/contracts/WeatherOracle.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "f2085ff3cef1d657"
+			}
+		},
+		"SimpleScheduledTransactions": {
+			"source": "./cadence/contracts/SimpleScheduledTransactions.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "f2085ff3cef1d657"
+			}
+		}
+	},
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"Ani1295": {
+			"address": "f2085ff3cef1d657",
+			"key": {
+				"type": "file",
+				"location": "Ani1295.pkey"
+			}
+		},
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": "5112883de06b9576af62b9aafa7ead685fb7fb46c495039b1a83649d61bff97c"
+		}
+	},
+	"deployments": {
+		"emulator": {
+			"emulator-account": [
+				"SimpleWeatherOracle",
+				"SimpleWeatherDerivatives",
+				"WeatherDerivatives",
+				"CommunityPools",
+				"WeatherOracle",
+				"ScheduledTransactions"
+			]
+		},
+		"testnet": {
+			"Ani1295": [
+				"SimpleWeatherOracle",
+				"SimpleWeatherDerivatives",
+				"SimpleScheduledTransactions"
+			]
+		}
+	}
+}
