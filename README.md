@@ -31,7 +31,7 @@ Comprehensive analytics dashboard featuring:
 *This dashboard integrates Flow Cadence blockchain data to provide deep insights into weather derivatives trading patterns and platform usage.*
 
 ---
-**🔗📸 [View Screenshots](#-live-implementation-screenshots) | 📁 [Implementation Files](Implementation/) | 🔗 [FlowScan Contract](https://testnet.flowscan.io/account/0xf2085ff3cef1d657)**
+**🔗📸 [View Screenshots](Implementation/) | 🔗 [FlowScan Contract](https://testnet.flowscan.io/account/0xf2085ff3cef1d657)**
 
 
 ## ✨ Key Features
