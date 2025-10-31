@@ -32,6 +32,7 @@ Comprehensive analytics dashboard featuring:
 
 ---
 
+**🔗 [Live Application] 📸 [View Screenshots](#-live-implementation-screenshots) | 🔗 [FlowScan Contract](https://testnet.flowscan.io/account/0xf2085ff3cef1d657)**
 
 ## ✨ Key Features
 
@@ -592,6 +593,71 @@ Integration: Multi-chain positions (Flow EVM + Flare Coston2)
 - 🔄 Real-time data updates
 - 🌙 Dark/light mode support
 - ⚡ Fast loading performance
+
+---
+
+## 📸 Live Implementation Screenshots
+
+### **🚀 Production Application Interface**
+
+Experience the complete Skyfall weather derivatives platform through these live implementation screenshots showcasing real Flow blockchain integration, AI-powered trading, and comprehensive weather data visualization.
+
+#### **1. Main Dashboard & Flow Wallet Integration**
+![Main Dashboard](Implementation/Screenshot%202025-11-01%20044207.png)
+*Main trading dashboard with native Flow wallet connection and real-time weather data*
+
+#### **2. Flow Actions Discovery & FLIP-338 Integration**
+![Flow Actions](Implementation/Screenshot%202025-11-01%20044259.png)
+*FLIP-338 compliant Flow Actions discovery showing all 6 implemented derivative actions*
+
+#### **3. Live Testnet Dashboard**
+![Live Testnet](Implementation/Screenshot%202025-11-01%20044330.png)
+*Flow testnet integration with real contract deployment at 0xf2085ff3cef1d657*
+
+#### **4. Weather Data Visualization**
+![Weather Charts](Implementation/Screenshot%202025-11-01%20044355.png)
+*Interactive weather trend charts with multi-source data validation and confidence scoring*
+
+#### **5. AI-Powered Trading Assistant**
+![AI Assistant](Implementation/Screenshot%202025-11-01%20044409.png)
+*GPT-4o powered conversational AI for natural language trade processing*
+
+#### **6. Derivatives Trading Interface**
+![Derivatives Trading](Implementation/Screenshot%202025-11-01%20044422.png)
+*Complete derivatives trading workflow: Create → Purchase → Settle*
+
+#### **7. Portfolio Management**
+![Portfolio](Implementation/Screenshot%202025-11-01%20044434.png)
+*Real-time portfolio tracking with P&L analysis and position monitoring*
+
+#### **8. Flow Blockchain Integration**
+![Flow Integration](Implementation/Screenshot%202025-11-01%20044505.png)
+*Native Flow blockchain integration with FCL wallet discovery and real transactions*
+
+#### **9. Multi-Chain Oracle Data**
+![Oracle Data](Implementation/Screenshot%202025-11-01%20044525.png)
+*Hybrid oracle network integration: Chainlink + Flare + OpenWeather with cross-validation*
+
+#### **10. Real Transaction Verification**
+![Transaction Verification](Implementation/Screenshot%202025-11-01%20044541.png)
+*FlowScan transaction verification showing real blockchain state modifications*
+
+### **🎯 Key Implementation Highlights**
+
+- ✅ **Native Flow Wallet Integration** - Real FCL implementation with testnet connection
+- ✅ **FLIP-338 Compliant Actions** - 6 fully implemented Flow Actions for weather derivatives
+- ✅ **Live Contract Deployment** - Verified contracts at `0xf2085ff3cef1d657` on Flow testnet
+- ✅ **Real Blockchain Transactions** - Verifiable on FlowScan with actual transaction IDs
+- ✅ **AI-Powered Trading** - GPT-4o integration for conversational trade processing
+- ✅ **Multi-Source Weather Data** - Chainlink + Flare + OpenWeather with confidence scoring
+- ✅ **Professional UI/UX** - Modern React interface with shadcn/ui components
+- ✅ **Complete Trading Lifecycle** - From weather data to derivative settlement
+
+### **🔗 Live Demo Access**
+
+- **Live Application**: [https://sky-fall-msourial.replit.app](https://sky-fall-msourial.replit.app)
+- **FlowScan Contract**: [https://testnet.flowscan.io/account/0xf2085ff3cef1d657](https://testnet.flowscan.io/account/0xf2085ff3cef1d657)
+- **GitHub Repository**: [https://github.com/aniruddha1295/Skyfall_v.1](https://github.com/aniruddha1295/Skyfall_v.1)
 
 ---
 
