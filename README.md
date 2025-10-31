@@ -32,7 +32,7 @@ Comprehensive analytics dashboard featuring:
 
 ---
 
-**🔗 [Live Application](https://sky-fall-msourial.replit.app) | 📸 [View Screenshots](#-live-implementation-screenshots) | 🔗 [FlowScan Contract](https://testnet.flowscan.io/account/0xf2085ff3cef1d657)**
+**🔗 [Live Application] 📸 [View Screenshots](#-live-implementation-screenshots) | 🔗 [FlowScan Contract](https://testnet.flowscan.io/account/0xf2085ff3cef1d657)**
 
 ## ✨ Key Features
 
