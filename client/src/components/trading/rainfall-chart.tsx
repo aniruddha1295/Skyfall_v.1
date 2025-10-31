@@ -32,18 +32,19 @@ export default function WeatherChart({ data, selectedCity, weatherMetric, timePe
   const payoutTriggers = isRainfall ? [30] : [40]; // Different triggers for wind vs rainfall
 
   useEffect(() => {
-    if (!canvasRef.current || !data.length) return;
+    const drawChart = () => {
+      if (!canvasRef.current || !data.length) return;
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
 
-    // Set canvas size
-    const container = containerRef.current;
-    if (container) {
-      canvas.width = container.offsetWidth;
-      canvas.height = 300;
-    }
+      // Set canvas size
+      const container = containerRef.current;
+      if (container) {
+        canvas.width = container.offsetWidth;
+        canvas.height = 300;
+      }
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -183,11 +184,22 @@ export default function WeatherChart({ data, selectedCity, weatherMetric, timePe
       ctx.arc(x, y, 4, 0, 2 * Math.PI);
       ctx.fill();
     });
+    };
 
-  }, [data, strikeLevels, payoutTriggers]);
+    // Initial draw
+    drawChart();
+
+    // Add resize handler
+    const handleResize = () => {
+      drawChart();
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [data, weatherMetric, isRainfall]);
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-lg">
@@ -240,12 +252,12 @@ export default function WeatherChart({ data, selectedCity, weatherMetric, timePe
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <div ref={containerRef} className="chart-container">
+      <CardContent className="p-4 sm:p-6">
+        <div ref={containerRef} className="w-full">
           <canvas
             ref={canvasRef}
-            className="w-full h-full"
-            style={{ maxHeight: "300px" }}
+            className="w-full"
+            style={{ height: "300px", maxWidth: "100%" }}
           />
         </div>
         
@@ -320,8 +332,8 @@ export default function WeatherChart({ data, selectedCity, weatherMetric, timePe
           
           {/* Data Source Quality Indicator */}
           <DataSourceIndicator
-            primary={isRainfall ? "weatherxm" : "flare"}
-            backup={isRainfall ? "chainlink" : "open-meteo"}
+            primary={isRainfall ? "weatherxm" : "chainlink"}
+            backup={isRainfall ? "chainlink" : "weatherxm"}
             confidence={0.942}
             crossValidated={!isRainfall} // Wind uses single source, rainfall uses cross-validation
             variance={isRainfall ? 0.08 : 0.02}
@@ -330,8 +342,8 @@ export default function WeatherChart({ data, selectedCity, weatherMetric, timePe
               weatherxm: data.length > 0 ? data[data.length - 1].rainfall : 0,
               chainlink: data.length > 0 ? data[data.length - 1].rainfall * 0.98 : 0
             } : {
-              flare: data.length > 0 ? (data[data.length - 1].windSpeed || 0) : 0,
-              "open-meteo": data.length > 0 ? (data[data.length - 1].windSpeed || 0) * 1.02 : 0
+              chainlink: data.length > 0 ? (data[data.length - 1].windSpeed || 0) : 0,
+              weatherxm: data.length > 0 ? (data[data.length - 1].windSpeed || 0) * 1.02 : 0
             }}
             compact={false}
           />

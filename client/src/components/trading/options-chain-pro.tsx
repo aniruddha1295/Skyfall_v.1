@@ -253,10 +253,10 @@ export default function OptionsChainPro({
           </div>
         </div>
         
-        <div className="flex items-center justify-between mt-3">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-3 gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
             <Select value={filterMode} onValueChange={setFilterMode}>
-              <SelectTrigger className="w-28 h-7 bg-gray-800 border-gray-700 text-gray-300 text-xs">
+              <SelectTrigger className="w-full sm:w-28 h-7 bg-gray-800 border-gray-700 text-gray-300 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-gray-800 border-gray-700">
@@ -273,14 +273,14 @@ export default function OptionsChainPro({
                 onCheckedChange={(checked) => setShowOnlyActive(checked === true)}
                 className="border-gray-600 h-3 w-3"
               />
-              <span className="text-xs text-gray-300">Active contracts only</span>
+              <span className="text-xs text-gray-300 whitespace-nowrap">Active contracts only</span>
             </label>
           </div>
           
-          <div className="flex items-center justify-between">
-            <div className="text-xs text-gray-400">
-              Current {weatherMetric === "wind" ? "Wind Speed" : "Rainfall"}: 
-              <span className="text-green-400 font-medium">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
+            <div className="text-xs text-gray-400 whitespace-nowrap">
+              Current {weatherMetric === "wind" ? "Wind" : "Rain"}: 
+              <span className="text-green-400 font-medium ml-1">
                 {currentValue.toFixed(1)}{weatherMetric === "wind" ? "mph" : "mm"}
               </span>
             </div>
