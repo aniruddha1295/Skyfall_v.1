@@ -1,0 +1,50 @@
+{
+  "networks": {
+    "emulator": "127.0.0.1:3569",
+    "mainnet": "access.mainnet.nodes.onflow.org:9000",
+    "testnet": "access.devnet.nodes.onflow.org:9000"
+  },
+  "accounts": {
+    "emulator-account": {
+      "address": "f8d6e0586b0a20c7",
+      "key": "2eae2f31cb5b756151fa11d82949c634b8f28796a711d7eb1e52cc301ed11111"
+    },
+    "testnet-account": {
+      "address": "0x9b94f5b3edd6c126",
+      "key": {
+        "type": "file",
+        "location": "testnet-account.pkey"
+      }
+    }
+  },
+  "contracts": {
+    "WeatherDerivatives": {
+      "source": "./cadence/contracts/WeatherDerivatives.cdc",
+      "aliases": {
+        "emulator": "f8d6e0586b0a20c7",
+        "testnet": "0x9b94f5b3edd6c126"
+      }
+    },
+    "WeatherOracle": {
+      "source": "./cadence/contracts/WeatherOracle.cdc",
+      "aliases": {
+        "emulator": "f8d6e0586b0a20c7",
+        "testnet": "0x9b94f5b3edd6c126"
+      }
+    }
+  },
+  "deployments": {
+    "emulator": {
+      "emulator-account": [
+        "WeatherDerivatives",
+        "WeatherOracle"
+      ]
+    },
+    "testnet": {
+      "testnet-account": [
+        "WeatherDerivatives",
+        "WeatherOracle"
+      ]
+    }
+  }
+}
