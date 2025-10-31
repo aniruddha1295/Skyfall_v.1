@@ -44,6 +44,11 @@ coverage/
 *.bak
 *.tmp
 *~
+
+# Private keys and test files
+*.pkey
+YourWallet.pkey
+test-weatherxm.js
 Ani1295.pkey
  test-action-execution.js
         test-bounty-features.js
