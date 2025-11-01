@@ -1,4 +1,4 @@
-# 🌦️ Skyfall - Advanced Weather Derivatives DApps
+# 🌦️ Skyfall - Advanced Weather Derivatives DApp
 
 <div align="center">
 
